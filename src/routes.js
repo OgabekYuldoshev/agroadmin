@@ -5,6 +5,9 @@ import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import Users from "layouts/users";
 import Category from "layouts/category";
+import Products from "layouts/product";
+import NewProduct from "layouts/product/NewProducs";
+
 import SubCategory from "layouts/category/sub_category";
 
 // @mui icons
@@ -53,9 +56,26 @@ const routes = [
   },
   {
     type: "collapse",
+    name: "Mahsulotlar",
+    key: "products",
+    icon: <Icon fontSize="small">shopping_cart</Icon>,
+    route: "/products",
+    component: <Products />,
+  },
+  {
+    name: "Yangi mahsulot yaratish",
+    key: "new-product",
+    route: "/products/new",
+    meta: {
+      navLink: '/category'
+    },
+    component: <NewProduct />,
+  },
+  {
+    type: "collapse",
     name: "Kategoryalar",
     key: "category",
-    icon: <Icon fontSize="small">list</Icon>,
+    icon: <Icon fontSize="small">category</Icon>,
     route: "/category",
     component: <Category />,
   },

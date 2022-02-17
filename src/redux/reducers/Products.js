@@ -3,9 +3,15 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getProducts = createAsyncThunk("app/getProducts", async (page) => {
-  const response = await http.get(`/admin/products?page=${page}`);
-  return response.data?.data;
+export const getProducts = createAsyncThunk("app/getProducts", async (params, { rejectWithValue }) => {
+  try {
+    const response = await http.get(`/admin/products`, {
+      params: params
+    });
+    return response.data?.data;
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
 });
 
 export const createProduct = createAsyncThunk("app/createProducts", async (data, { dispatch }) => {
@@ -84,6 +90,6 @@ export const productsSlice = createSlice({
   // }
 });
 
-export const {} = productsSlice.actions;
+export const { } = productsSlice.actions;
 
 export default productsSlice.reducer;

@@ -13,8 +13,16 @@ import * as Yup from "yup"
 
 const CategorySchema = Yup.object({
     image: Yup.mixed(),
-    name: Yup.string().required(),
-    description: Yup.string().required(),
+    name: Yup.object({
+        uz: Yup.string().required(),
+        en: Yup.string().required(),
+        ru: Yup.string().required()
+    }),
+    description: Yup.object({
+        uz: Yup.string().required(),
+        en: Yup.string().required(),
+        ru: Yup.string().required()
+    }),
     is_active: Yup.boolean().required(),
 })
 
@@ -33,8 +41,12 @@ export default (props) => {
             level: found?.level
         },
         validationSchema: CategorySchema,
-        onSubmit: (val) => {
-            dispatch(updateCategory({ id: props.item?.id, data: val })).then(unwrapResult).then(() => {
+        onSubmit: (values) => {
+            const formData = new FormData()
+            for (const name in values) {
+                formData.append(name, values[name])
+            }
+            dispatch(updateCategory({ id: props.item?.id, data: formData })).then(unwrapResult).then(() => {
                 formik.handleReset()
                 props?.toggle()
             })
@@ -55,17 +67,34 @@ export default (props) => {
                             </Grid>
                         )
                     }
-                    <Grid item xs={12}>
-                        <MDInput name="name" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi" value={formik.values.name} />
+                    <Grid item xs={12} display="flex" justifyContent="space-between" gap={2}>
+                        <MDInput name="name[uz]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi UZ" />
+                        <MDInput name="name[ru]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi RU" />
+                        <MDInput name="name[en]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi EN" />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} display="grid" gap={2}>
                         <TextField
                             fullWidth
                             id="outlined-multiline-flexible"
-                            label="Qisqacha"
-                            name="description"
+                            label="Qisqacha UZ"
+                            name="description[uz]"
                             multiline
-                            value={formik.values.description}
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Qisqacha RU"
+                            name="description[ru]"
+                            multiline
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Qisqacha UN"
+                            name="description[en]"
+                            multiline
                             onChange={formik.handleChange} onBlur={formik.handleBlur}
                         />
                     </Grid>
@@ -87,6 +116,7 @@ export default (props) => {
                             </Select>
                         </FormControl>
                     </Grid>
+
                     <Grid item xs={12} display="flex" gap={2} justifyContent="flex-end">
                         <MDButton type="button" onClick={props.toggle} color="error">Bekor qilish</MDButton>
                         <MDButton type="submit" disabled={!(formik.isValid && formik.dirty)} color="success">O'zartirish</MDButton>

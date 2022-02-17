@@ -3,9 +3,13 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getPartner = createAsyncThunk("app/getPartner", async () => {
-  const response = await http.get("/admin/partners");
-  return response.data?.data;
+export const getPartner = createAsyncThunk("app/getPartner", async (undefined, { rejectWithValue }) => {
+  try {
+    const response = await http.get("/admin/partners");
+    return response.data?.data;
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
 });
 
 export const createPartner = createAsyncThunk("app/createPartner", async (data, { dispatch }) => {
@@ -80,6 +84,6 @@ export const partnerSlice = createSlice({
   // }
 });
 
-export const {} = partnerSlice.actions;
+export const { } = partnerSlice.actions;
 
 export default partnerSlice.reducer;

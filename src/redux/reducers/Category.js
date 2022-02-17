@@ -26,13 +26,13 @@ export const createCategory = createAsyncThunk("app/createCategory", async (data
   }
 });
 
-export const deleteCategory = createAsyncThunk(
-  "app/deleteCategory",
-  async ({ id }, { dispatch }) => {
-    const response = await http.delete(`/admin/categories/${id}`);
-    if (response.status === 200) dispatch(getCategory());
-  }
-);
+// export const deleteCategory = createAsyncThunk(
+//   "app/deleteCategory",
+//   async ({ id }, { dispatch }) => {
+//     const response = await http.delete(`/admin/categories/${id}`);
+//     if (response.status === 200) dispatch(getCategory());
+//   }
+// );
 
 export const updateCategory = createAsyncThunk(
   "app/updateCategory",
@@ -49,22 +49,22 @@ export const updateCategory = createAsyncThunk(
   }
 );
 
-export const createSubCategory = createAsyncThunk("app/createSubCategory", async (data) => {
-  const response = await http.post("/admin/sub_categories", data);
-  return response.data;
-});
+// export const createSubCategory = createAsyncThunk("app/createSubCategory", async (data) => {
+//   const response = await http.post("/admin/sub_categories", data);
+//   return response.data;
+// });
 
-export const deleteSubCategory = createAsyncThunk("app/deleteSubCategory", async ({ id }) => {
-  await http.delete(`/admin/sub_categories/${id}`);
-});
+// export const deleteSubCategory = createAsyncThunk("app/deleteSubCategory", async ({ id }) => {
+//   await http.delete(`/admin/sub_categories/${id}`);
+// });
 
-export const updateSubCategory = createAsyncThunk(
-  "app/updateSubCategory",
-  async ({ id, value }) => {
-    const response = await http.put(`/admin/sub_categories/${id}`, value);
-    return response.data;
-  }
-);
+// export const updateSubCategory = createAsyncThunk(
+//   "app/updateSubCategory",
+//   async ({ id, value }) => {
+//     const response = await http.put(`/admin/sub_categories/${id}`, value);
+//     return response.data;
+//   }
+// );
 
 export const categorySlice = createSlice({
   name: "category",
@@ -94,18 +94,18 @@ export const categorySlice = createSlice({
     [updateCategory.rejected]: () => {
       toast.error("Serverda xatolik!");
     },
-    [deleteCategory.rejected]: () => {
-      toast.error("Serverda xatolik!");
-    },
-    [createSubCategory.rejected]: () => {
-      toast.error("Serverda xatolik!");
-    },
-    [deleteSubCategory.rejected]: () => {
-      toast.error("Serverda xatolik!");
-    },
-    [updateSubCategory.rejected]: () => {
-      toast.error("Serverda xatolik!");
-    },
+    // [deleteCategory.rejected]: () => {
+    //   toast.error("Serverda xatolik!");
+    // }
+    // [createSubCategory.rejected]: () => {
+    //   toast.error("Serverda xatolik!");
+    // },
+    // [deleteSubCategory.rejected]: () => {
+    //   toast.error("Serverda xatolik!");
+    // },
+    // [updateSubCategory.rejected]: () => {
+    //   toast.error("Serverda xatolik!");
+    // },
   },
 });
 

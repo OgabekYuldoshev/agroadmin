@@ -12,8 +12,16 @@ import * as Yup from "yup"
 
 const CategorySchema = Yup.object({
     image: Yup.mixed(),
-    name: Yup.string().required(),
-    description: Yup.string().required()
+    name: Yup.object({
+        uz: Yup.string().required(),
+        en: Yup.string().required(),
+        ru: Yup.string().required()
+    }),
+    description: Yup.object({
+        uz: Yup.string().required(),
+        en: Yup.string().required(),
+        ru: Yup.string().required()
+    })
 })
 
 export default (props) => {
@@ -21,23 +29,33 @@ export default (props) => {
     const formik = useFormik({
         initialValues: {
             image: null,
-            name: null,
-            description: null,
+            name: {
+                uz: null,
+                ru: null,
+                en: null
+            },
+            description: {
+                uz: null,
+                ru: null,
+                en: null
+            },
             level: 1
         },
         validationSchema: CategorySchema,
-        onSubmit: (val) => {
-            const form = new FormData()
-            form.append('image', val.image)
-            form.append('name', val.name)
-            form.append('description', val.description)
-            form.append('level', val.level)
-            dispatch(createCategory(form)).then(unwrapResult).then(() => {
+        onSubmit: (values) => {
+            const formData = new FormData()
+            for (const name in values) {
+                formData.append(name, values[name])
+            }
+            dispatch(createCategory(formData)).then(unwrapResult).then(() => {
                 formik.handleReset()
                 props?.toggle()
             })
         }
     })
+
+    console.log(formik.values)
+
     return (
         <ModalCom {...props}>
             <MDBox onSubmit={formik.handleSubmit} component="form" role="form" sx={{ flexGrow: 1 }}>
@@ -48,15 +66,33 @@ export default (props) => {
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid>
-                    <Grid item xs={12}>
-                        <MDInput name="name" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi" />
+                    <Grid item xs={12} display="flex" justifyContent="space-between" gap={2}>
+                        <MDInput name="name[uz]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi UZ" />
+                        <MDInput name="name[ru]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi RU" />
+                        <MDInput name="name[en]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi EN" />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} display="grid" gap={2}>
                         <TextField
                             fullWidth
                             id="outlined-multiline-flexible"
-                            label="Qisqacha"
-                            name="description"
+                            label="Qisqacha UZ"
+                            name="description[uz]"
+                            multiline
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Qisqacha RU"
+                            name="description[ru]"
+                            multiline
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Qisqacha UN"
+                            name="description[en]"
                             multiline
                             onChange={formik.handleChange} onBlur={formik.handleBlur}
                         />

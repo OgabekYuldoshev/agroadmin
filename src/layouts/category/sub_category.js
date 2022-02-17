@@ -90,11 +90,11 @@ function Category() {
                                 <MDTypography variant="h6" color="white">
                                     Kategoryalar
                                 </MDTypography>
-                                <AddSubCategory width={500} toggle={toggle} open={open} />
+                                <AddSubCategory width={800} toggle={toggle} open={open} />
                                 <MDButton onClick={toggle} >Sub kategorya qo'shish</MDButton>
                             </MDBox>
                             <MDBox p={3}>
-                                <EditModal width={500} toggle={() => handleEdit({ open: false, id: null })} item={edit} />
+                                <EditModal width={800} toggle={() => handleEdit({ open: false, id: null })} item={edit} />
                                 <DataTable columns={columns} data={categories} pagination />
                             </MDBox>
                         </Card>

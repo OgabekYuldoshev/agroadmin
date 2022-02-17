@@ -3,21 +3,23 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const loadUser = createAsyncThunk("auth/getProfile", async () => {
+export const loadUser = createAsyncThunk("auth/getProfile", async (undefined, { rejectWithValue }) => {
   // const token = localStorage.getItem("Qaccess_Token");
   // if (token) {
   //   http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   // }
-  const response = await http.get("/admin/admin-profile");
-  if (response?.data?.data) {
-    return {
-      isAuth: true,
-      user: response.data?.data,
-    };
-  } else {
-    return {
-      isAuth: false,
-    };
+  try {
+    const response = await http.get("/admin/admin-profile");
+    if (response?.data?.data) {
+      return {
+        isAuth: true,
+        user: response.data?.data,
+      };
+    } else {
+      return rejectWithValue("Malumot topilmadi!")
+    }
+  } catch (error) {
+    return rejectWithValue(error.message)
   }
 });
 
@@ -81,8 +83,11 @@ export const authSlice = createSlice({
       state.isAuth = action?.payload?.isAuth;
       localStorage.setItem("userData", JSON.stringify(action.payload));
     },
-    [loadUser.rejected]: (state) => {
+    [loadUser.rejected]: (state, action) => {
+      toast.error(action.payload)
       state.isAuth = false;
+      state.userData = {};
+      state.accessToken = "";
       localStorage.removeItem("userData");
       localStorage.removeItem("Qaccess_Token");
     },

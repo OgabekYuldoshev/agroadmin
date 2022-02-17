@@ -10,7 +10,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategory, deleteCategory } from "redux/reducers/Category";
+import { getCategory } from "redux/reducers/Category";
 import { Icon, Chip, IconButton } from "@mui/material";
 import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
@@ -95,11 +95,11 @@ function Category() {
                 <MDTypography variant="h6" color="white">
                   Kategoryalar
                 </MDTypography>
-                <AddCategory width={500} toggle={toggle} open={open} />
+                <AddCategory width={800} toggle={toggle} open={open} />
                 <MDButton onClick={toggle} >Kategorya qo'shish</MDButton>
               </MDBox>
               <MDBox p={3}>
-                <EditModal width={500} toggle={() => handleEdit({ open: false, id: null })} item={edit} />
+                <EditModal width={800} toggle={() => handleEdit({ open: false, id: null })} item={edit} />
                 <DataTable columns={columns} data={categories} pagination />
               </MDBox>
             </Card>

@@ -1,7 +1,7 @@
 import { useState, useEffect, useMemo } from "react";
 
 // react-router components
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, useNavigate } from "react-router-dom";
 
 // @mui material components
 import { ThemeProvider } from "@mui/material/styles";
@@ -37,6 +37,7 @@ import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import { isUserLoggedIn } from "utils";
 import { http } from "utils";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -60,11 +61,12 @@ export default function App() {
   }
 
   const handleDispatch = useDispatch();
+  const navigate = useNavigate()
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!!auth.accessToken) {
-      handleDispatch(loadUser());
+      handleDispatch(loadUser()).then(unwrapResult).catch(() => navigate('/auth.login'))
     }
   }, [auth.accessToken]);
 

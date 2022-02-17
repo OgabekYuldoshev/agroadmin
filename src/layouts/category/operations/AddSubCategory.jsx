@@ -13,8 +13,16 @@ import * as Yup from "yup"
 
 const CategorySchema = Yup.object({
     image: Yup.mixed(),
-    name: Yup.string().required(),
-    description: Yup.string().required()
+    name: Yup.object({
+        uz: Yup.string().required(),
+        en: Yup.string().required(),
+        ru: Yup.string().required()
+    }),
+    description: Yup.object({
+        uz: Yup.string().required(),
+        en: Yup.string().required(),
+        ru: Yup.string().required()
+    })
 })
 
 export default (props) => {
@@ -22,8 +30,16 @@ export default (props) => {
     const { id } = useParams()
     const formik = useFormik({
         initialValues: {
-            name: null,
-            description: null,
+            name: {
+                uz: null,
+                ru: null,
+                en: null
+            },
+            description: {
+                uz: null,
+                ru: null,
+                en: null
+            },
             parent_id: id,
             level: 2
         },
@@ -45,15 +61,33 @@ export default (props) => {
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid> */}
-                    <Grid item xs={12}>
-                        <MDInput name="name" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi" />
+                    <Grid item xs={12} display="flex" justifyContent="space-between" gap={2}>
+                        <MDInput name="name[uz]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi UZ" />
+                        <MDInput name="name[ru]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi RU" />
+                        <MDInput name="name[en]" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi EN" />
                     </Grid>
-                    <Grid item xs={12}>
+                    <Grid item xs={12} display="grid" gap={2}>
                         <TextField
                             fullWidth
                             id="outlined-multiline-flexible"
-                            label="Qisqacha"
-                            name="description"
+                            label="Qisqacha UZ"
+                            name="description[uz]"
+                            multiline
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Qisqacha RU"
+                            name="description[ru]"
+                            multiline
+                            onChange={formik.handleChange} onBlur={formik.handleBlur}
+                        />
+                        <TextField
+                            fullWidth
+                            id="outlined-multiline-flexible"
+                            label="Qisqacha UN"
+                            name="description[en]"
                             multiline
                             onChange={formik.handleChange} onBlur={formik.handleBlur}
                         />

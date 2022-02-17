@@ -3,14 +3,22 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getCurrenciesList = createAsyncThunk("app/getCurrenciesList", async () => {
-  const response = await http.get("/admin/currencies");
-  return response.data?.data;
+export const getCurrenciesList = createAsyncThunk("app/getCurrenciesList", async (undefined, { rejectWithValue }) => {
+  try {
+    const response = await http.get("/admin/currencies");
+    return response.data?.data;
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
 });
 
-export const getUnitList = createAsyncThunk("app/getUnitList", async () => {
-  const response = await http.get("/admin/units");
-  return response.data?.data;
+export const getUnitList = createAsyncThunk("app/getUnitList", async (undefined, { rejectWithValue }) => {
+  try {
+    const response = await http.get("/admin/units");
+    return response.data?.data;
+  } catch (error) {
+    return rejectWithValue(error)
+  }
 });
 
 export const getPage = createAsyncThunk("app/getPage", async () => {
@@ -139,6 +147,6 @@ export const currenciesSlice = createSlice({
   },
 });
 
-export const {} = currenciesSlice.actions;
+export const { } = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;
