@@ -3,15 +3,27 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getCategory = createAsyncThunk("app/getCategory", async () => {
-  const response = await http.get("/admin/categories");
-  return response.data?.data;
+export const getCategory = createAsyncThunk("app/getCategory", async (params, { rejectWithValue }) => {
+  try {
+    const response = await http.get("/admin/categories", {
+      params: params
+    });
+    return response.data?.data;
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
 });
 
-export const createCategory = createAsyncThunk("app/createCategory", async (data, { dispatch }) => {
-  const response = await http.post("/admin/categories", data);
-  if (response.status === 201) dispatch(getCategory());
-  return response.data;
+export const createCategory = createAsyncThunk("app/createCategory", async (data, { dispatch, rejectWithValue }) => {
+  try {
+    const response = await http.post("/admin/categories", data, {
+      "Content-Type": "multipart/form-data",
+    });
+    dispatch(getCategory({ Level: data.Level }));
+    return response.data;
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
 });
 
 export const deleteCategory = createAsyncThunk(
@@ -24,10 +36,16 @@ export const deleteCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
   "app/updateCategory",
-  async ({ id, value }, { dispatch }) => {
-    const response = await http.put(`/admin/categories/${id}`, value);
-    if (response.status === 200) dispatch(getCategory());
-    return response.data;
+  async ({ id, data }, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await http.put(`/admin/categories/${id}`, data, {
+        "Content-Type": "multipart/form-data",
+      });
+      dispatch(getCategory({ parent_id: data?.parent_id, level: data?.level }));
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message)
+    }
   }
 );
 
@@ -91,6 +109,6 @@ export const categorySlice = createSlice({
   },
 });
 
-export const {} = categorySlice.actions;
+export const { } = categorySlice.actions;
 
 export default categorySlice.reducer;

@@ -56,7 +56,6 @@ export default function App() {
 
   const token = localStorage.getItem("Qaccess_Token");
   if (token) {
-    console.log("hello");
     http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
@@ -168,14 +167,14 @@ export default function App() {
         {isUserLoggedIn() ? (
           getRoutes(routes)
         ) : (
-          <Route render={() => <Navigate to="/auth/login" />} />
+          <Route render={() => <Navigate replace to="/auth/login" />} />
         )}
         {!isUserLoggedIn() ? (
           <Route path="/auth/login" element={<SignIn />} />
         ) : (
-          <Route render={() => <Navigate to="/dashboard" />} />
+          <Route render={() => <Navigate replace to="/dashboard" />} />
         )}
-        <Route path="*" element={<Navigate to="/dashboard" />} />
+        <Route path="*" element={<Navigate replace to="/dashboard" />} />
       </Routes>
     </ThemeProvider>
   );

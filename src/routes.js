@@ -4,6 +4,8 @@ import Billing from "layouts/billing";
 import Notifications from "layouts/notifications";
 import Profile from "layouts/profile";
 import Users from "layouts/users";
+import Category from "layouts/category";
+import SubCategory from "layouts/category/sub_category";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -48,6 +50,23 @@ const routes = [
     icon: <Icon fontSize="small">person</Icon>,
     route: "/users",
     component: <Users />,
+  },
+  {
+    type: "collapse",
+    name: "Kategoryalar",
+    key: "category",
+    icon: <Icon fontSize="small">list</Icon>,
+    route: "/category",
+    component: <Category />,
+  },
+  {
+    name: "SubCategory",
+    key: "subcategory",
+    route: "/category/:id",
+    meta: {
+      navLink: '/category'
+    },
+    component: <SubCategory />,
   },
 ];
 
