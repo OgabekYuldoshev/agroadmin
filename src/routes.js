@@ -6,6 +6,7 @@ import Profile from "layouts/profile";
 import Users from "layouts/users";
 import Category from "layouts/category";
 import Products from "layouts/product";
+import Partners from "layouts/partners";
 import NewProduct from "layouts/product/NewProducs";
 import EditProduct from "layouts/product/Edit";
 import SubCategory from "layouts/category/sub_category";
@@ -96,6 +97,14 @@ const routes = [
       navLink: "/category",
     },
     component: <SubCategory />,
+  },
+  {
+    type: "collapse",
+    name: "Hamkorlar",
+    key: "partners",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/partners",
+    component: <Partners />,
   },
 ];
 
