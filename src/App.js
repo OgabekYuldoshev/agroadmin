@@ -37,7 +37,6 @@ import brandWhite from "assets/images/logo-ct.png";
 import brandDark from "assets/images/logo-ct-dark.png";
 import { isUserLoggedIn } from "utils";
 import { http } from "utils";
-import { unwrapResult } from "@reduxjs/toolkit";
 
 export default function App() {
   const [controller, dispatch] = useMaterialUIController();
@@ -61,12 +60,13 @@ export default function App() {
   }
 
   const handleDispatch = useDispatch();
-  const navigate = useNavigate()
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (!!auth.accessToken) {
-      handleDispatch(loadUser()).then(unwrapResult).catch(() => navigate('/auth.login'))
+      handleDispatch(loadUser());
+      // .then(unwrapResult)
+      // .catch(() => navigate("/auth/login"));
     }
   }, [auth.accessToken]);
 
@@ -117,7 +117,20 @@ export default function App() {
       }
 
       if (route.route) {
-        return <Route exact path={route.route} element={route.component} key={route.key} />;
+        return (
+          <Route
+            exact
+            path={route.route}
+            element={
+              isUserLoggedIn() ? (
+                route.component
+              ) : (
+                <Navigate replace to="/auth/login" state={{ from: pathname }} />
+              )
+            }
+            key={route.key}
+          />
+        );
       }
 
       return null;
@@ -166,17 +179,18 @@ export default function App() {
       )}
       {layout === "vr" && <Configurator />}
       <Routes>
-        {isUserLoggedIn() ? (
-          getRoutes(routes)
-        ) : (
-          <Route render={() => <Navigate replace to="/auth/login" />} />
-        )}
-        {!isUserLoggedIn() ? (
-          <Route path="/auth/login" element={<SignIn />} />
-        ) : (
-          <Route render={() => <Navigate replace to="/dashboard" />} />
-        )}
-        <Route path="*" element={<Navigate replace to="/dashboard" />} />
+        {getRoutes(routes)}
+        <Route
+          path="/auth/login"
+          element={
+            !isUserLoggedIn() ? (
+              <SignIn />
+            ) : (
+              <Navigate replace to="/dashboard" state={{ from: pathname }} />
+            )
+          }
+        />
+        {/* <Route path="*" element={<Navigate replace to="/dashboard" />} /> */}
       </Routes>
     </ThemeProvider>
   );

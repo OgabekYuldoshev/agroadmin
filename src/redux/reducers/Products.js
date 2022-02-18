@@ -3,17 +3,31 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getProducts = createAsyncThunk("app/getProducts", async (params, { rejectWithValue }) => {
-  try {
-    const response = await http.get(`/admin/products`, {
-      params: params
-    });
-    return response.data?.data;
-  } catch (error) {
-    return rejectWithValue(error.message)
+export const getProducts = createAsyncThunk(
+  "app/getProducts",
+  async (params, { rejectWithValue }) => {
+    try {
+      const response = await http.get(`/admin/products`, {
+        params: params,
+      });
+      return response.data?.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
+export const getSingleProduct = createAsyncThunk(
+  "app/getSingleProducts",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await http.get(`/admin/products/${id}`);
+      return response.data?.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
 export const createProduct = createAsyncThunk("app/createProducts", async (data, { dispatch }) => {
   const response = await http.post("/admin/products", data, {
     headers: {
@@ -29,15 +43,23 @@ export const deleteProduct = createAsyncThunk("app/deleteProduct", async (id, { 
   if (response.status === 200) dispatch(getProducts());
 });
 
-// export const updatePartner = createAsyncThunk('app/updatePartner', async ({ id, value }) => {
-//     await http.put(`/admin/partners/${id}`, value)
-//     return response.data
-// })
+export const updateProduct = createAsyncThunk(
+  "app/updateProduct",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const response = await http.put(`/admin/products/${id}`, data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
 
 export const productsSlice = createSlice({
   name: "products",
   initialState: {
     products: [],
+    single: null,
     isLoading: false,
     total: 0,
     per_page: 0,
@@ -63,6 +85,18 @@ export const productsSlice = createSlice({
       state.isLoading = false;
       toast.error("Serverda xatolik!");
     },
+
+    [getSingleProduct.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getSingleProduct.fulfilled]: (state, action) => {
+      state.single = action?.payload;
+      state.isLoading = false;
+    },
+    [getSingleProduct.rejected]: (state) => {
+      state.isLoading = false;
+      toast.error("Serverda xatolik!");
+    },
     [createProduct.fulfilled]: () => {
       toast.success("Mahsulot yaratildi!");
     },
@@ -78,9 +112,12 @@ export const productsSlice = createSlice({
     // [deletePartner.rejected]: () => {
     //     toast.error("Serverda xatolik!")
     // },
-    // [updatePartner.rejected]: () => {
-    //     toast.error("Serverda xatolik!")
-    // }
+    [updateProduct.fulfilled]: () => {
+      toast.success("Mahsulot o'zgartirildi!");
+    },
+    [updateProduct.rejected]: () => {
+      toast.error("Serverda xatolik!");
+    },
   },
   // extraReducers: builder => {
   //     builder
@@ -90,6 +127,6 @@ export const productsSlice = createSlice({
   // }
 });
 
-export const { } = productsSlice.actions;
+export const {} = productsSlice.actions;
 
 export default productsSlice.reducer;

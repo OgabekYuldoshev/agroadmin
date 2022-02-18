@@ -7,11 +7,11 @@ import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "redux/reducers/Products";
 import { FormControl, Typography, InputLabel, Select, MenuItem } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
-import { createProduct } from "redux/reducers/Products";
+import { createProduct, getSingleProduct } from "redux/reducers/Products";
 import { getCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
 import CKEditorComponent from "components/CKEditor";
@@ -37,42 +37,46 @@ const Validator = yup.object({
   nett_weight: yup.string().required(),
   unit_id: yup.string().required(),
   partner_id: yup.string().required(),
-  images: yup.mixed().required(),
+  images: yup.mixed(),
 });
 
-function NewProduct() {
+function EditProduct() {
   const dispatch = useDispatch();
+  const { id } = useParams();
+  const { single } = useSelector((state) => state.products);
   const { currencies, unit } = useSelector((state) => state.units);
   const { categories } = useSelector((state) => state.category);
   const { partners } = useSelector((state) => state.partner);
 
   useEffect(() => {
+    dispatch(getSingleProduct(id));
     dispatch(getCurrenciesList());
     dispatch(getUnitList());
     dispatch(getCategory());
     dispatch(getPartner());
-  }, []);
+  }, [dispatch]);
 
   const formik = useFormik({
+    enableReinitialize: true,
     validationSchema: Validator,
     initialValues: {
       name: {
-        uz: "",
-        en: "",
-        ru: "",
+        uz: single?.name?.uz || "",
+        en: single?.name?.en || "",
+        ru: single?.name?.ru || "",
       },
       specification: {
-        uz: "",
-        en: "",
-        ru: "",
+        uz: single?.specification?.uz || "",
+        en: single?.specification?.en || "",
+        ru: single?.specification?.ru || "",
       },
-      code: "",
-      price: "",
-      currency_id: "",
-      category_id: "",
-      nett_weight: "",
-      unit_id: "",
-      partner_id: "",
+      code: single?.code || "",
+      price: single?.price || "",
+      currency_id: single?.currency_id || "",
+      category_id: single?.category_id || "",
+      nett_weight: single?.unit_id || "",
+      unit_id: single?.unit_id || "",
+      partner_id: single?.partner_id || "",
       images: "",
     },
     onSubmit: (values) => {
@@ -88,7 +92,7 @@ function NewProduct() {
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox mb={2} p={3} bgColor="white" borderRadius={10}>
-        <Typography mb={2}>Yangi mahsulot yaratish</Typography>
+        <Typography mb={2}>Mahsulotni o'zgartirish</Typography>
         <MDBox onSubmit={formik.handleSubmit} role="form" component="form" fullWidth>
           <Grid container spacing={2} fullWidth>
             <Grid item xs={4}>
@@ -96,6 +100,7 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
+                value={formik.values.name["uz"]}
                 name="name[uz]"
                 label="Nomi UZ"
               />
@@ -105,6 +110,7 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
+                value={formik.values.name["ru"]}
                 name="name[ru]"
                 label="Nomi RU"
               />
@@ -114,6 +120,7 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
+                value={formik.values.name["en"]}
                 name="name[en]"
                 label="Nomi EN"
               />
@@ -124,6 +131,7 @@ function NewProduct() {
                 onBlur={formik.handleBlur}
                 fullWidth
                 name="code"
+                value={formik.values.code}
                 label="Mahsulot kodi"
               />
             </Grid>
@@ -132,16 +140,18 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
+                value={formik.values.price}
                 type="number"
                 name="price"
                 label="Narxi"
               />
               <FormControl style={{ width: "30%" }}>
-                <InputLabel id="price_type">Narx Turi</InputLabel>
+                <InputLabel id="currency_id">Narx Turi</InputLabel>
                 <Select
-                  labelId="price_type"
-                  id="price_type"
+                  labelId="currency_id"
+                  id="currency_id"
                   name="currency_id"
+                  value={formik.values.currency_id}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   style={{ padding: "12px 5px" }}
@@ -159,6 +169,7 @@ function NewProduct() {
               <MDInput
                 fullWidth
                 type="number"
+                value={formik.values.nett_weight}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 name="nett_weight"
@@ -170,6 +181,7 @@ function NewProduct() {
                   labelId="weigth"
                   id="weigth"
                   name="unit_id"
+                  value={formik.values.unit_id}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   style={{ padding: "12px 5px" }}
@@ -200,6 +212,7 @@ function NewProduct() {
                   labelId="category"
                   id="category"
                   name="category_id"
+                  value={formik.values.category_id}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   style={{ padding: "12px 5px" }}
@@ -220,6 +233,8 @@ function NewProduct() {
                   labelId="partner"
                   id="partner"
                   name="partner_id"
+                  fullWidth
+                  value={formik.values.partner_id}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   style={{ padding: "12px 5px" }}
@@ -256,6 +271,7 @@ function NewProduct() {
                     Mahsulot haqida UZ
                   </MDTypography>
                   <CKEditorComponent
+                    data={formik.values.specification["uz"]}
                     onChange={(undefined, editor) =>
                       formik.setFieldValue("specification[uz]", editor?.getData())
                     }
@@ -266,6 +282,7 @@ function NewProduct() {
                     Mahsulot haqida RU
                   </MDTypography>
                   <CKEditorComponent
+                    data={formik.values.specification["ru"]}
                     onChange={(undefined, editor) =>
                       formik.setFieldValue("specification[ru]", editor?.getData())
                     }
@@ -276,6 +293,7 @@ function NewProduct() {
                     Mahsulot haqida EN
                   </MDTypography>
                   <CKEditorComponent
+                    data={formik.values.specification["en"]}
                     onChange={(undefined, editor) =>
                       formik.setFieldValue("specification[en]", editor?.getData())
                     }
@@ -339,4 +357,4 @@ function NewProduct() {
   );
 }
 
-export default NewProduct;
+export default EditProduct;
