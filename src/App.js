@@ -190,7 +190,7 @@ export default function App() {
             )
           }
         />
-        {/* <Route path="*" element={<Navigate replace to="/dashboard" />} /> */}
+        <Route path="*" element={<Navigate replace to="/dashboard" />} />
       </Routes>
     </ThemeProvider>
   );
