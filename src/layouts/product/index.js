@@ -12,7 +12,7 @@ import DataTable from "react-data-table-component";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "redux/reducers/Products";
-import { Chip } from "@mui/material";
+import { Chip, IconButton, Icon } from "@mui/material";
 import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
 function Tables() {
@@ -22,51 +22,63 @@ function Tables() {
 
   const dispatch = useDispatch();
   const { products, per_page, current_page, total } = useSelector((state) => state.products);
-  console.log(products)
+  console.log(products);
 
   const columns = [
     {
-      title: 'Mahsulot raqami',
-      selector: row => row.code
+      title: "Mahsulot raqami",
+      selector: (row) => row.code,
     },
     {
-      title: 'Nomi',
-      dataIndex: 'name',
-      key: 'name',
-      selector: row => row.name
+      title: "Nomi",
+      dataIndex: "name",
+      key: "name",
+      selector: (row) => row.name,
     },
     {
-      title: 'Narxi',
-      dataIndex: '',
-      key: '',
-      cell: (row) => <span>{row.price}{' '}{row.currencies?.name}</span>
+      title: "Narxi",
+      dataIndex: "",
+      key: "",
+      cell: (row) => (
+        <span>
+          {row.price} {row.currencies?.name}
+        </span>
+      ),
     },
     {
-      title: 'Status',
-      dataIndex: '',
-      key: '',
-      cell: (row) => row?.is_active ? <Chip label="Active" color="success" /> : <Chip label="Unactive" color="error" />
+      title: "Status",
+      dataIndex: "",
+      key: "",
+      cell: (row) =>
+        row?.is_active ? (
+          <Chip label="Active" color="success" />
+        ) : (
+          <Chip label="Unactive" color="error" />
+        ),
     },
-    // {
-    //   title: 'Action',
-    //   cell: row => (
-    //     <MDBox display="flex">
-    //       <Link to={`/products/new/${row.id}`}>
-    //         <IconButton>
-    //           <Icon fontSize="small" color="info">visibility</Icon>
-    //         </IconButton>
-    //       </Link>
-    //       <IconButton onClick={() => handleEdit(row.id)}>
-    //         <Icon fontSize="small" color="success">edit</Icon>
-    //       </IconButton>
-    //       {/* <IconButton onClick={()=>dispatch()}>
-    //         <Icon fontSize="small" color="error">delete</Icon>
-    //       </IconButton> */}
-    //     </MDBox>
-    //   )
-    // }
-  ]
-
+    {
+      title: "Action",
+      cell: (row) => (
+        <MDBox display="flex">
+          <Link to={`/products/edit/${row.id}`}>
+            <IconButton>
+              <Icon fontSize="small" color="info">
+                edit
+              </Icon>
+            </IconButton>
+          </Link>
+          {/* <IconButton onClick={() => handleEdit(row.id)}>
+            <Icon fontSize="small" color="success">
+              edit
+            </Icon>
+          </IconButton> */}
+          {/* <IconButton onClick={()=>dispatch()}>
+            <Icon fontSize="small" color="error">delete</Icon>
+          </IconButton> */}
+        </MDBox>
+      ),
+    },
+  ];
 
   return (
     <DashboardLayout>
@@ -91,7 +103,7 @@ function Tables() {
                 <MDTypography variant="h6" color="white">
                   Mahsulotlar
                 </MDTypography>
-                <Link to={'/products/new'}>
+                <Link to={"/products/new"}>
                   <MDButton>Yangi mahsulot qo'shish</MDButton>
                 </Link>
               </MDBox>
@@ -104,7 +116,8 @@ function Tables() {
                   // onChangePage={(e) => console.log(e)}
                   columns={columns}
                   data={products}
-                  pagination />
+                  pagination
+                />
               </MDBox>
             </Card>
           </Grid>

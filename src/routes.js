@@ -7,7 +7,7 @@ import Users from "layouts/users";
 import Category from "layouts/category";
 import Products from "layouts/product";
 import NewProduct from "layouts/product/NewProducs";
-
+import EditProduct from "layouts/product/Edit";
 import SubCategory from "layouts/category/sub_category";
 
 // @mui icons
@@ -67,9 +67,18 @@ const routes = [
     key: "new-product",
     route: "/products/new",
     meta: {
-      navLink: '/category'
+      navLink: "/category",
     },
     component: <NewProduct />,
+  },
+  {
+    name: "Mahsulotni o'zgartirish",
+    key: "edit-product",
+    route: "/products/edit/:id",
+    meta: {
+      navLink: "/category",
+    },
+    component: <EditProduct />,
   },
   {
     type: "collapse",
@@ -84,7 +93,7 @@ const routes = [
     key: "subcategory",
     route: "/category/:id",
     meta: {
-      navLink: '/category'
+      navLink: "/category",
     },
     component: <SubCategory />,
   },
