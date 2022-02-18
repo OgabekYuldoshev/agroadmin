@@ -45,10 +45,12 @@ export default (props) => {
             for (const name in values) {
                 formData.append(name, values[name])
             }
-            dispatch(createPartner(formData)).then(unwrapResult).then(() => {
-                formik.handleReset()
-                props?.toggle()
-            })
+            if(found){
+                dispatch(createPartner(formData)).then(unwrapResult).then(() => {
+                    formik.handleReset()
+                    props?.toggle()
+                })
+            }
         }
     })
 
