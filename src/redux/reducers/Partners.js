@@ -12,12 +12,16 @@ export const getPartner = createAsyncThunk("app/getPartner", async (undefined, {
   }
 });
 
-export const createPartner = createAsyncThunk("app/createPartner", async (data, { dispatch }) => {
-  const response = await http.post("/admin/partners", data, {
-    "Content-Type": "multipart/form-data",
-  });
-  if (response.status === 201) dispatch(getPartner());
-  return response.data;
+export const createPartner = createAsyncThunk("app/createPartner", async (data, { dispatch, rejectWithValue }) => {
+  try {
+    const response = await http.post("/admin/partners", data, {
+      "Content-Type": "multipart/form-data",
+    });
+    if (response.status === 201) dispatch(getPartner());
+    return response.data;
+  } catch (error) {
+    return rejectWithValue()
+  }
 });
 
 export const deletePartner = createAsyncThunk("app/deletePartner", async (id, { dispatch }) => {
