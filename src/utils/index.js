@@ -1,4 +1,6 @@
 import axios from "axios";
+import moment from "moment";
+
 export const baseUrl = "https://guarded-cliffs-29944.herokuapp.com/";
 
 export const http = axios.create({
@@ -6,6 +8,8 @@ export const http = axios.create({
 });
 
 export const isObjEmpty = (obj) => Object.keys(obj).length === 0;
+
+export const getDate = (date) => moment(date).format("LLLL");
 
 export const kFormatter = (num) => (num > 999 ? `${(num / 1000).toFixed(1)}k` : num);
 

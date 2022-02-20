@@ -3,26 +3,32 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getPartner = createAsyncThunk("app/getPartner", async (undefined, { rejectWithValue }) => {
-  try {
-    const response = await http.get("/admin/partners");
-    return response.data?.data;
-  } catch (error) {
-    return rejectWithValue(error.message)
+export const getPartner = createAsyncThunk(
+  "app/getPartner",
+  async (undefined, { rejectWithValue }) => {
+    try {
+      const response = await http.get("/admin/partners");
+      return response.data?.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-export const createPartner = createAsyncThunk("app/createPartner", async (data, { dispatch, rejectWithValue }) => {
-  try {
-    const response = await http.post("/admin/partners", data, {
-      "Content-Type": "multipart/form-data",
-    });
-    if (response.status === 201) dispatch(getPartner());
-    return response.data;
-  } catch (error) {
-    return rejectWithValue()
+export const createPartner = createAsyncThunk(
+  "app/createPartner",
+  async (data, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await http.post("/admin/partners", data, {
+        "Content-Type": "multipart/form-data",
+      });
+      if (response.status === 201) dispatch(getPartner());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue();
+    }
   }
-});
+);
 
 export const deletePartner = createAsyncThunk("app/deletePartner", async (id, { dispatch }) => {
   const response = await http.delete(`/admin/partners/${id}`);
@@ -31,10 +37,16 @@ export const deletePartner = createAsyncThunk("app/deletePartner", async (id, { 
 
 export const updatePartner = createAsyncThunk(
   "app/updatePartner",
-  async ({ id, value }, { dispatch }) => {
-    const response = await http.put(`/admin/partners/${id}`, value);
-    if (response.status === 200) dispatch(getPartner());
-    return response.data;
+  async ({ id, value }, { dispatch, rejectWithValue }) => {
+    try {
+      const response = await http.put(`/admin/partners/${id}`, value, {
+        "Content-Type": "multipart/form-data",
+      });
+      dispatch(getPartner());
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
 );
 
@@ -88,6 +100,6 @@ export const partnerSlice = createSlice({
   // }
 });
 
-export const { } = partnerSlice.actions;
+export const {} = partnerSlice.actions;
 
 export default partnerSlice.reducer;

@@ -1,66 +1,68 @@
 import { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import { Avatar, Chip, Icon, IconButton } from "@mui/material";
+import { Grid, Card, Icon, IconButton } from "@mui/material";
+import DataTable from "react-data-table-component";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DataTable from "react-data-table-component";
-
 import { useDispatch, useSelector } from "react-redux";
-import { getPartner } from "redux/reducers/Partners";
-import { Link } from "react-router-dom";
-import ModalCom from "./operations/Modal";
+import { getSiteAddress, deleteAddress } from "redux/reducers/App";
+// import { Link } from "react-router-dom";
+import ModalCom from "./operations/NewAddress";
+import Edit from "./operations/Edit";
 import MDButton from "components/MDButton";
+// import { baseUrl } from "utils";
+
 function Tables() {
   useEffect(() => {
-    dispatch(getPartner());
+    dispatch(getSiteAddress());
   }, []);
 
-  const [edit, setEdit] = useState({ opened: false, id: null });
-  const handleEdit = (id) =>
-    setEdit({
-      opened: !edit?.opened,
-      id: id || null,
-    });
+  const [open, setOpen] = useState(false);
+  const toggle = () => setOpen((current) => !current);
+
+  const [edit, setEdit] = useState({ id: null, opened: false });
+  const handleEdit = (id) => setEdit({ id, opened: !edit?.opened });
 
   const dispatch = useDispatch();
-  const { partners } = useSelector((state) => state.partner);
-
+  const { address } = useSelector((state) => state.app);
   const columns = [
     {
-      name: "Rasm",
-      width: "100px",
-      cell: () => <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+      name: "Sarlovha",
+      selector: (row) => row.title,
     },
     {
       name: "Nomi",
-      width: "300px",
+      wrap: true,
       selector: (row) => row.name,
     },
     {
-      name: "Web Sahifasi",
-      width: "350px",
+      name: "Address",
+      wrap: true,
+      selector: (row) => row.address,
+    },
+    {
+      name: "Kordinata",
+      wrap: true,
       cell: (row) => (
-        <a target="_blank" href={row.link}>
-          {row.link}
+        <a target="_blank" href={`https://maps.google.com/?q=${row.map}`}>
+          {row.map}
         </a>
       ),
     },
     {
-      name: "Status",
-      cell: (row) =>
-        row.is_active ? (
-          <Chip label="Active" color="success" />
-        ) : (
-          <Chip label="Unactive" color="error" />
-        ),
+      name: "Tel",
+      selector: (row) => row.tel,
     },
     {
-      name: "",
-      width: "250px",
+      name: "Qo'shimcha",
+      wrap: true,
+      selector: (row) => row.shop_phone_number,
+    },
+    {
+      title: "Action",
+      right: true,
       cell: (row) => (
         <MDBox display="flex">
           <IconButton onClick={() => handleEdit(row.id)}>
@@ -68,11 +70,15 @@ function Tables() {
               edit
             </Icon>
           </IconButton>
+          <IconButton onClick={() => dispatch(deleteAddress(row.id))}>
+            <Icon fontSize="small" color="error">
+              delete
+            </Icon>
+          </IconButton>
         </MDBox>
       ),
     },
   ];
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -94,13 +100,14 @@ function Tables() {
                 alignItems="center"
               >
                 <MDTypography variant="h6" color="white">
-                  Hamkorlar
+                  Manzillar
                 </MDTypography>
-                <MDButton onClick={handleEdit}>Hamkor qo'shish</MDButton>
+                <MDButton onClick={toggle}>Manzil qo'shish</MDButton>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={partners} pagination />
-                <ModalCom toggle={() => handleEdit({ open: false, id: null })} item={edit} />
+                <ModalCom open={open} toggle={toggle} />
+                <DataTable columns={columns} data={address} pagination />
+                <Edit item={edit} toggle={handleEdit} />
               </MDBox>
             </Card>
           </Grid>

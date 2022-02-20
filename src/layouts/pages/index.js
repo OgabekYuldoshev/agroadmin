@@ -10,62 +10,55 @@ import Footer from "examples/Footer";
 import DataTable from "react-data-table-component";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getPartner } from "redux/reducers/Partners";
+import { getPage, deletePage } from "redux/reducers/Units";
 import { Link } from "react-router-dom";
-import ModalCom from "./operations/Modal";
 import MDButton from "components/MDButton";
+
 function Tables() {
   useEffect(() => {
-    dispatch(getPartner());
+    dispatch(getPage());
   }, []);
 
-  const [edit, setEdit] = useState({ opened: false, id: null });
-  const handleEdit = (id) =>
-    setEdit({
-      opened: !edit?.opened,
-      id: id || null,
-    });
-
   const dispatch = useDispatch();
-  const { partners } = useSelector((state) => state.partner);
+  const { pages } = useSelector((state) => state.units);
 
   const columns = [
     {
-      name: "Rasm",
-      width: "100px",
-      cell: () => <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+      name: "id",
+      width: "50px",
+      selector: (row) => row.ID,
     },
     {
-      name: "Nomi",
+      name: "Sarlovha",
       width: "300px",
-      selector: (row) => row.name,
+      selector: (row) => row.title,
     },
     {
-      name: "Web Sahifasi",
+      name: "Content",
       width: "350px",
-      cell: (row) => (
-        <a target="_blank" href={row.link}>
-          {row.link}
-        </a>
-      ),
+      selector: (row) => row.content,
     },
     {
-      name: "Status",
-      cell: (row) =>
-        row.is_active ? (
-          <Chip label="Active" color="success" />
-        ) : (
-          <Chip label="Unactive" color="error" />
-        ),
+      name: "Type",
+      width: "100px",
+      selector: (row) => (row.page_id === 1 ? "Haqida" : "Xizmatlar"),
     },
     {
       name: "",
+      right: true,
       width: "250px",
       cell: (row) => (
         <MDBox display="flex">
-          <IconButton onClick={() => handleEdit(row.id)}>
-            <Icon fontSize="small" color="success">
-              edit
+          <Link to={`/pages/edit/${row.id}`}>
+            <IconButton>
+              <Icon fontSize="small" color="success">
+                edit
+              </Icon>
+            </IconButton>
+          </Link>
+          <IconButton onClick={() => dispatch(deletePage(row.id))}>
+            <Icon fontSize="small" color="error">
+              delete
             </Icon>
           </IconButton>
         </MDBox>
@@ -94,13 +87,14 @@ function Tables() {
                 alignItems="center"
               >
                 <MDTypography variant="h6" color="white">
-                  Hamkorlar
+                  Sahifalar
                 </MDTypography>
-                <MDButton onClick={handleEdit}>Hamkor qo'shish</MDButton>
+                <Link to="/pages/new">
+                  <MDButton>Sahifa qo'shish</MDButton>
+                </Link>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={partners} pagination />
-                <ModalCom toggle={() => handleEdit({ open: false, id: null })} item={edit} />
+                <DataTable columns={columns} data={pages} pagination />
               </MDBox>
             </Card>
           </Grid>

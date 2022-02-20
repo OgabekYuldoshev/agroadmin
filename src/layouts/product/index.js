@@ -21,8 +21,7 @@ function Tables() {
   }, []);
 
   const dispatch = useDispatch();
-  const { products, per_page, current_page, total } = useSelector((state) => state.products);
-  console.log(products);
+  const { products } = useSelector((state) => state.products);
 
   const columns = [
     {
@@ -110,7 +109,6 @@ function Tables() {
               <MDBox p={3}>
                 <DataTable
                   // paginationDefaultPage={total}
-                  paginationPerPage={25}
                   // paginationRowsPerPageOptions={[10, 25, 50, 75]}
                   // onChangeRowsPerPage={(e) => console.log(e)}
                   // onChangePage={(e) => console.log(e)}

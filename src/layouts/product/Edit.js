@@ -5,7 +5,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "redux/reducers/Products";
+// import { getProducts } from "redux/reducers/Products";
 import { FormControl, Typography, InputLabel, Select, MenuItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";

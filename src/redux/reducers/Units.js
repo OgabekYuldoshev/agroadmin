@@ -3,23 +3,29 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getCurrenciesList = createAsyncThunk("app/getCurrenciesList", async (undefined, { rejectWithValue }) => {
-  try {
-    const response = await http.get("/admin/currencies");
-    return response.data?.data;
-  } catch (error) {
-    return rejectWithValue(error.message)
+export const getCurrenciesList = createAsyncThunk(
+  "app/getCurrenciesList",
+  async (undefined, { rejectWithValue }) => {
+    try {
+      const response = await http.get("/admin/currencies");
+      return response.data?.data;
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
   }
-});
+);
 
-export const getUnitList = createAsyncThunk("app/getUnitList", async (undefined, { rejectWithValue }) => {
-  try {
-    const response = await http.get("/admin/units");
-    return response.data?.data;
-  } catch (error) {
-    return rejectWithValue(error)
+export const getUnitList = createAsyncThunk(
+  "app/getUnitList",
+  async (undefined, { rejectWithValue }) => {
+    try {
+      const response = await http.get("/admin/units");
+      return response.data?.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
   }
-});
+);
 
 export const getPage = createAsyncThunk("app/getPage", async () => {
   const response = await http.get("/admin/pages");
@@ -28,6 +34,14 @@ export const getPage = createAsyncThunk("app/getPage", async () => {
 
 export const createPage = createAsyncThunk("app/createPage", async (data, { dispatch }) => {
   const response = await http.post("/admin/pages", data, {
+    "Content-Type": "multipart/form-data",
+  });
+  dispatch(getPage());
+  return response.data;
+});
+
+export const updatePage = createAsyncThunk("app/updatePage", async ({ id, data }, { dispatch }) => {
+  const response = await http.put(`/admin/pages/${id}`, data, {
     "Content-Type": "multipart/form-data",
   });
   dispatch(getPage());
@@ -48,19 +62,26 @@ export const createSlider = createAsyncThunk("app/createSlider", async (data, { 
   const response = await http.post("/admin/sliders", data, {
     "Content-Type": "multipart/form-data",
   });
-  if (response.status === 201) dispatch(getSlider());
+  dispatch(getSlider());
   return response.data;
 });
 
 export const deleteSlider = createAsyncThunk("app/deleteSlider", async (id, { dispatch }) => {
   const response = await http.delete(`/admin/sliders/${id}`);
-  if (response.status === 200) dispatch(getSlider());
+  dispatch(getSlider());
+  return response.data;
+});
+
+export const getMessages = createAsyncThunk("app/getMessages", async () => {
+  const response = await http.get("/admin/messages");
+  return response.data?.data;
 });
 
 export const currenciesSlice = createSlice({
   name: "units",
   initialState: {
     currencies: [],
+    messages: [],
     pages: [],
     sliders: [],
     unit: [],
@@ -103,6 +124,12 @@ export const currenciesSlice = createSlice({
       state.isLoading = false;
       state.pages = action?.payload;
     },
+    [getMessages.fulfilled]: (state, action) => {
+      state.messages = action.payload;
+    },
+    [getMessages.rejected]: () => {
+      toast.error("Serverda xatolik!");
+    },
     [getPage.rejected]: (state) => {
       state.isLoading = false;
       toast.error("Serverda xatolik!");
@@ -111,6 +138,12 @@ export const currenciesSlice = createSlice({
       toast.success("Page yaratildi!");
     },
     [createPage.rejected]: () => {
+      toast.error("Serverda xatolik!");
+    },
+    [updatePage.fulfilled]: () => {
+      toast.success("Page yangilandi!");
+    },
+    [updatePage.rejected]: () => {
       toast.error("Serverda xatolik!");
     },
     [deletePage.fulfilled]: () => {
@@ -139,7 +172,7 @@ export const currenciesSlice = createSlice({
       toast.error("Serverda xatolik!");
     },
     [deleteSlider.fulfilled]: () => {
-      toast.success("Page o'chirildi!");
+      toast.success("Slider o'chirildi!");
     },
     [deleteSlider.rejected]: () => {
       toast.error("Serverda xatolik!");
@@ -147,6 +180,6 @@ export const currenciesSlice = createSlice({
   },
 });
 
-export const { } = currenciesSlice.actions;
+export const {} = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;

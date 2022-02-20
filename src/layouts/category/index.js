@@ -19,14 +19,15 @@ import EditModal from "./operations/Edit";
 
 function Category() {
   const dispatch = useDispatch();
-  const [open, setOpen] = useState(false)
-  const toggle = () => setOpen(current => !current)
+  const [open, setOpen] = useState(false);
+  const toggle = () => setOpen((current) => !current);
 
-  const [edit, setEdit] = useState({ opened: false, id: null })
-  const handleEdit = (id) => setEdit({
-    opened: !edit?.opened,
-    id: id
-  })
+  const [edit, setEdit] = useState({ opened: false, id: null });
+  const handleEdit = (id) =>
+    setEdit({
+      opened: !edit?.opened,
+      id: id,
+    });
 
   useEffect(() => {
     dispatch(getCategory({ level: 1 }));
@@ -36,41 +37,51 @@ function Category() {
 
   const columns = [
     {
-      title: 'ID',
-      width: '100px',
-      selector: row => row.id
+      title: "ID",
+      width: "100px",
+      selector: (row) => row.id,
     },
     {
-      title: 'Name',
-      selector: row => row.name
+      title: "Name",
+      selector: (row) => row.name,
     },
     {
-      title: 'Level',
-      selector: row => row.level
+      title: "Level",
+      selector: (row) => row.level,
     },
     {
-      title: 'Status',
-      cell: row => row.is_active ? <Chip label="Active" color="success" /> : <Chip label="Unactive" color="error" />
+      title: "Status",
+      cell: (row) =>
+        row.is_active ? (
+          <Chip label="Active" color="success" />
+        ) : (
+          <Chip label="Unactive" color="error" />
+        ),
     },
     {
-      title: 'Action',
-      cell: row => (
+      title: "Action",
+      right: true,
+      cell: (row) => (
         <MDBox display="flex">
           <Link to={`/category/${row.id}`}>
             <IconButton>
-              <Icon fontSize="small" color="info">visibility</Icon>
+              <Icon fontSize="small" color="info">
+                visibility
+              </Icon>
             </IconButton>
           </Link>
           <IconButton onClick={() => handleEdit(row.id)}>
-            <Icon fontSize="small" color="success">edit</Icon>
+            <Icon fontSize="small" color="success">
+              edit
+            </Icon>
           </IconButton>
           {/* <IconButton onClick={()=>dispatch()}>
             <Icon fontSize="small" color="error">delete</Icon>
           </IconButton> */}
         </MDBox>
-      )
-    }
-  ]
+      ),
+    },
+  ];
 
   return (
     <DashboardLayout>
@@ -96,10 +107,14 @@ function Category() {
                   Kategoryalar
                 </MDTypography>
                 <AddCategory width={800} toggle={toggle} open={open} />
-                <MDButton onClick={toggle} >Kategorya qo'shish</MDButton>
+                <MDButton onClick={toggle}>Kategorya qo'shish</MDButton>
               </MDBox>
               <MDBox p={3}>
-                <EditModal width={800} toggle={() => handleEdit({ open: false, id: null })} item={edit} />
+                <EditModal
+                  width={800}
+                  toggle={() => handleEdit({ open: false, id: null })}
+                  item={edit}
+                />
                 <DataTable columns={columns} data={categories} pagination />
               </MDBox>
             </Card>
@@ -107,7 +122,7 @@ function Category() {
         </Grid>
       </MDBox>
       <Footer />
-    </DashboardLayout >
+    </DashboardLayout>
   );
 }
 

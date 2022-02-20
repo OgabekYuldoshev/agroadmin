@@ -1,12 +1,15 @@
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
-import Billing from "layouts/billing";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
 import Users from "layouts/users";
 import Category from "layouts/category";
 import Products from "layouts/product";
 import Partners from "layouts/partners";
+import Pages from "layouts/pages";
+import Sliders from "layouts/slider";
+import Message from "layouts/message";
+import Address from "layouts/address";
+import NewPage from "layouts/pages/NewPages";
+import EditPage from "layouts/pages/Edit";
 import NewProduct from "layouts/product/NewProducs";
 import EditProduct from "layouts/product/Edit";
 import SubCategory from "layouts/category/sub_category";
@@ -25,35 +28,28 @@ const routes = [
   },
   {
     type: "collapse",
-    name: "Billing",
-    key: "billing",
-    icon: <Icon fontSize="small">receipt_long</Icon>,
-    route: "/billing",
-    component: <Billing />,
+    name: "Kategoryalar",
+    key: "category",
+    icon: <Icon fontSize="small">category</Icon>,
+    route: "/category",
+    component: <Category />,
+  },
+  {
+    name: "SubCategory",
+    key: "subcategory",
+    route: "/category/:id",
+    meta: {
+      navLink: "/category",
+    },
+    component: <SubCategory />,
   },
   {
     type: "collapse",
-    name: "Notifications",
-    key: "notifications",
-    icon: <Icon fontSize="small">notifications</Icon>,
-    route: "/notifications",
-    component: <Notifications />,
-  },
-  {
-    type: "collapse",
-    name: "Profile",
-    key: "profile",
+    name: "Hamkorlar",
+    key: "partners",
     icon: <Icon fontSize="small">person</Icon>,
-    route: "/profile",
-    component: <Profile />,
-  },
-  {
-    type: "collapse",
-    name: "Foydalanuvchilar",
-    key: "users",
-    icon: <Icon fontSize="small">person</Icon>,
-    route: "/users",
-    component: <Users />,
+    route: "/partners",
+    component: <Partners />,
   },
   {
     type: "collapse",
@@ -82,29 +78,61 @@ const routes = [
     component: <EditProduct />,
   },
   {
-    type: "collapse",
-    name: "Kategoryalar",
-    key: "category",
-    icon: <Icon fontSize="small">category</Icon>,
-    route: "/category",
-    component: <Category />,
-  },
-  {
-    name: "SubCategory",
-    key: "subcategory",
-    route: "/category/:id",
+    name: "Mahsulotni o'zgartirish",
+    key: "edit-pages",
+    route: "/pages/edit/:id",
     meta: {
-      navLink: "/category",
+      navLink: "/pages",
     },
-    component: <SubCategory />,
+    component: <EditPage />,
   },
   {
     type: "collapse",
-    name: "Hamkorlar",
-    key: "partners",
+    name: "Sahifalar",
+    key: "pages",
     icon: <Icon fontSize="small">person</Icon>,
-    route: "/partners",
-    component: <Partners />,
+    route: "/pages",
+    component: <Pages />,
+  },
+  {
+    name: "Yangi Sahifa yaratish",
+    key: "new-pages",
+    route: "/pages/new",
+    meta: {
+      navLink: "/pages",
+    },
+    component: <NewPage />,
+  },
+  {
+    type: "collapse",
+    name: "Sliderlar",
+    key: "slider",
+    route: "/sliders",
+    icon: <Icon fontSize="small">person</Icon>,
+    component: <Sliders />,
+  },
+  {
+    type: "collapse",
+    name: "Manzillar",
+    key: "addresses",
+    icon: <Icon fontSize="small">address</Icon>,
+    route: "/address",
+    component: <Address />,
+  },
+  {
+    type: "collapse",
+    name: "Foydalanuvchilar",
+    key: "users",
+    icon: <Icon fontSize="small">person</Icon>,
+    route: "/users",
+    component: <Users />,
+  },
+
+  {
+    name: "Message",
+    key: "message",
+    route: "/message",
+    component: <Message />,
   },
 ];
 
