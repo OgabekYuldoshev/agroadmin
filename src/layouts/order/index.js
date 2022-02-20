@@ -1,71 +1,65 @@
 import { useEffect, useState } from "react";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
-import { Avatar, Chip, Icon, IconButton } from "@mui/material";
+import { Grid, Card, Icon, IconButton } from "@mui/material";
+import DataTable from "react-data-table-component";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DataTable from "react-data-table-component";
-
 import { useDispatch, useSelector } from "react-redux";
-import { getPage, deletePage } from "redux/reducers/Units";
-import { Link } from "react-router-dom";
-import MDButton from "components/MDButton";
+import { getOrders } from "redux/reducers/App";
+// import { Link } from "react-router-dom";
+import View from "./operations/Veiw";
+// import { baseUrl } from "utils";
 
 function Tables() {
   useEffect(() => {
-    dispatch(getPage());
+    dispatch(getOrders());
   }, []);
 
-  const dispatch = useDispatch();
-  const { pages } = useSelector((state) => state.units);
+  const [edit, setEdit] = useState({ id: null, opened: false });
+  const handleEdit = (id) => setEdit({ id, opened: !edit?.opened });
 
+  const dispatch = useDispatch();
+  const { address } = useSelector((state) => state.app);
   const columns = [
     {
-      name: "ID",
-      width: "50px",
-      selector: (row) => row.id,
-    },
-    {
       name: "Sarlovha",
-      width: "300px",
       selector: (row) => row.title,
     },
     {
-      name: "Content",
-      width: "350px",
-      selector: (row) => row.content,
+      name: "Nomi",
+      wrap: true,
+      selector: (row) => row.name,
     },
     {
-      name: "Type",
-      width: "100px",
-      selector: (row) => (row.page_id === 1 ? "Haqida" : "Xizmatlar"),
+      name: "Address",
+      wrap: true,
+      selector: (row) => row.address,
     },
     {
-      name: "",
+      name: "Tel",
+      selector: (row) => row.tel,
+    },
+    {
+      name: "Qo'shimcha",
+      wrap: true,
+      selector: (row) => row.shop_phone_number,
+    },
+    {
+      title: "Action",
       right: true,
-      width: "250px",
       cell: (row) => (
         <MDBox display="flex">
-          <Link to={`/pages/edit/${row.id}`}>
-            <IconButton>
-              <Icon fontSize="small" color="success">
-                edit
-              </Icon>
-            </IconButton>
-          </Link>
-          <IconButton onClick={() => dispatch(deletePage(row.id))}>
-            <Icon fontSize="small" color="error">
-              delete
+          <IconButton onClick={() => handleEdit(row.id)}>
+            <Icon fontSize="small" color="success">
+              visbility
             </Icon>
           </IconButton>
         </MDBox>
       ),
     },
   ];
-
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -87,14 +81,12 @@ function Tables() {
                 alignItems="center"
               >
                 <MDTypography variant="h6" color="white">
-                  Sahifalar
+                  Buyurtmalar
                 </MDTypography>
-                <Link to="/pages/new">
-                  <MDButton>Sahifa qo'shish</MDButton>
-                </Link>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={pages} pagination />
+                <DataTable columns={columns} data={address} pagination />
+                <View item={edit} toggle={handleEdit} />
               </MDBox>
             </Card>
           </Grid>

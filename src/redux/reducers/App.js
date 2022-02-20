@@ -28,6 +28,11 @@ export const deleteAddress = createAsyncThunk("app/updateAddress", async (id, { 
   return response.data?.data;
 });
 
+export const getOrders = createAsyncThunk("app/getOrders", async () => {
+  const response = await http.get("/admin/orders");
+  return response.data?.data;
+});
+
 export const appSlice = createSlice({
   name: "app",
   initialState: {
@@ -57,6 +62,12 @@ export const appSlice = createSlice({
       toast.success("Manzil o'chirildi!");
     },
     [deleteAddress.rejected]: (undefined, action) => {
+      toast.error(action.payload);
+    },
+    [getOrders.fulfilled]: (state, action) => {
+      state.orders = action.payload;
+    },
+    [getOrders.rejected]: (undefined, action) => {
       toast.error(action.payload);
     },
   },

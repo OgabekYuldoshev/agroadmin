@@ -8,6 +8,7 @@ import Pages from "layouts/pages";
 import Sliders from "layouts/slider";
 import Message from "layouts/message";
 import Address from "layouts/address";
+import Order from "layouts/order";
 import NewPage from "layouts/pages/NewPages";
 import EditPage from "layouts/pages/Edit";
 import NewProduct from "layouts/product/NewProducs";
@@ -85,6 +86,14 @@ const routes = [
       navLink: "/pages",
     },
     component: <EditPage />,
+  },
+  {
+    type: "collapse",
+    name: "Buyurtmalar",
+    key: "orders",
+    icon: <Icon fontSize="small">shopping_cart</Icon>,
+    route: "/orders",
+    component: <Order />,
   },
   {
     type: "collapse",
