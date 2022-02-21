@@ -43,7 +43,7 @@ export default (props) => {
                         <MDInput type="name" name="name" defaultValue={formik.values.link} fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Name" />
                     </Grid>
                     <Grid item xs={12}>
-                        <MDInput type="file" accept="image/png,image/jpg,image/jpeg" fullWidth name="image" onChange={(event) => {
+                        <MDInput type="file" inputProps={{ accept: ".png,.jpg,.jpeg" }} fullWidth name="image" onChange={(event) => {
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid>

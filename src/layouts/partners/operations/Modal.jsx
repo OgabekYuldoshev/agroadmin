@@ -7,17 +7,12 @@ import MDInput from "components/MDInput"
 import ModalCom from "components/MDModal"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
-import { useParams } from "react-router-dom"
 import { createPartner, updatePartner } from "redux/reducers/Partners"
 import * as Yup from "yup"
 
 const PartnerSchema = Yup.object({
     image: Yup.mixed(),
-    name: Yup.object({
-        uz: Yup.string().required(),
-        en: Yup.string().required(),
-        ru: Yup.string().required()
-    }),
+    name: Yup.string().required(),
     link: Yup.string().required(),
     type_id: Yup.string().required()
 })
@@ -30,11 +25,7 @@ export default (props) => {
         enableReinitialize: true,
         initialValues: {
             image: null,
-            name: {
-                uz: found?.name?.uz || '',
-                en: found?.name?.en || '',
-                ru: found?.name?.ru || ''
-            },
+            name: found?.name || '',
             link: found?.link || '',
             type_id: found?.type_id || '',
             is_active: found?.is_active || ''
@@ -66,15 +57,13 @@ export default (props) => {
                 <Grid container spacing={4}>
 
                     <Grid item xs={12}>
-                        <MDInput type="file" accept="image/png,image/jpg,image/jpeg" fullWidth name="image" onChange={(event) => {
+                        <MDInput type="file" inputProps={{ accept: '.png, .jpg, .jpeg' }} fullWidth name="image" onChange={(event) => {
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid>
 
                     <Grid item xs={12} display="flex" justifyContent="space-between" gap={2}>
-                        <MDInput name="name[uz]" defaultValue={formik.values.name["uz"]} fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi UZ" />
-                        <MDInput name="name[ru]" defaultValue={formik.values.name["ru"]} fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi RU" />
-                        <MDInput name="name[en]" defaultValue={formik.values.name["en"]} fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi EN" />
+                        <MDInput name="name" defaultValue={formik.values.name} fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi" />
                     </Grid>
                     <Grid item xs={6} display="grid" gap={2}>
                         <MDInput type="link" name="link" defaultValue={formik.values.link} fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Web sahifa urli" />

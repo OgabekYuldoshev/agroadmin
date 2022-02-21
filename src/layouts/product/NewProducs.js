@@ -192,7 +192,6 @@ function NewProduct() {
                 inputProps={{ multiple: true, accept: ".png, .jpg, .jpeg" }}
                 label="Rasm"
                 onChange={(e) => {
-                  console.log(e)
                   if (e.target?.files?.length > 3) {
                     e.target.value = ''
                     toast.warning("Siz maksimum 3ta rasm tanlay olasiz!")
