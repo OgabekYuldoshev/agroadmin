@@ -212,7 +212,7 @@ function EditProduct() {
                 >
                   {categories?.map((item, index) => (
                     <MenuItem key={index} value={item?.id}>
-                      {item?.name}
+                      {item?.name_uz}
                     </MenuItem>
                   ))}
                 </Select>

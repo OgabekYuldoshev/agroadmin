@@ -16,8 +16,12 @@ import * as yup from "yup";
 import { unwrapResult } from "@reduxjs/toolkit";
 
 const Validator = yup.object({
-  title: yup.string().required(),
-  content: yup.string().required(),
+  title_uz: yup.string().required(),
+  title_ru: yup.string().required(),
+  title_en: yup.string().required(),
+  content_uz: yup.string().required(),
+  content_ru: yup.string().required(),
+  content_en: yup.string().required(),
 });
 
 function NewPage() {
@@ -26,9 +30,13 @@ function NewPage() {
   const formik = useFormik({
     validationSchema: Validator,
     initialValues: {
-      title: "",
+      title_uz: "",
+      title_ru: "",
+      title_en: "",
       page_id: "",
-      content: "",
+      content_uz: "",
+      content_ru: "",
+      content_en: "",
     },
     onSubmit: (values) => {
       dispatch(createPage(values))
@@ -44,16 +52,37 @@ function NewPage() {
         <Typography mb={2}>Yangi sahifa yaratish</Typography>
         <MDBox onSubmit={formik.handleSubmit} role="form" component="form" fullWidth>
           <Grid container spacing={2} fullWidth>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
               <MDInput
+                value={formik.values.title_uz}
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                name="title"
-                label="Sarlovha"
+                name="title_uz"
+                label="Sarlovha UZ"
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={3}>
+              <MDInput
+                value={formik.values.title_ru}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                name="title_ru"
+                label="Sarlovha RU"
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <MDInput
+                value={formik.values.title_en}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                fullWidth
+                name="title_en"
+                label="Sarlovha EN"
+              />
+            </Grid>
+            <Grid item xs={3}>
               <FormControl fullWidth>
                 <InputLabel id="page_id">Type</InputLabel>
                 <Select
@@ -73,10 +102,29 @@ function NewPage() {
             </Grid>
             <Grid item xs={12}>
               <MDTypography variant="label" fontSize={15} component="label" mb={1}>
+                Content UZ
+              </MDTypography>
+              <CKEditorComponent
+                data={formik.values.content_uz}
+                onChange={(undefined, editor) => formik.setFieldValue("content_uz", editor?.getData())}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MDTypography variant="label" fontSize={15} component="label" mb={1}>
+                Content RU
+              </MDTypography>
+              <CKEditorComponent
+                data={formik.values.content_ru}
+                onChange={(undefined, editor) => formik.setFieldValue("content_ru", editor?.getData())}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <MDTypography variant="label" fontSize={15} component="label" mb={1}>
                 Content
               </MDTypography>
               <CKEditorComponent
-                onChange={(undefined, editor) => formik.setFieldValue("content", editor?.getData())}
+                data={formik.values.content_en}
+                onChange={(undefined, editor) => formik.setFieldValue("content_en", editor?.getData())}
               />
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="space-between">

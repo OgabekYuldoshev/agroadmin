@@ -29,14 +29,28 @@ function Tables() {
       selector: (row) => row.id,
     },
     {
-      name: "Sarlovha",
-      width: "300px",
-      selector: (row) => row.title,
+      name: "Sarlovha UZ",
+      selector: (row) => row.title_uz,
     },
     {
-      name: "Content",
-      width: "350px",
-      selector: (row) => row.content,
+      name: "Sarlovha RU",
+      selector: (row) => row.title_ru,
+    },
+    {
+      name: "Sarlovha EN",
+      selector: (row) => row.title_en,
+    },
+    {
+      name: "Content UZ",
+      selector: (row) => row.content_uz,
+    },
+    {
+      name: "Content RU",
+      selector: (row) => row.content_ru,
+    },
+    {
+      name: "Content EN",
+      selector: (row) => row.content_en,
     },
     {
       name: "Type",

@@ -34,7 +34,7 @@ const Validator = yup.object({
   nett_weight: yup.string().required(),
   unit_id: yup.string().required(),
   partner_id: yup.string().required(),
-  images: yup.mixed().required(),
+  images: yup.array().required()
 });
 
 function NewProduct() {
@@ -72,12 +72,18 @@ function NewProduct() {
     onSubmit: (values) => {
       const formData = new FormData();
       for (const name in values) {
-        formData.append(name, values[name]);
+        if (name === "images") {
+          for (let i = 0; i < values[name]?.length; i++) {
+            formData.append(`images[${i}]`, values[name][i]);
+          }
+        } else {
+          formData.append(name, values[name]);
+        }
       }
       dispatch(createProduct(formData)).then(unwrapResult).then(() => navigate.apply('/products'))
     },
   });
-
+  console.log(formik.values)
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -181,10 +187,10 @@ function NewProduct() {
               <MDInput
                 type="file"
                 fullWidth
-                name="image"
-                multiple
+                name="images"
+                inputProps={{ multiple: true, accept: ".png, .jpg, .jpeg" }}
                 label="Rasm"
-                onChange={(e) => formik.setFieldValue("images", e.target.files[0])}
+                onChange={(e) => formik.setFieldValue(`images`, Array.from(e.target.files))}
               />
             </Grid>
             <Grid item xs={4}>
