@@ -19,6 +19,7 @@ import MDTypography from "components/MDTypography";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { toast } from "react-toastify";
 
 const Validator = yup.object({
   name_uz: yup.string().required(),
@@ -190,7 +191,15 @@ function NewProduct() {
                 name="images"
                 inputProps={{ multiple: true, accept: ".png, .jpg, .jpeg" }}
                 label="Rasm"
-                onChange={(e) => formik.setFieldValue(`images`, Array.from(e.target.files))}
+                onChange={(e) => {
+                  console.log(e)
+                  if (e.target?.files?.length > 3) {
+                    e.target.value = ''
+                    toast.warning("Siz maksimum 3ta rasm tanlay olasiz!")
+                  } else {
+                    formik.setFieldValue(`images`, Array.from(e.target.files))
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={4}>
