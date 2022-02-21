@@ -7,7 +7,7 @@ export const getCurrenciesList = createAsyncThunk(
   "app/getCurrenciesList",
   async (undefined, { rejectWithValue }) => {
     try {
-      const response = await http.get("/admin/currencies");
+      const response = await http.get("/currencies");
       return response.data?.data;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -19,7 +19,7 @@ export const getUnitList = createAsyncThunk(
   "app/getUnitList",
   async (undefined, { rejectWithValue }) => {
     try {
-      const response = await http.get("/admin/units");
+      const response = await http.get("/units");
       return response.data?.data;
     } catch (error) {
       return rejectWithValue(error);
@@ -180,6 +180,6 @@ export const currenciesSlice = createSlice({
   },
 });
 
-export const {} = currenciesSlice.actions;
+export const { } = currenciesSlice.actions;
 
 export default currenciesSlice.reducer;

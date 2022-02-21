@@ -20,16 +20,12 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 const Validator = yup.object({
-  name: yup.object({
-    uz: yup.string().required(),
-    ru: yup.string().required(),
-    en: yup.string().required(),
-  }),
-  specification: yup.object({
-    uz: yup.string().required(),
-    ru: yup.string().required(),
-    en: yup.string().required(),
-  }),
+  name_uz: yup.string().required(),
+  name_en: yup.string().required(),
+  name_ru: yup.string().required(),
+  specification_uz: yup.string().required(),
+  specification_ru: yup.string().required(),
+  specification_en: yup.string().required(),
   code: yup.string().required(),
   price: yup.string().required(),
   currency_id: yup.string().required(),
@@ -60,16 +56,12 @@ function EditProduct() {
     enableReinitialize: true,
     validationSchema: Validator,
     initialValues: {
-      name: {
-        uz: single?.name?.uz || "",
-        en: single?.name?.en || "",
-        ru: single?.name?.ru || "",
-      },
-      specification: {
-        uz: single?.specification?.uz || "",
-        en: single?.specification?.en || "",
-        ru: single?.specification?.ru || "",
-      },
+      name_uz: single?.name_uz || "",
+      name_en: single?.name_en || "",
+      name_ru: single?.name_ru || "",
+      specification_uz: single?.specification_uz || "",
+      specification_en: single?.specification_en || "",
+      specification_ru: single?.specification_ru || "",
       code: single?.code || "",
       price: single?.price || "",
       currency_id: single?.currency_id || "",
@@ -100,8 +92,8 @@ function EditProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                value={formik.values.name["uz"]}
-                name="name[uz]"
+                value={formik.values.name_uz}
+                name="name_uz"
                 label="Nomi UZ"
               />
             </Grid>
@@ -110,8 +102,8 @@ function EditProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                value={formik.values.name["ru"]}
-                name="name[ru]"
+                value={formik.values.name_ru}
+                name="name_ru"
                 label="Nomi RU"
               />
             </Grid>
@@ -120,8 +112,8 @@ function EditProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                value={formik.values.name["en"]}
-                name="name[en]"
+                value={formik.values.name_en}
+                name="name_en"
                 label="Nomi EN"
               />
             </Grid>
@@ -271,9 +263,9 @@ function EditProduct() {
                     Mahsulot haqida UZ
                   </MDTypography>
                   <CKEditorComponent
-                    data={formik.values.specification["uz"]}
+                    data={formik.values.specification_uz}
                     onChange={(undefined, editor) =>
-                      formik.setFieldValue("specification[uz]", editor?.getData())
+                      formik.setFieldValue("specification_uz", editor?.getData())
                     }
                   />
                 </Grid>
@@ -282,9 +274,9 @@ function EditProduct() {
                     Mahsulot haqida RU
                   </MDTypography>
                   <CKEditorComponent
-                    data={formik.values.specification["ru"]}
+                    data={formik.values.specification_ru}
                     onChange={(undefined, editor) =>
-                      formik.setFieldValue("specification[ru]", editor?.getData())
+                      formik.setFieldValue("specification_ru", editor?.getData())
                     }
                   />
                 </Grid>
@@ -293,9 +285,9 @@ function EditProduct() {
                     Mahsulot haqida EN
                   </MDTypography>
                   <CKEditorComponent
-                    data={formik.values.specification["en"]}
+                    data={formik.values.specification_en}
                     onChange={(undefined, editor) =>
-                      formik.setFieldValue("specification[en]", editor?.getData())
+                      formik.setFieldValue("specification_en", editor?.getData())
                     }
                   />
                 </Grid>

@@ -5,7 +5,7 @@ import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "redux/reducers/Products";
+import { useNavigate } from "react-router-dom";
 import { FormControl, Typography, InputLabel, Select, MenuItem } from "@mui/material";
 import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
@@ -18,18 +18,15 @@ import CKEditorComponent from "components/CKEditor";
 import MDTypography from "components/MDTypography";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Validator = yup.object({
-  name: yup.object({
-    uz: yup.string().required(),
-    ru: yup.string().required(),
-    en: yup.string().required(),
-  }),
-  specification: yup.object({
-    uz: yup.string().required(),
-    ru: yup.string().required(),
-    en: yup.string().required(),
-  }),
+  name_uz: yup.string().required(),
+  name_ru: yup.string().required(),
+  name_en: yup.string().required(),
+  specification_uz: yup.string().required(),
+  specification_ru: yup.string().required(),
+  specification_en: yup.string().required(),
   code: yup.string().required(),
   price: yup.string().required(),
   currency_id: yup.string().required(),
@@ -42,6 +39,7 @@ const Validator = yup.object({
 
 function NewProduct() {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const { currencies, unit } = useSelector((state) => state.units);
   const { categories } = useSelector((state) => state.category);
   const { partners } = useSelector((state) => state.partner);
@@ -56,16 +54,12 @@ function NewProduct() {
   const formik = useFormik({
     validationSchema: Validator,
     initialValues: {
-      name: {
-        uz: "",
-        en: "",
-        ru: "",
-      },
-      specification: {
-        uz: "",
-        en: "",
-        ru: "",
-      },
+      name_uz: "",
+      name_en: "",
+      name_ru: "",
+      specification_uz: "",
+      specification_en: "",
+      specification_ru: "",
       code: "",
       price: "",
       currency_id: "",
@@ -80,7 +74,7 @@ function NewProduct() {
       for (const name in values) {
         formData.append(name, values[name]);
       }
-      dispatch(createProduct(formData));
+      dispatch(createProduct(formData)).then(unwrapResult).then(() => navigate.apply('/products'))
     },
   });
 
@@ -96,7 +90,7 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                name="name[uz]"
+                name="name_uz"
                 label="Nomi UZ"
               />
             </Grid>
@@ -105,7 +99,7 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                name="name[ru]"
+                name="name_ru"
                 label="Nomi RU"
               />
             </Grid>
@@ -114,7 +108,7 @@ function NewProduct() {
                 onChange={formik.handleChange}
                 onBlur={formik.handleBlur}
                 fullWidth
-                name="name[en]"
+                name="name_en"
                 label="Nomi EN"
               />
             </Grid>
@@ -207,7 +201,7 @@ function NewProduct() {
                 >
                   {categories?.map((item, index) => (
                     <MenuItem key={index} value={item?.id}>
-                      {item?.name}
+                      {item?.name_uz}
                     </MenuItem>
                   ))}
                 </Select>
@@ -257,7 +251,7 @@ function NewProduct() {
                   </MDTypography>
                   <CKEditorComponent
                     onChange={(undefined, editor) =>
-                      formik.setFieldValue("specification[uz]", editor?.getData())
+                      formik.setFieldValue("specification_uz", editor?.getData())
                     }
                   />
                 </Grid>
@@ -267,7 +261,7 @@ function NewProduct() {
                   </MDTypography>
                   <CKEditorComponent
                     onChange={(undefined, editor) =>
-                      formik.setFieldValue("specification[ru]", editor?.getData())
+                      formik.setFieldValue("specification_ru", editor?.getData())
                     }
                   />
                 </Grid>
@@ -277,7 +271,7 @@ function NewProduct() {
                   </MDTypography>
                   <CKEditorComponent
                     onChange={(undefined, editor) =>
-                      formik.setFieldValue("specification[en]", editor?.getData())
+                      formik.setFieldValue("specification_en", editor?.getData())
                     }
                   />
                 </Grid>

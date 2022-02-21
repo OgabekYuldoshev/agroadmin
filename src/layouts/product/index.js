@@ -17,7 +17,7 @@ import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
 function Tables() {
   useEffect(() => {
-    dispatch(getProducts({ size: 25 }));
+    dispatch(getProducts());
   }, []);
 
   const dispatch = useDispatch();
@@ -29,10 +29,16 @@ function Tables() {
       selector: (row) => row.code,
     },
     {
-      title: "Nomi",
-      dataIndex: "name",
-      key: "name",
-      selector: (row) => row.name,
+      title: "Nomi UZ",
+      selector: (row) => row.name_uz,
+    },
+    {
+      title: "Nomi RU",
+      selector: (row) => row.name_ru,
+    },
+    {
+      title: "Nomi EN",
+      selector: (row) => row.name_en,
     },
     {
       title: "Narxi",

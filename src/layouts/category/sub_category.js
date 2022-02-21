@@ -42,8 +42,16 @@ function Category() {
       selector: (row) => row.id,
     },
     {
-      title: "Name",
-      selector: (row) => row.name,
+      title: "Name UZ",
+      selector: (row) => row.name_uz,
+    },
+    {
+      title: "Name RU",
+      selector: (row) => row.name_ru,
+    },
+    {
+      title: "Name EN",
+      selector: (row) => row.name_en,
     },
     {
       title: "Level",
