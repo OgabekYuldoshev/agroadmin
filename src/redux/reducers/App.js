@@ -34,7 +34,7 @@ export const getOrders = createAsyncThunk("app/getOrders", async () => {
 });
 
 export const getOrdersDetails = createAsyncThunk("app/getOrdersDetails", async (id) => {
-  const response = await http.get(`/admin/orders/${id}`);
+  const response = await http.get(`/admin/orders-show/${id}`);
   return response.data?.data;
 });
 
@@ -43,7 +43,7 @@ export const appSlice = createSlice({
   initialState: {
     address: [],
     orders: [],
-    orderDetails: {}
+    orderDetails: []
   },
   reducers: {},
   extraReducers: {

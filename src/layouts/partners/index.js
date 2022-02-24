@@ -11,7 +11,7 @@ import DataTable from "react-data-table-component";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getPartner } from "redux/reducers/Partners";
-import { Link } from "react-router-dom";
+
 import ModalCom from "./operations/Modal";
 import MDButton from "components/MDButton";
 import { baseUrl } from "utils"
@@ -43,12 +43,16 @@ function Tables() {
     },
     {
       name: "Web Sahifasi",
-      width: "350px",
+      width: "250px",
       cell: (row) => (
         <a target="_blank" href={row.link}>
           {row.link}
         </a>
       ),
+    },
+    {
+      name: "Turi",
+      selector: (row) => row.type_id === 1 ? 'Asosiy hamkor' : row.type_id === 2 ? "Hamkor" : "Mijoz",
     },
     {
       name: "Status",
@@ -61,6 +65,7 @@ function Tables() {
     },
     {
       name: "",
+      right: true,
       width: "250px",
       cell: (row) => (
         <MDBox display="flex">
@@ -100,7 +105,7 @@ function Tables() {
                 <MDButton onClick={handleEdit}>Hamkor qo'shish</MDButton>
               </MDBox>
               <MDBox p={3}>
-                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={partners} pagination />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={partners} paginationPerPage={100} />
                 <ModalCom toggle={() => handleEdit({ open: false, id: null })} item={edit} />
               </MDBox>
             </Card>

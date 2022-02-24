@@ -1,24 +1,24 @@
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-import moment from "moment";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "react-data-table-component";
-
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "redux/reducers/Products";
-import { Chip, IconButton, Icon } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Chip, IconButton, Icon, Pagination } from "@mui/material";
+import { Link, useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import MDButton from "components/MDButton";
+
 function Tables() {
+  const navigate = useNavigate()
+  const location = useLocation()
   useEffect(() => {
-    dispatch(getProducts());
-  }, []);
+    dispatch(getProducts(location.search));
+  }, [location]);
 
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
@@ -85,6 +85,20 @@ function Tables() {
     },
   ];
 
+  const handlePaginate = (e, page) => {
+    console.log(location.pathname, page)
+    navigate({
+      pathname: location.pathname,
+      search: `?${createSearchParams({
+        page
+      })}`
+    });
+  }
+
+  const PaginationCom = () => {
+    return <Pagination defaultPage={products?.current_page} onChange={handlePaginate} count={products?.last_page} color="primary" style={{ margin: 'auto' }} />
+  }
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -114,14 +128,12 @@ function Tables() {
               </MDBox>
               <MDBox p={3}>
                 <DataTable
-                  // paginationDefaultPage={total}
-                  // paginationRowsPerPageOptions={[10, 25, 50, 75]}
-                  // onChangeRowsPerPage={(e) => console.log(e)}
-                  // onChangePage={(e) => console.log(e)}
+                  pagination
+                  paginationPerPage={50}
+                  paginationComponent={PaginationCom}
                   noDataComponent="Ma'lumot mavjud emas!"
                   columns={columns}
-                  data={products}
-                  pagination
+                  data={products?.data}
                 />
               </MDBox>
             </Card>

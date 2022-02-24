@@ -7,10 +7,8 @@ export const getProducts = createAsyncThunk(
   "app/getProducts",
   async (params, { rejectWithValue }) => {
     try {
-      const response = await http.get(`/admin/products`, {
-        params: params,
-      });
-      return response.data?.data;
+      const response = await http.get(`/admin/products${params}`);
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.message);
     }
@@ -127,6 +125,6 @@ export const productsSlice = createSlice({
   // }
 });
 
-export const {} = productsSlice.actions;
+export const { } = productsSlice.actions;
 
 export default productsSlice.reducer;

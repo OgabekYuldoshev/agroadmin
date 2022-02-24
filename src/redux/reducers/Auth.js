@@ -4,10 +4,6 @@ import { http } from "utils";
 import { toast } from "react-toastify";
 
 export const loadUser = createAsyncThunk("auth/getProfile", async (undefined, { rejectWithValue }) => {
-  // const token = localStorage.getItem("Qaccess_Token");
-  // if (token) {
-  //   http.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  // }
   try {
     const response = await http.get("/admin/admin-profile");
     if (response?.data?.data) {

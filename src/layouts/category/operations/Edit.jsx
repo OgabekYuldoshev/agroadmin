@@ -25,6 +25,7 @@ export default (props) => {
     const dispatch = useDispatch()
     const { categories } = useSelector(state => state.category)
     const found = categories?.find(item => item.id === props.item?.id)
+    console.log(found.description_uz)
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -67,9 +68,9 @@ export default (props) => {
                         )
                     }
                     <Grid item xs={12} display="flex" justifyContent="space-between" gap={2}>
-                        <MDInput name="name_uz" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi UZ" />
-                        <MDInput name="name_ru" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi RU" />
-                        <MDInput name="name_en" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi EN" />
+                        <MDInput defaultValue={formik.values.name_uz} name="name_uz" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi UZ" />
+                        <MDInput defaultValue={formik.values.name_ru} name="name_ru" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi RU" />
+                        <MDInput defaultValue={formik.values.name_en} name="name_en" fullWidth onChange={formik.handleChange} onBlur={formik.handleBlur} label="Nomi EN" />
                     </Grid>
                     <Grid item xs={12} display="grid" gap={2}>
                         <TextField
@@ -78,6 +79,7 @@ export default (props) => {
                             label="Qisqacha UZ"
                             name="description_uz"
                             multiline
+                            defaultValue={formik.values.description_uz}
                             onChange={formik.handleChange} onBlur={formik.handleBlur}
                         />
                         <TextField
@@ -86,6 +88,7 @@ export default (props) => {
                             label="Qisqacha RU"
                             name="description_ru"
                             multiline
+                            defaultValue={formik.values.description_ru}
                             onChange={formik.handleChange} onBlur={formik.handleBlur}
                         />
                         <TextField
@@ -94,6 +97,7 @@ export default (props) => {
                             label="Qisqacha UN"
                             name="description_en"
                             multiline
+                            defaultValue={formik.values.description_en}
                             onChange={formik.handleChange} onBlur={formik.handleBlur}
                         />
                     </Grid>

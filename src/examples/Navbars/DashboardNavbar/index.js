@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 // react-router components
 import { useLocation, Link } from "react-router-dom";
-
 // prop-types is a library for typechecking of props.
 import PropTypes from "prop-types";
 
@@ -10,20 +9,17 @@ import PropTypes from "prop-types";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Menu from "@mui/material/Menu";
 import Icon from "@mui/material/Icon";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { handleLogout } from "redux/reducers/Auth";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
-import MDInput from "components/MDInput";
 
 // Material Dashboard 2 React example components
 import Breadcrumbs from "examples/Breadcrumbs";
-import NotificationItem from "examples/Items/NotificationItem";
 
 // Custom styles for DashboardNavbar
 import {
@@ -43,11 +39,13 @@ import {
 } from "context";
 
 function DashboardNavbar({ absolute, light, isMini }) {
+  const { userData } = useSelector(state => state.auth)
   const [navbarType, setNavbarType] = useState();
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentNavbar, fixedNavbar, openConfigurator, darkMode } = controller;
   // const [openMenu, setOpenMenu] = useState(false);
   const route = useLocation().pathname.split("/").slice(1);
+  console.log(userData)
 
   const navigate = useNavigate();
 
@@ -59,56 +57,26 @@ function DashboardNavbar({ absolute, light, isMini }) {
   };
 
   useEffect(() => {
-    // Setting the navbar type
     if (fixedNavbar) {
       setNavbarType("sticky");
     } else {
       setNavbarType("static");
     }
 
-    // A function that sets the transparent state of the navbar.
     function handleTransparentNavbar() {
       setTransparentNavbar(dispatch, (fixedNavbar && window.scrollY === 0) || !fixedNavbar);
     }
 
-    /** 
-     The event listener that's calling the handleTransparentNavbar function when 
-     scrolling the window.
-    */
     window.addEventListener("scroll", handleTransparentNavbar);
 
-    // Call the handleTransparentNavbar function to set the state with the initial value.
     handleTransparentNavbar();
 
-    // Remove event listener on cleanup
     return () => window.removeEventListener("scroll", handleTransparentNavbar);
   }, [dispatch, fixedNavbar]);
 
   const handleMiniSidenav = () => setMiniSidenav(dispatch, !miniSidenav);
   const handleConfiguratorOpen = () => setOpenConfigurator(dispatch, !openConfigurator);
-  // const handleOpenMenu = (event) => setOpenMenu(event.currentTarget);
-  // const handleCloseMenu = () => setOpenMenu(false);
 
-  // Render the notifications menu
-  // const renderMenu = () => (
-  //   <Menu
-  //     anchorEl={openMenu}
-  //     anchorReference={null}
-  //     anchorOrigin={{
-  //       vertical: "bottom",
-  //       horizontal: "left",
-  //     }}
-  //     open={Boolean(openMenu)}
-  //     onClose={handleCloseMenu}
-  //     sx={{ mt: 2 }}
-  //   >
-  //     <NotificationItem icon={<Icon>email</Icon>} title="Check new messages" />
-  //     <NotificationItem icon={<Icon>podcasts</Icon>} title="Manage Podcast sessions" />
-  //     <NotificationItem icon={<Icon>shopping_cart</Icon>} title="Payment successfully completed" />
-  //   </Menu>
-  // );
-
-  // Styles for the navbar icons
   const iconsStyle = ({ palette: { dark, white, text }, functions: { rgba } }) => ({
     color: () => {
       let colorValue = light || darkMode ? white.main : dark.main;
@@ -133,11 +101,9 @@ function DashboardNavbar({ absolute, light, isMini }) {
         </MDBox>
         {isMini ? null : (
           <MDBox sx={(theme) => navbarRow(theme, { isMini })}>
-            <MDBox pr={1}>
-              <MDInput label="Search here" />
-            </MDBox>
             <MDBox color={light ? "white" : "inherit"}>
               <IconButton sx={navbarIconButton} size="small" disableRipple>
+                <span style={{ fontSize: '15px', padding: '0px 10px' }}>{userData.first_name}</span>
                 <Icon sx={iconsStyle}>account_circle</Icon>
               </IconButton>
               <IconButton

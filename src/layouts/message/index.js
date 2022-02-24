@@ -46,26 +46,28 @@ function Tables() {
                 </MDTypography>
               </MDBox>
               <MDBox p={3}>
-                {messages?.map((item, index) => (
-                  <Accordion key={index}>
-                    <AccordionSummary
-                      expandIcon={<ExpandMoreIcon />}
-                      aria-controls={item?.email}
-                      id={item?.email}
-                    >
-                      <Typography fontSize={15} fontWeight="bold" pr={1}>
-                        {item.name}
-                      </Typography>
-                      <Typography fontSize={14}>{`<${item.email}>`}</Typography>
-                    </AccordionSummary>
-                    <AccordionDetails>
-                      <Typography fontSize={14}>{item?.text}</Typography>
-                      <Typography pt={2} textAlign="end" fontSize={14}>
-                        {getDate(item?.created_at)}
-                      </Typography>
-                    </AccordionDetails>
-                  </Accordion>
-                ))}
+                {
+                  messages?.length ? messages?.map((item, index) => (
+                    <Accordion key={index}>
+                      <AccordionSummary
+                        expandIcon={<ExpandMoreIcon />}
+                        aria-controls={item?.email}
+                        id={item?.email}
+                      >
+                        <Typography fontSize={15} fontWeight="bold" pr={1}>
+                          {item.name}
+                        </Typography>
+                        <Typography fontSize={14}>{`<${item.email}>`}</Typography>
+                      </AccordionSummary>
+                      <AccordionDetails>
+                        <Typography fontSize={14}>{item?.text}</Typography>
+                        <Typography pt={2} textAlign="end" fontSize={14}>
+                          {getDate(item?.created_at)}
+                        </Typography>
+                      </AccordionDetails>
+                    </Accordion>
+                  )) : <p>Ma'lumot topilmadi!</p>
+                }
               </MDBox>
             </Card>
           </Grid>

@@ -19,7 +19,7 @@ export const createCategory = createAsyncThunk("app/createCategory", async (data
     const response = await http.post("/admin/categories", data, {
       "Content-Type": "multipart/form-data",
     });
-    dispatch(getCategory({ Level: data.Level }));
+    dispatch(getCategory({ parent_id: data?.parent_id, Level: data.Level }));
     return response.data;
   } catch (error) {
     return rejectWithValue(error.message)

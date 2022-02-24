@@ -77,7 +77,7 @@ function EditProduct() {
       for (const name in values) {
         formData.append(name, values[name]);
       }
-      dispatch(updateProduct(formData));
+      dispatch(updateProduct({ id, data: formData }));
     },
   });
 

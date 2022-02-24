@@ -30,26 +30,32 @@ function Tables() {
     },
     {
       name: "Sarlovha UZ",
+      width: "150px",
       selector: (row) => row.title_uz,
     },
     {
       name: "Sarlovha RU",
+      width: "150px",
       selector: (row) => row.title_ru,
     },
     {
       name: "Sarlovha EN",
+      width: "150px",
       selector: (row) => row.title_en,
     },
     {
       name: "Content UZ",
+      width: "150px",
       selector: (row) => row.content_uz,
     },
     {
       name: "Content RU",
+      width: "150px",
       selector: (row) => row.content_ru,
     },
     {
       name: "Content EN",
+      width: "150px",
       selector: (row) => row.content_en,
     },
     {
@@ -60,7 +66,6 @@ function Tables() {
     {
       name: "",
       right: true,
-      width: "250px",
       cell: (row) => (
         <MDBox display="flex">
           <Link to={`/pages/edit/${row.id}`}>

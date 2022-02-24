@@ -69,7 +69,7 @@ function Basic() {
               />
             </MDBox>
             <MDBox mt={4} mb={1}>
-              <MDButton type="submit" variant="gradient" color="info" fullWidth>
+              <MDButton disabled={isLoading} type="submit" variant="gradient" color="info" fullWidth>
                 {
                   isLoading ? <TailSpin color="#FFFFFF" height={20} width={20} /> : <span>sign in</span>
                 }
