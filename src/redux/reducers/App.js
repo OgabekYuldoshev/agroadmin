@@ -33,10 +33,17 @@ export const getOrders = createAsyncThunk("app/getOrders", async () => {
   return response.data?.data;
 });
 
+export const getOrdersDetails = createAsyncThunk("app/getOrdersDetails", async (id) => {
+  const response = await http.get(`/admin/orders/${id}`);
+  return response.data?.data;
+});
+
 export const appSlice = createSlice({
   name: "app",
   initialState: {
     address: [],
+    orders: [],
+    orderDetails: {}
   },
   reducers: {},
   extraReducers: {
@@ -70,9 +77,15 @@ export const appSlice = createSlice({
     [getOrders.rejected]: (undefined, action) => {
       toast.error(action.payload);
     },
+    [getOrdersDetails.fulfilled]: (state, action) => {
+      state.orderDetails = action.payload;
+    },
+    [getOrdersDetails.rejected]: (undefined, action) => {
+      toast.error(action.payload);
+    }
   },
 });
 
-export const {} = appSlice.actions;
+export const { } = appSlice.actions;
 
 export default appSlice.reducer;

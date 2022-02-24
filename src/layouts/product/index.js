@@ -118,6 +118,7 @@ function Tables() {
                   // paginationRowsPerPageOptions={[10, 25, 50, 75]}
                   // onChangeRowsPerPage={(e) => console.log(e)}
                   // onChangePage={(e) => console.log(e)}
+                  noDataComponent="Ma'lumot mavjud emas!"
                   columns={columns}
                   data={products}
                   pagination

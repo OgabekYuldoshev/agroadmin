@@ -11,13 +11,14 @@ import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
-import { createProduct, getSingleProduct } from "redux/reducers/Products";
+import { updateProduct, getSingleProduct } from "redux/reducers/Products";
 import { getCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
 import CKEditorComponent from "components/CKEditor";
 import MDTypography from "components/MDTypography";
 import { useFormik } from "formik";
 import * as yup from "yup";
+import { toast } from "react-toastify";
 
 const Validator = yup.object({
   name_uz: yup.string().required(),
@@ -76,7 +77,7 @@ function EditProduct() {
       for (const name in values) {
         formData.append(name, values[name]);
       }
-      dispatch(createProduct(formData));
+      dispatch(updateProduct(formData));
     },
   });
 
@@ -191,10 +192,17 @@ function EditProduct() {
               <MDInput
                 type="file"
                 fullWidth
-                name="image"
-                multiple
+                name="images"
+                inputProps={{ multiple: true, accept: ".png, .jpg, .jpeg" }}
                 label="Rasm"
-                onChange={(e) => formik.setFieldValue("images", e.target.files[0])}
+                onChange={(e) => {
+                  if (e.target?.files?.length > 3) {
+                    e.target.value = ''
+                    toast.warning("Siz maksimum 3ta rasm tanlay olasiz!")
+                  } else {
+                    formik.setFieldValue(`images`, Array.from(e.target.files))
+                  }
+                }}
               />
             </Grid>
             <Grid item xs={4}>

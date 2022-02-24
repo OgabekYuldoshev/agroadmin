@@ -37,7 +37,7 @@ export default (props) => {
                 formData.append(name, values[name])
             }
             if (found) {
-                dispatch(updatePartner({ id: found?.id, })).then(unwrapResult).then(() => {
+                dispatch(updatePartner({ id: found?.id, value: formData })).then(unwrapResult).then(() => {
                     formik.handleReset()
                     props?.toggle()
                 })
@@ -101,7 +101,6 @@ export default (props) => {
                                 <MenuItem value={1}>Asosiy Hamkor</MenuItem>
                                 <MenuItem value={2}>Hamkor</MenuItem>
                                 <MenuItem value={3}>Mijozlar</MenuItem>
-                                <MenuItem value={4}>Foydali havola</MenuItem>
                             </Select>
                         </FormControl>
                     </Grid>)}

@@ -1,35 +1,20 @@
 import { useState } from "react";
-
-// react-router-dom components
-import { Link } from "react-router-dom";
-
 // @mui material components
 import Card from "@mui/material/Card";
-import Switch from "@mui/material/Switch";
-import Grid from "@mui/material/Grid";
-import MuiLink from "@mui/material/Link";
-
-// @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import GoogleIcon from "@mui/icons-material/Google";
-
+import { TailSpin } from "react-loader-spinner"
+import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import MDInput from "components/MDInput";
 import MDButton from "components/MDButton";
-
-// Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 import { useFormik } from "formik";
 import { useDispatch } from "react-redux";
 import { login } from "redux/reducers/Auth";
 // Images
-import bgImage from "assets/images/bg-sign-in-basic.jpeg";
-
+import { useSelector } from "react-redux"
 function Basic() {
-  const [rememberMe, setRememberMe] = useState(false);
   const dispatch = useDispatch();
   const formik = useFormik({
     initialValues: {
@@ -41,10 +26,10 @@ function Basic() {
     },
   });
 
-  const handleSetRememberMe = () => setRememberMe(!rememberMe);
+  const { isLoading } = useSelector(state => state.auth)
 
   return (
-    <BasicLayout image={bgImage}>
+    <BasicLayout image={'https://images.unsplash.com/photo-1625124376314-7a32b35db9e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1175&q=80'}>
       <Card>
         <MDBox
           variant="gradient"
@@ -85,7 +70,9 @@ function Basic() {
             </MDBox>
             <MDBox mt={4} mb={1}>
               <MDButton type="submit" variant="gradient" color="info" fullWidth>
-                sign in
+                {
+                  isLoading ? <TailSpin color="#FFFFFF" height={20} width={20} /> : <span>sign in</span>
+                }
               </MDButton>
             </MDBox>
           </MDBox>

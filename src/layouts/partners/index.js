@@ -14,6 +14,7 @@ import { getPartner } from "redux/reducers/Partners";
 import { Link } from "react-router-dom";
 import ModalCom from "./operations/Modal";
 import MDButton from "components/MDButton";
+import { baseUrl } from "utils"
 function Tables() {
   useEffect(() => {
     dispatch(getPartner());
@@ -33,7 +34,7 @@ function Tables() {
     {
       name: "Rasm",
       width: "100px",
-      cell: () => <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />,
+      cell: (row) => <Avatar alt={row.name} src={baseUrl + row.image} />,
     },
     {
       name: "Nomi",
@@ -99,7 +100,7 @@ function Tables() {
                 <MDButton onClick={handleEdit}>Hamkor qo'shish</MDButton>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={partners} pagination />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={partners} pagination />
                 <ModalCom toggle={() => handleEdit({ open: false, id: null })} item={edit} />
               </MDBox>
             </Card>

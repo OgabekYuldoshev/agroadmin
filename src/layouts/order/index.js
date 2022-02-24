@@ -21,11 +21,12 @@ function Tables() {
   const handleEdit = (id) => setEdit({ id, opened: !edit?.opened });
 
   const dispatch = useDispatch();
-  const { address } = useSelector((state) => state.app);
+  const { orders } = useSelector((state) => state.app);
+  console.log(orders)
   const columns = [
     {
-      name: "Sarlovha",
-      selector: (row) => row.title,
+      name: "ID",
+      selector: (row) => row.id,
     },
     {
       name: "Nomi",
@@ -85,7 +86,7 @@ function Tables() {
                 </MDTypography>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={address} pagination />
+                <DataTable noDataComponent="Ma'lumot topilmadi!" columns={columns} data={orders?.data} pagination />
                 <View item={edit} toggle={handleEdit} />
               </MDBox>
             </Card>

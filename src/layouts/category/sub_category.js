@@ -116,7 +116,7 @@ function Category() {
                   toggle={() => handleEdit({ open: false, id: null })}
                   item={edit}
                 />
-                <DataTable columns={columns} data={categories} pagination />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={categories} pagination />
               </MDBox>
             </Card>
           </Grid>
