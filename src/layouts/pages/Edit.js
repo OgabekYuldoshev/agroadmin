@@ -104,6 +104,7 @@ function EditPage() {
                 >
                   <MenuItem value={1}>Haqida</MenuItem>
                   <MenuItem value={2}>Xizmatlar</MenuItem>
+                  <MenuItem value={3}>Foydali ilovalar</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
