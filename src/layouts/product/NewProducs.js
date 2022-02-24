@@ -32,6 +32,7 @@ const Validator = yup.object({
   price: yup.string().required(),
   currency_id: yup.string().required(),
   category_id: yup.string().required(),
+  sub_category_id: yup.string(),
   nett_weight: yup.string().required(),
   unit_id: yup.string().required(),
   partner_id: yup.string().required(),
@@ -65,6 +66,7 @@ function NewProduct() {
       price: "",
       currency_id: "",
       category_id: "",
+      sub_category_id: "",
       nett_weight: "",
       unit_id: "",
       partner_id: "",
@@ -81,10 +83,12 @@ function NewProduct() {
           formData.append(name, values[name]);
         }
       }
-      dispatch(createProduct(formData)).then(unwrapResult).then(() => navigate.apply('/products'))
+      dispatch(createProduct(formData)).then(unwrapResult).then(() => navigate('/products'))
     },
   });
-  console.log(formik.values)
+
+  const subCategories = () => categories?.find(item => { return item?.id === formik.values.category_id })
+  console.log(!(subCategories()?.childs?.length))
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -214,6 +218,27 @@ function NewProduct() {
                   label="Kategoryasi"
                 >
                   {categories?.map((item, index) => (
+                    <MenuItem key={index} value={item?.id}>
+                      {item?.name_uz}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="sub_category">Sub kategoryasi</InputLabel>
+                <Select
+                  labelId="sub_category"
+                  id="sub_category"
+                  name="sub_category_id"
+                  onChange={formik.handleChange}
+                  disabled={!formik.values.category_id || !(subCategories()?.childs?.length)}
+                  onBlur={formik.handleBlur}
+                  style={{ padding: "12px 5px" }}
+                  label="Sub kategoryasi"
+                >
+                  {subCategories()?.childs?.map((item, index) => (
                     <MenuItem key={index} value={item?.id}>
                       {item?.name_uz}
                     </MenuItem>
