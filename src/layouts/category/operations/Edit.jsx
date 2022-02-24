@@ -25,7 +25,6 @@ export default (props) => {
     const dispatch = useDispatch()
     const { categories } = useSelector(state => state.category)
     const found = categories?.find(item => item.id === props.item?.id)
-    console.log(found.description_uz)
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
