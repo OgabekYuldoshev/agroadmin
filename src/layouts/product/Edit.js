@@ -75,16 +75,13 @@ function EditProduct() {
       images: "",
     },
     onSubmit: (values) => {
-      const formData = new FormData();
-      for (const name in values) {
-        formData.append(name, values[name]);
-      }
-      dispatch(updateProduct({ id, data: formData }));
+      // const formData = new FormData();
+      // for (const name in values) {
+      //   formData.append(name, values[name]);
+      // }
+      dispatch(updateProduct({ id, data: values }));
     },
   });
-
-  console.log(single)
-
   return (
     <DashboardLayout>
       <DashboardNavbar />

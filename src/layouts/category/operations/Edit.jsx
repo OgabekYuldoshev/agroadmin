@@ -41,11 +41,11 @@ export default (props) => {
         },
         validationSchema: CategorySchema,
         onSubmit: (values) => {
-            const formData = new FormData()
-            for (const name in values) {
-                formData.append(name, values[name])
-            }
-            dispatch(updateCategory({ id: props.item?.id, data: formData })).then(unwrapResult).then(() => {
+            // const formData = new FormData()
+            // for (const name in values) {
+            //     formData.append(name, values[name])
+            // }
+            dispatch(updateCategory({ id: props.item?.id, data: values })).then(unwrapResult).then(() => {
                 formik.handleReset()
                 props?.toggle()
             })
