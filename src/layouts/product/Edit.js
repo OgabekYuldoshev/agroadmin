@@ -33,6 +33,7 @@ const Validator = yup.object({
   category_id: yup.string().required(),
   nett_weight: yup.string().required(),
   unit_id: yup.string().required(),
+  is_active: yup.boolean().required(),
   partner_id: yup.string().required(),
   images: yup.mixed(),
 });
@@ -66,6 +67,7 @@ function EditProduct() {
       code: single?.code || "",
       price: single?.price || "",
       currency_id: 2,
+      is_active: single?.price || '',
       category_id: single?.category_id || "",
       nett_weight: single?.unit_id || "",
       unit_id: single?.unit_id || "",
@@ -80,6 +82,8 @@ function EditProduct() {
       dispatch(updateProduct({ id, data: formData }));
     },
   });
+
+  console.log(single)
 
   return (
     <DashboardLayout>
@@ -224,6 +228,28 @@ function EditProduct() {
                       {item?.name_uz}
                     </MenuItem>
                   ))}
+                </Select>
+              </FormControl>
+            </Grid>
+            <Grid item xs={4}>
+              <FormControl fullWidth>
+                <InputLabel id="active">Activity</InputLabel>
+                <Select
+                  labelId="active"
+                  id="active"
+                  name="is_active"
+                  value={formik.values.is_active}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  style={{ padding: "12px 5px" }}
+                  label="Activity"
+                >
+                  <MenuItem value={true}>
+                    Active
+                  </MenuItem>
+                  <MenuItem value={false}>
+                    Unactive
+                  </MenuItem>
                 </Select>
               </FormControl>
             </Grid>

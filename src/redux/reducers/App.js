@@ -3,6 +3,11 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
+export const getStatistics = createAsyncThunk("app/statistics", async () => {
+  const response = await http.get("/admin/statistics");
+  return response.data?.data;
+});
+
 export const getSiteAddress = createAsyncThunk("app/getSiteAddress", async () => {
   const response = await http.get("/admin/site-cantacts");
   return response.data?.data;
@@ -43,10 +48,17 @@ export const appSlice = createSlice({
   initialState: {
     address: [],
     orders: [],
-    orderDetails: []
+    orderDetails: [],
+    statistics: {}
   },
   reducers: {},
   extraReducers: {
+    [getStatistics.fulfilled]: (state, action) => {
+      state.statistics = action.payload;
+    },
+    [getStatistics.rejected]: (undefined, action) => {
+      toast.error(action.payload);
+    },
     [getSiteAddress.fulfilled]: (state, action) => {
       state.address = action.payload;
     },

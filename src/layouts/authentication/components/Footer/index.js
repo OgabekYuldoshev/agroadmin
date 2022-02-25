@@ -46,7 +46,12 @@ function Footer({ light }) {
                 &nbsp;Ogabek Yuldoshev&nbsp;
               </MDTypography>
             </Link>
-            for a better web.
+            and
+            <Link href="https://github.com/Turgunov188/" target="_blank">
+              <MDTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
+                &nbsp;Jahongir Turgunov&nbsp;
+              </MDTypography>
+            </Link>
           </MDBox>
         </MDBox>
       </Container>

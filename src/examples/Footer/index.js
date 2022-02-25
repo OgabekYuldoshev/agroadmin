@@ -42,10 +42,15 @@ function Footer({ company, links }) {
         by
         <Link href={href} target="_blank">
           <MDTypography variant="button" fontWeight="medium">
-            &nbsp;{name}&nbsp;
+            &nbsp;Ogabek Yuldoshev&nbsp;
           </MDTypography>
         </Link>
-        for a better web.
+        and
+        <Link href='https://github.com/Turgunov188' target="_blank">
+          <MDTypography variant="button" fontWeight="medium">
+            &nbsp;Jahongir Turgunov&nbsp;
+          </MDTypography>
+        </Link>
       </MDBox>
       <MDBox
         component="ul"
