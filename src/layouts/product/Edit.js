@@ -65,7 +65,7 @@ function EditProduct() {
       specification_ru: single?.specification_ru || "",
       code: single?.code || "",
       price: single?.price || "",
-      currency_id: single?.currency_id || "",
+      currency_id: 2,
       category_id: single?.category_id || "",
       nett_weight: single?.unit_id || "",
       unit_id: single?.unit_id || "",
@@ -144,6 +144,7 @@ function EditProduct() {
                   labelId="currency_id"
                   id="currency_id"
                   name="currency_id"
+                  disabled
                   value={formik.values.currency_id}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}

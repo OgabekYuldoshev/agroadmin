@@ -64,7 +64,7 @@ function NewProduct() {
       specification_ru: "",
       code: "",
       price: "",
-      currency_id: "",
+      currency_id: 2,
       category_id: "",
       sub_category_id: "",
       nett_weight: "",
@@ -147,6 +147,8 @@ function NewProduct() {
                   labelId="price_type"
                   id="price_type"
                   name="currency_id"
+                  disabled
+                  value={formik.values.currency_id}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   style={{ padding: "12px 5px" }}
