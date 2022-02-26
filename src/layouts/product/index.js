@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import { Card, Avatar } from "@mui/material";
+import { Card, Avatar, TextField } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -13,13 +13,18 @@ import { Chip, IconButton, Icon, Pagination } from "@mui/material";
 import { Link, useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import { baseUrl } from "utils";
-
+import qs from "qs"
+import MDInput from "components/MDInput";
 function Tables() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [search, setSearch] = useState('')
   useEffect(() => {
     dispatch(getProducts(location.search));
   }, [location]);
+
+  const defaultQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
+  console.log(defaultQuery)
 
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
@@ -97,13 +102,22 @@ function Tables() {
     navigate({
       pathname: location.pathname,
       search: `?${createSearchParams({
+        ...defaultQuery,
         page
       })}`
     });
   }
 
+  const handleSearch = () => {
+    const query = {
+      ...defaultQuery,
+      search
+    }
+    dispatch(getProducts(`?${qs.stringify(query)}`))
+  }
+
   const PaginationCom = () => {
-    return <Pagination defaultPage={products?.current_page} onChange={handlePaginate} count={products?.last_page} color="primary" style={{ margin: 'auto' }} />
+    return <Pagination defaultPage={products?.current_page} onChange={handlePaginate} count={products?.last_page} color="success" style={{ margin: 'auto' }} />
   }
 
   return (
@@ -134,6 +148,12 @@ function Tables() {
                 </Link>
               </MDBox>
               <MDBox p={3}>
+                <MDBox display="flex" justifyContent="flex-end" gap='5px'>
+                  <MDInput type="text" value={search} label="ID, Code, Nomi" onChange={(e) => setSearch(e.target.value)} />
+                  <MDButton onClick={handleSearch} color="success">
+                    <Icon>search</Icon>
+                  </MDButton>
+                </MDBox>
                 <DataTable
                   pagination
                   paginationPerPage={50}
