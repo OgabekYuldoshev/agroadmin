@@ -6,7 +6,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { FormControl, Typography, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, Typography, InputLabel, Select, MenuItem, Autocomplete, TextField } from "@mui/material";
 import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
@@ -88,7 +88,7 @@ function NewProduct() {
   });
 
   const subCategories = () => categories?.find(item => { return item?.id === formik.values.category_id })
-  console.log(!(subCategories()?.childs?.length))
+  console.log(formik)
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -209,8 +209,17 @@ function NewProduct() {
             </Grid>
             <Grid item xs={4}>
               <FormControl fullWidth>
-                <InputLabel id="category">Kategoryasi</InputLabel>
-                <Select
+                {/* <InputLabel id="category"></InputLabel> */}
+                <Autocomplete
+                  disablePortal
+                  id="category_id"
+                  options={categories}
+                  getOptionLabel={option => option?.name_uz}
+                  onChange={(e, val) => formik.setFieldValue("category_id", val.id)}
+                  name="category_id"
+                  renderInput={(params) => <TextField {...params} label="Kategoryasi" />}
+                />
+                {/* <Select
                   labelId="category"
                   id="category"
                   name="category_id"
@@ -224,10 +233,10 @@ function NewProduct() {
                       {item?.name_uz}
                     </MenuItem>
                   ))}
-                </Select>
+                </Select> */}
               </FormControl>
             </Grid>
-            <Grid item xs={4}>
+            {/* <Grid item xs={4}>
               <FormControl fullWidth>
                 <InputLabel id="sub_category">Sub kategoryasi</InputLabel>
                 <Select
@@ -247,7 +256,7 @@ function NewProduct() {
                   ))}
                 </Select>
               </FormControl>
-            </Grid>
+            </Grid> */}
             <Grid item xs={4}>
               <FormControl fullWidth>
                 <InputLabel id="partner">Hamkor</InputLabel>

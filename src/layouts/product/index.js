@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+import { Card, Avatar } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -12,6 +12,7 @@ import { getProducts } from "redux/reducers/Products";
 import { Chip, IconButton, Icon, Pagination } from "@mui/material";
 import { Link, useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import MDButton from "components/MDButton";
+import { baseUrl } from "utils";
 
 function Tables() {
   const navigate = useNavigate()
@@ -24,6 +25,12 @@ function Tables() {
   const { products } = useSelector((state) => state.products);
 
   const columns = [
+    {
+      title: 'rasm',
+      cell: (row) => (
+        <Avatar sizes="lg" variant="square" alt={row.name_uz} src={row.photos?.length ? baseUrl + row.photos[0]?.image : 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'} />
+      )
+    },
     {
       title: "Mahsulot raqami",
       selector: (row) => row.code,
