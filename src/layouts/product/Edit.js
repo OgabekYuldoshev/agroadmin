@@ -6,7 +6,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 // import { getProducts } from "redux/reducers/Products";
-import { FormControl, Typography, InputLabel, Select, MenuItem } from "@mui/material";
+import { FormControl, Typography, InputLabel, Select, MenuItem, ImageList, ImageListItem } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
@@ -19,6 +19,7 @@ import MDTypography from "components/MDTypography";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import { baseUrl } from "utils";
 
 const Validator = yup.object({
   name_uz: yup.string().required(),
@@ -89,6 +90,19 @@ function EditProduct() {
         <Typography mb={2}>Mahsulotni o'zgartirish</Typography>
         <MDBox onSubmit={formik.handleSubmit} role="form" component="form" fullWidth>
           <Grid container spacing={2} fullWidth>
+            <Grid item xs={12}>
+              <ImageList sx={{ width: "100%", height: "100%" }} cols={3}>
+                {single?.photos?.map((item) => (
+                  <ImageListItem key={item.image}>
+                    <img
+                      src={baseUrl + item.image}
+                      alt={item.id}
+                      loading="lazy"
+                    />
+                  </ImageListItem>
+                ))}
+              </ImageList>
+            </Grid>
             <Grid item xs={4}>
               <MDInput
                 onChange={formik.handleChange}

@@ -12,7 +12,7 @@ import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
 import { createProduct } from "redux/reducers/Products";
-import { getCategory } from "redux/reducers/Category";
+import { getAllCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
 import CKEditorComponent from "components/CKEditor";
 import MDTypography from "components/MDTypography";
@@ -43,13 +43,13 @@ function NewProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const { currencies, unit } = useSelector((state) => state.units);
-  const { categories } = useSelector((state) => state.category);
+  const { all } = useSelector((state) => state.category);
   const { partners } = useSelector((state) => state.partner);
 
   useEffect(() => {
     dispatch(getCurrenciesList());
     dispatch(getUnitList());
-    dispatch(getCategory());
+    dispatch(getAllCategory());
     dispatch(getPartner());
   }, []);
 
@@ -87,8 +87,6 @@ function NewProduct() {
     },
   });
 
-  const subCategories = () => categories?.find(item => { return item?.id === formik.values.category_id })
-  console.log(formik)
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -213,7 +211,7 @@ function NewProduct() {
                 <Autocomplete
                   disablePortal
                   id="category_id"
-                  options={categories}
+                  options={all}
                   getOptionLabel={option => option?.name_uz}
                   onChange={(e, val) => formik.setFieldValue("category_id", val.id)}
                   name="category_id"

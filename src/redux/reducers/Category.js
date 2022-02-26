@@ -16,6 +16,15 @@ export const getCategory = createAsyncThunk("app/getCategory", async (undefined,
   }
 });
 
+export const getAllCategory = createAsyncThunk("app/getAllCategory", async (undefined, { rejectWithValue }) => {
+  try {
+    const response = await http.get("/admin/categories");
+    return response.data?.data;
+  } catch (error) {
+    return rejectWithValue(error.message)
+  }
+});
+
 export const getSubCategory = createAsyncThunk("app/getSubCategory", async (id, { rejectWithValue }) => {
   try {
     const response = await http.get("/admin/categories", {
@@ -98,6 +107,7 @@ export const updateCategory = createAsyncThunk(
 export const categorySlice = createSlice({
   name: "category",
   initialState: {
+    all: [],
     categories: [],
     subCategories: [],
     subSubCategories: []
@@ -108,6 +118,17 @@ export const categorySlice = createSlice({
     // }
   },
   extraReducers: {
+    [getAllCategory.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getAllCategory.fulfilled]: (state, action) => {
+      state.all = action?.payload;
+      state.isLoading = false;
+    },
+    [getAllCategory.rejected]: (state) => {
+      state.isLoading = false;
+      toast.error("Serverda xatolik!");
+    },
     [getCategory.pending]: (state) => {
       state.isLoading = true;
     },

@@ -15,7 +15,7 @@ import MDButton from "components/MDButton";
 import { baseUrl } from "utils";
 import qs from "qs"
 import MDInput from "components/MDInput";
-function Tables() {
+function Products() {
   const navigate = useNavigate()
   const location = useLocation()
   const [search, setSearch] = useState('')
@@ -28,6 +28,7 @@ function Tables() {
 
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
+
 
   const columns = [
     {
@@ -84,14 +85,7 @@ function Tables() {
               </Icon>
             </IconButton>
           </Link>
-          {/* <IconButton onClick={() => handleEdit(row.id)}>
-            <Icon fontSize="small" color="success">
-              edit
-            </Icon>
-          </IconButton> */}
-          {/* <IconButton onClick={()=>dispatch()}>
-            <Icon fontSize="small" color="error">delete</Icon>
-          </IconButton> */}
+
         </MDBox>
       ),
     },
@@ -155,6 +149,7 @@ function Tables() {
                   </MDButton>
                 </MDBox>
                 <DataTable
+                  noHeader
                   pagination
                   paginationPerPage={50}
                   paginationComponent={PaginationCom}
@@ -172,4 +167,4 @@ function Tables() {
   );
 }
 
-export default Tables;
+export default Products;
