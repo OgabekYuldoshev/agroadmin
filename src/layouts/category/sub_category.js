@@ -11,10 +11,12 @@ import Footer from "examples/Footer";
 import DataTable from "react-data-table-component";
 import Chip from "@mui/material/Chip";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategory } from "redux/reducers/Category";
+import { getSubCategory } from "redux/reducers/Category";
 import { useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import AddSubCategory from "./operations/AddSubCategory";
+import AddSubSubCategory from "./operations/AddSub-SubCategory";
+
 import EditModal from "./operations/Edit";
 function Category() {
   const dispatch = useDispatch();
@@ -28,12 +30,20 @@ function Category() {
       opened: !edit?.opened,
       id: val,
     });
-  useEffect(() => {
-    dispatch(getCategory({ parent_id: id, level: 2 }));
-  }, [dispatch]);
 
-  const { categories } = useSelector((state) => state.category);
-  console.log(categories);
+  const [sub, setSub] = useState({ opened: false, id: null });
+  const handleSub = (val) =>
+    setSub({
+      opened: !sub?.opened,
+      id: val,
+    });
+
+  useEffect(() => {
+    dispatch(getSubCategory(id));
+  }, [id])
+
+  const { subCategories } = useSelector((state) => state.category);
+  console.log(subCategories);
 
   const columns = [
     {
@@ -71,6 +81,11 @@ function Category() {
       right: true,
       cell: (row) => (
         <MDBox display="flex">
+          <IconButton onClick={() => handleSub(row.id)}>
+            <Icon fontSize="small" color="info">
+              visibility
+            </Icon>
+          </IconButton>
           <IconButton onClick={() => handleEdit(row.id)}>
             <Icon fontSize="small" color="success">
               edit
@@ -83,6 +98,8 @@ function Category() {
       ),
     },
   ];
+
+  console.log(sub)
 
   return (
     <DashboardLayout>
@@ -116,7 +133,11 @@ function Category() {
                   toggle={() => handleEdit({ open: false, id: null })}
                   item={edit}
                 />
-                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={categories} />
+                <AddSubSubCategory
+                  width={1000}
+                  toggle={() => handleSub({ open: false, id: null })}
+                  item={sub} />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={subCategories} />
               </MDBox>
             </Card>
           </Grid>

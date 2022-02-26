@@ -30,7 +30,7 @@ function Category() {
     });
 
   useEffect(() => {
-    dispatch(getCategory({ level: 1 }));
+    dispatch(getCategory());
   }, [dispatch]);
 
   const { categories } = useSelector((state) => state.category);
