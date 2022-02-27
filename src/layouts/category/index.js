@@ -11,11 +11,12 @@ import Footer from "examples/Footer";
 import DataTable from "react-data-table-component";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategory } from "redux/reducers/Category";
-import { Icon, Chip, IconButton } from "@mui/material";
+import { Icon, Chip, IconButton, Avatar } from "@mui/material";
 import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
 import AddCategory from "./operations/AddCategory";
 import EditModal from "./operations/Edit";
+import { baseUrl } from "utils"
 
 function Category() {
   const dispatch = useDispatch();
@@ -37,29 +38,31 @@ function Category() {
 
   const columns = [
     {
-      id: 'id',
-      title: "ID",
+      name: "Rasm",
       width: "100px",
-      selector: (row) => row.id,
+      cell: (row) => <Avatar alt={row.name} src={baseUrl + row.image} />,
     },
     {
-      title: "Name UZ",
+      name: "Nomi UZ",
+      width: "200px",
       selector: (row) => row.name_uz,
     },
     {
-      title: "Name RU",
+      name: "Nomi RU",
+      width: "200px",
       selector: (row) => row.name_ru,
     },
     {
-      title: "Name EN",
+      name: "Nomi EN",
+      width: "200px",
       selector: (row) => row.name_en,
     },
     {
-      title: "Level",
+      name: "Level",
       selector: (row) => row.level,
     },
     {
-      title: "Status",
+      name: "Status",
       cell: (row) =>
         row.is_active ? (
           <Chip label="Active" color="success" />
@@ -68,8 +71,9 @@ function Category() {
         ),
     },
     {
-      title: "Action",
+      name: "",
       right: true,
+      width: "250px",
       cell: (row) => (
         <MDBox display="flex">
           <Link to={`/category/${row.id}`}>
@@ -84,13 +88,67 @@ function Category() {
               edit
             </Icon>
           </IconButton>
-          {/* <IconButton onClick={()=>dispatch()}>
-            <Icon fontSize="small" color="error">delete</Icon>
-          </IconButton> */}
         </MDBox>
       ),
     },
   ];
+
+  // const columns = [
+  //   {
+  //     id: 'id',
+  //     title: "ID",
+  //     width: "100px",
+  //     selector: (row) => row.id,
+  //   },
+  //   {
+  //     title: "Name UZ",
+  //     selector: (row) => row.name_uz,
+  //   },
+  //   {
+  //     title: "Name RU",
+  //     selector: (row) => row.name_ru,
+  //   },
+  //   {
+  //     title: "Name EN",
+  //     selector: (row) => row.name_en,
+  //   },
+  //   {
+  //     title: "Level",
+  //     selector: (row) => row.level,
+  //   },
+  //   {
+  //     title: "Status",
+  //     cell: (row) =>
+  //       row.is_active ? (
+  //         <Chip label="Active" color="success" />
+  //       ) : (
+  //         <Chip label="Unactive" color="error" />
+  //       ),
+  //   },
+  //   {
+  //     title: "Action",
+  //     right: true,
+  //     cell: (row) => (
+  //       <MDBox display="flex">
+  //         <Link to={`/category/${row.id}`}>
+  //           <IconButton>
+  //             <Icon fontSize="small" color="info">
+  //               visibility
+  //             </Icon>
+  //           </IconButton>
+  //         </Link>
+  //         <IconButton onClick={() => handleEdit(row.id)}>
+  //           <Icon fontSize="small" color="success">
+  //             edit
+  //           </Icon>
+  //         </IconButton>
+  //         {/* <IconButton onClick={()=>dispatch()}>
+  //           <Icon fontSize="small" color="error">delete</Icon>
+  //         </IconButton> */}
+  //       </MDBox>
+  //     ),
+  //   },
+  // ];
 
 
 

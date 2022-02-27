@@ -64,32 +64,32 @@ export default (props) => {
             opened: !edit?.opened,
             id: val,
         });
-
-
     const columns = [
         {
-            title: "ID",
-            width: "100px",
-            selector: (row) => row.id,
+            name: "ID",
+            cell: (row) => row.id,
         },
         {
-            title: "Name UZ",
+            name: "Nomi UZ",
+            width: "150px",
             selector: (row) => row.name_uz,
         },
         {
-            title: "Name RU",
+            name: "Nomi RU",
+            width: "150px",
             selector: (row) => row.name_ru,
         },
         {
-            title: "Name EN",
+            name: "Nomi EN",
+            width: "150px",
             selector: (row) => row.name_en,
         },
         {
-            title: "Level",
+            name: "Level",
             selector: (row) => row.level,
         },
         {
-            title: "Status",
+            name: "Status",
             cell: (row) =>
                 row.is_active ? (
                     <Chip label="Active" color="success" />
@@ -98,8 +98,9 @@ export default (props) => {
                 ),
         },
         {
-            title: "Action",
+            name: "",
             right: true,
+            width: "150px",
             cell: (row) => (
                 <MDBox display="flex">
                     <IconButton>
@@ -111,6 +112,46 @@ export default (props) => {
             ),
         },
     ];
+
+    // const columns = [
+    //     {
+    //         title: "ID",
+    //         width: "100px",
+    //         selector: (row) => row.id,
+    //     },
+    //     {
+    //         title: "Name UZ",
+    //         selector: (row) => row.name_uz,
+    //     },
+    //     {
+    //         title: "Name RU",
+    //         selector: (row) => row.name_ru,
+    //     },
+    //     {
+    //         title: "Name EN",
+    //         selector: (row) => row.name_en,
+    //     },
+    //     {
+    //         title: "Level",
+    //         selector: (row) => row.level,
+    //     },
+    //     {
+    //         title: "Status",
+    //         cell: (row) =>
+    //             row.is_active ? (
+    //                 <Chip label="Active" color="success" />
+    //             ) : (
+    //                 <Chip label="Unactive" color="error" />
+    //             ),
+    //     },
+    //     {
+    //         title: "Action",
+    //         right: true,
+    //         cell: (row) => (
+
+    //         ),
+    //     },
+    // ];
 
 
     console.log(formik)

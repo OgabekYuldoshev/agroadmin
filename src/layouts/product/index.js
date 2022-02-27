@@ -30,33 +30,89 @@ function Products() {
   const { products } = useSelector((state) => state.products);
 
 
+  // const columns = [
+  //   {
+  //     title: 'rasm',
+  //     cell: (row) => (
+  //       <Avatar sizes="lg" variant="square" alt={row.name_uz} src={row.photos?.length ? baseUrl + row.photos[0]?.image : 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'} />
+  //     )
+  //   },
+  //   {
+  //     title: "Mahsulot raqami",
+  //     selector: (row) => row.code,
+  //   },
+  //   {
+  //     title: "Nomi UZ",
+  //     selector: (row) => row.name_uz,
+  //   },
+  //   {
+  //     title: "Nomi RU",
+  //     selector: (row) => row.name_ru,
+  //   },
+  //   {
+  //     title: "Nomi EN",
+  //     selector: (row) => row.name_en,
+  //   },
+  //   {
+  //     title: "Narxi",
+  //     dataIndex: "",
+  //     key: "",
+  //     cell: (row) => (
+  //       <span>
+  //         {row.price} {row.currencies?.name}
+  //       </span>
+  //     ),
+  //   },
+  //   {
+  //     title: "Status",
+  //     dataIndex: "",
+  //     key: "",
+  //     cell: (row) =>
+  //       row?.is_active ? (
+  //         <Chip label="Active" color="success" />
+  //       ) : (
+  //         <Chip label="Unactive" color="error" />
+  //       ),
+  //   },
+  //   {
+  //     title: "Action",
+  //     cell: (row) => (
+  //       <MDBox display="flex">
+  //         <Link to={`/products/edit/${row.id}`}>
+  //           <IconButton>
+  //             <Icon fontSize="small" color="info">
+  //               edit
+  //             </Icon>
+  //           </IconButton>
+  //         </Link>
+
+  //       </MDBox>
+  //     ),
+  //   },
+  // ];
   const columns = [
     {
-      title: 'rasm',
-      cell: (row) => (
-        <Avatar sizes="lg" variant="square" alt={row.name_uz} src={row.photos?.length ? baseUrl + row.photos[0]?.image : 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'} />
-      )
+      name: "Rasm",
+      width: "100px",
+      cell: (row) => <Avatar sizes="lg" variant="square" alt={row.name_uz} src={row.photos?.length ? baseUrl + row.photos[0]?.image : 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'} />,
     },
     {
-      title: "Mahsulot raqami",
-      selector: (row) => row.code,
-    },
-    {
-      title: "Nomi UZ",
+      name: "Nomi UZ",
+      width: "200px",
       selector: (row) => row.name_uz,
     },
     {
-      title: "Nomi RU",
+      name: "Nomi RU",
+      width: "200px",
       selector: (row) => row.name_ru,
     },
     {
-      title: "Nomi EN",
+      name: "Nomi EN",
+      width: "200px",
       selector: (row) => row.name_en,
     },
     {
-      title: "Narxi",
-      dataIndex: "",
-      key: "",
+      name: "Narxi",
       cell: (row) => (
         <span>
           {row.price} {row.currencies?.name}
@@ -64,18 +120,18 @@ function Products() {
       ),
     },
     {
-      title: "Status",
-      dataIndex: "",
-      key: "",
+      name: "Status",
       cell: (row) =>
-        row?.is_active ? (
+        row.is_active ? (
           <Chip label="Active" color="success" />
         ) : (
           <Chip label="Unactive" color="error" />
         ),
     },
     {
-      title: "Action",
+      name: "",
+      right: true,
+      width: "150px",
       cell: (row) => (
         <MDBox display="flex">
           <Link to={`/products/edit/${row.id}`}>
@@ -85,11 +141,11 @@ function Products() {
               </Icon>
             </IconButton>
           </Link>
-
         </MDBox>
       ),
     },
   ];
+
 
   const handlePaginate = (e, page) => {
     console.log(location.pathname, page)
