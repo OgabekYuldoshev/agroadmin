@@ -121,7 +121,7 @@ function NewPage() {
             </Grid>
             <Grid item xs={12}>
               <MDTypography variant="label" fontSize={15} component="label" mb={1}>
-                Content
+                Content EN
               </MDTypography>
               <CKEditorComponent
                 data={formik.values.content_en}
