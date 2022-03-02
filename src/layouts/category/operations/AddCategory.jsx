@@ -47,8 +47,6 @@ export default (props) => {
         }
     })
 
-    console.log(formik.values)
-
     return (
         <ModalCom {...props}>
             <MDBox onSubmit={formik.handleSubmit} component="form" role="form" sx={{ flexGrow: 1 }}>

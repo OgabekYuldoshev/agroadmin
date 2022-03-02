@@ -32,13 +32,13 @@ export const createProduct = createAsyncThunk("app/createProducts", async (data,
       "content-type": "multipart/form-data",
     },
   });
-  if (response.status === 201) dispatch(getProducts());
+  dispatch(getProducts());
   return response.data;
 });
 
 export const deleteProduct = createAsyncThunk("app/deleteProduct", async (id, { dispatch }) => {
-  const response = await http.delete(`/admin/products/${id}`);
-  if (response.status === 200) dispatch(getProducts());
+  await http.delete(`/admin/products/${id}`);
+  dispatch(getProducts());
 });
 
 export const updateProduct = createAsyncThunk(

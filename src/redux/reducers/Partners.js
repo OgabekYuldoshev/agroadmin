@@ -22,7 +22,7 @@ export const createPartner = createAsyncThunk(
       const response = await http.post("/admin/partners", data, {
         "Content-Type": "multipart/form-data",
       });
-      if (response.status === 201) dispatch(getPartner());
+      dispatch(getPartner());
       return response.data;
     } catch (error) {
       return rejectWithValue();
@@ -31,8 +31,8 @@ export const createPartner = createAsyncThunk(
 );
 
 export const deletePartner = createAsyncThunk("app/deletePartner", async (id, { dispatch }) => {
-  const response = await http.delete(`/admin/partners/${id}`);
-  if (response.status === 200) dispatch(getPartner());
+  await http.delete(`/admin/partners/${id}`);
+  dispatch(getPartner());
 });
 
 export const updatePartner = createAsyncThunk(
@@ -100,6 +100,6 @@ export const partnerSlice = createSlice({
   // }
 });
 
-export const {} = partnerSlice.actions;
+export const { } = partnerSlice.actions;
 
 export default partnerSlice.reducer;
