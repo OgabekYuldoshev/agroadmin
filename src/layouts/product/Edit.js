@@ -6,7 +6,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 // import { getProducts } from "redux/reducers/Products";
-import { FormControl, Typography, InputLabel, Select, MenuItem, ImageList, ImageListItem } from "@mui/material";
+import { FormControl, Typography, InputLabel, Select, MenuItem, ImageList, ImageListItem, Autocomplete, TextField } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
@@ -44,7 +44,7 @@ function EditProduct() {
   const { id } = useParams();
   const { single } = useSelector((state) => state.products);
   const { currencies, unit } = useSelector((state) => state.units);
-  const { categories } = useSelector((state) => state.category);
+  const { all } = useSelector((state) => state.category);
   const { partners } = useSelector((state) => state.partner);
 
   useEffect(() => {
@@ -68,7 +68,7 @@ function EditProduct() {
       code: single?.code || "",
       price: single?.price || "",
       currency_id: 2,
-      is_active: single?.price || '',
+      is_active: single?.is_active || '',
       category_id: single?.category_id || "",
       nett_weight: single?.unit_id || "",
       unit_id: single?.unit_id || "",
@@ -222,7 +222,18 @@ function EditProduct() {
               />
             </Grid>
             <Grid item xs={4}>
-              <FormControl fullWidth>
+              <Autocomplete
+                disablePortal
+                id="category_id"
+                name="category_id"
+                options={all}
+                value={all?.find(item => item.id === formik?.values?.category_id)}
+                getOptionLabel={option => option?.name_uz}
+                onChange={(e, val) => formik.setFieldValue("category_id", val.id)}
+                name="category_id"
+                renderInput={(params) => <TextField {...params} label="Kategoryasi" />}
+              />
+              {/* <FormControl fullWidth>
                 <InputLabel id="category">Kategoryasi</InputLabel>
                 <Select
                   labelId="category"
@@ -240,7 +251,7 @@ function EditProduct() {
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </Grid>
             <Grid item xs={4}>
               <FormControl fullWidth>
@@ -391,7 +402,7 @@ function EditProduct() {
         </Grid> */}
       </MDBox>
       <Footer />
-    </DashboardLayout>
+    </DashboardLayout >
   );
 }
 

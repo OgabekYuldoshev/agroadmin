@@ -11,7 +11,7 @@ import { getOrders } from "redux/reducers/App";
 // import { Link } from "react-router-dom";
 import View from "./operations/Veiw";
 import { useLocation, useNavigate, createSearchParams } from "react-router-dom";
-// import { baseUrl } from "utils";
+import { getDate } from "utils";
 
 function Tables() {
   const navigate = useNavigate()
@@ -32,9 +32,31 @@ function Tables() {
       selector: (row) => row.id,
     },
     {
+      name: "Buyurtmachi ismi",
+      wrap: true,
+      selector: (row) => row.addresses?.receiver_name,
+    },
+    {
+      name: "Tel raqami",
+      wrap: true,
+      selector: (row) => row.addresses?.phone_number,
+    },
+    {
+      name: "Address",
+      wrap: true,
+      cell: (row) => (
+        <span>{row.addresses?.region_name}, {row.addresses?.district_name}, {row.addresses?.street_name}</span>
+      ),
+    },
+    {
       name: "Komentariya",
       wrap: true,
       selector: (row) => row.notes,
+    },
+    {
+      name: "Buyurtma berilgan sana",
+      wrap: true,
+      selector: (row) => getDate(row.created_at),
     },
     {
       title: "Action",

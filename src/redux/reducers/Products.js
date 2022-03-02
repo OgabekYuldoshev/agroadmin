@@ -53,6 +53,18 @@ export const updateProduct = createAsyncThunk(
   }
 );
 
+export const deleteProductImage = createAsyncThunk(
+  "app/deleteProductImage",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await http.put(`/admin/product-image-delete/${id}`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error);
+    }
+  }
+);
+
 export const productsSlice = createSlice({
   name: "products",
   initialState: {
@@ -100,6 +112,9 @@ export const productsSlice = createSlice({
     },
     [createProduct.rejected]: () => {
       toast.error("Serverda xatolik!");
+    },
+    [deleteProductImage.rejected]: (undefined, action) => {
+      toast.error(action.payload);
     },
     [deleteProduct.fulfilled]: () => {
       toast.success("Mahsulot o'chrildi!");
