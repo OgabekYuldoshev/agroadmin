@@ -230,6 +230,7 @@ function EditProduct() {
                     for (let i = 0; i < e.target.files?.length; i++) {
                       formData.append(`images[${i}]`, e.target.files[i]);
                     }
+                    formData.append("model", "Product")
                     dispatch(updateProductImage({ id: single?.id, data: formData }))
                     formik.setFieldValue(`images`, Array.from(e.target.files))
                   }

@@ -68,7 +68,7 @@ export const updateProductImage = createAsyncThunk(
   "app/updateProductImage",
   async ({ id, data }, { rejectWithValue }) => {
     try {
-      await http.post(`/admin/product-images-update/${id}`, data, {
+      await http.post(`/admin/images-update/${id}`, data, {
         headers: {
           "content-type": "multipart/form-data",
         },

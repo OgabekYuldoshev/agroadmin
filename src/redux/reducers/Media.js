@@ -60,7 +60,7 @@ export const deleteImages = createAsyncThunk("media/deleteImages", async (id, { 
 
 export const deleteOneImages = createAsyncThunk("media/deleteOneImages", async (id, { rejectWithValue }) => {
     try {
-        const response = await http.post(`/admin/media-images-destroy/${id}`);
+        const response = await http.post(`/admin/image-destroy/${id}`, { model: "MediaImages" });
         return response.data?.data;
     } catch (error) {
         return rejectWithValue(error)

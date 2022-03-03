@@ -8,6 +8,7 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 import { updateImages, getSingleImages, deleteOneImages } from "redux/reducers/Media";
+import { updateProductImage } from 'redux/reducers/App'
 import { useFormik } from "formik";
 import * as Yup from "yup"
 import MDButton from "components/MDButton";
@@ -111,7 +112,15 @@ function View() {
                             name="images"
                             inputProps={{ multiple: true, accept: ".png, .jpg, .jpeg" }}
                             label="Rasm"
-                            onChange={(e) => formik.setFieldValue(`images`, Array.from(e.target.files))}
+                            onChange={(e) => {
+                                const formData = new FormData()
+                                for (let i = 0; i < e.target.files?.length; i++) {
+                                    formData.append(`images[${i}]`, e.target.files[i]);
+                                }
+                                formData.append("model", "MediaImages")
+                                dispatch(updateProductImage({ id: single?.id, data: formData })).then(unwrapResult).then(() => dispatch(getSingleImages(id)))
+                                formik.setFieldValue(`images`, Array.from(e.target.files))
+                            }}
                         />
                     </Grid>
                 </Grid>
