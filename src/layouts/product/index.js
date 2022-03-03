@@ -111,6 +111,12 @@ function Products() {
       selector: (row) => row.name_en,
     },
     {
+      name: "Kategoryasi UZ",
+      width: "200px",
+      wrap: true,
+      selector: (row) => row.categories?.name_uz,
+    },
+    {
       name: "Narxi",
       cell: (row) => (
         <span>
