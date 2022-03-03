@@ -3,16 +3,17 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { http } from "utils";
 import { toast } from "react-toastify";
 
-export const getCategory = createAsyncThunk("app/getCategory", async (undefined, { rejectWithValue }) => {
+export const getCategory = createAsyncThunk("app/getCategory", async ({ parent_id, level }, { rejectWithValue }) => {
   try {
     const response = await http.get("/admin/categories", {
       params: {
-        level: 1
+        parent_id,
+        level
       }
     });
     return response.data?.data;
   } catch (error) {
-    return rejectWithValue(error.message)
+    return rejectWithValue(error.response?.error?.join(", "))
   }
 });
 
@@ -21,47 +22,47 @@ export const getAllCategory = createAsyncThunk("app/getAllCategory", async (unde
     const response = await http.get("/admin/categories");
     return response.data?.data;
   } catch (error) {
-    return rejectWithValue(error.message)
+    return rejectWithValue(error.response?.error?.join(", "))
   }
 });
 
-export const getSubCategory = createAsyncThunk("app/getSubCategory", async (id, { rejectWithValue }) => {
-  try {
-    const response = await http.get("/admin/categories", {
-      params: {
-        parent_id: id,
-        level: 2
-      }
-    });
-    return response.data?.data;
-  } catch (error) {
-    return rejectWithValue(error.message)
-  }
-});
+// export const getSubCategory = createAsyncThunk("app/getSubCategory", async (id, { rejectWithValue }) => {
+//   try {
+//     const response = await http.get("/admin/categories", {
+//       params: {
+//         parent_id: id,
+//         level: 2
+//       }
+//     });
+//     return response.data?.data;
+//   } catch (error) {
+//     return rejectWithValue(error.response?.error?.join(", "))
+//   }
+// });
 
-export const getSubSubCategory = createAsyncThunk("app/getSubSubCategory", async (id, { rejectWithValue }) => {
-  try {
-    const response = await http.get("/admin/categories", {
-      params: {
-        parent_id: id,
-        level: 3
-      }
-    });
-    return response.data?.data;
-  } catch (error) {
-    return rejectWithValue(error.message)
-  }
-});
+// export const getSubSubCategory = createAsyncThunk("app/getSubSubCategory", async (id, { rejectWithValue }) => {
+//   try {
+//     const response = await http.get("/admin/categories", {
+//       params: {
+//         parent_id: id,
+//         level: 3
+//       }
+//     });
+//     return response.data?.data;
+//   } catch (error) {
+//     return rejectWithValue(error.response?.error?.join(", "))
+//   }
+// });
 
 export const createCategory = createAsyncThunk("app/createCategory", async (data, { dispatch, rejectWithValue }) => {
   try {
     const response = await http.post("/admin/categories", data, {
       "Content-Type": "multipart/form-data",
     });
-    dispatch(getCategory({ parent_id: data?.parent_id, Level: data.Level }));
+    dispatch(getCategory({ parent_id: data?.parent_id, level: data?.level }));
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.message)
+    return rejectWithValue(error.response?.error?.join(", "))
   }
 });
 
@@ -82,7 +83,7 @@ export const updateCategory = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message)
+      return rejectWithValue(error.response?.error?.join(", "))
     }
   }
 );
@@ -125,9 +126,9 @@ export const categorySlice = createSlice({
       state.all = action?.payload;
       state.isLoading = false;
     },
-    [getAllCategory.rejected]: (state) => {
+    [getAllCategory.rejected]: (state, action) => {
       state.isLoading = false;
-      toast.error("Serverda xatolik!");
+      toast.error(action.payload);
     },
     [getCategory.pending]: (state) => {
       state.isLoading = true;
@@ -136,49 +137,49 @@ export const categorySlice = createSlice({
       state.categories = action?.payload;
       state.isLoading = false;
     },
-    [getCategory.rejected]: (state) => {
+    [getCategory.rejected]: (state, action) => {
       state.isLoading = false;
-      toast.error("Serverda xatolik!");
+      toast.error(action.payload);
     },
-    [getSubCategory.pending]: (state) => {
-      state.isLoading = true;
+    // [getSubCategory.pending]: (state) => {
+    //   state.isLoading = true;
+    // },
+    // [getSubCategory.fulfilled]: (state, action) => {
+    //   state.subCategories = action?.payload;
+    //   state.isLoading = false;
+    // },
+    // [getSubCategory.rejected]: (state, action) => {
+    //   state.isLoading = false;
+    //   toast.error(action.payload);
+    // },
+    // [getSubSubCategory.pending]: (state) => {
+    //   state.isLoading = true;
+    // },
+    // [getSubSubCategory.fulfilled]: (state, action) => {
+    //   state.subSubCategories = action?.payload;
+    //   state.isLoading = false;
+    // },
+    // [getSubSubCategory.rejected]: (state, action) => {
+    //   state.isLoading = false;
+    //   toast.error(action.payload);
+    // },
+    [createCategory.rejected]: (action) => {
+      toast.error(action.payload);
     },
-    [getSubCategory.fulfilled]: (state, action) => {
-      state.subCategories = action?.payload;
-      state.isLoading = false;
-    },
-    [getSubCategory.rejected]: (state) => {
-      state.isLoading = false;
-      toast.error("Serverda xatolik!");
-    },
-    [getSubSubCategory.pending]: (state) => {
-      state.isLoading = true;
-    },
-    [getSubSubCategory.fulfilled]: (state, action) => {
-      state.subSubCategories = action?.payload;
-      state.isLoading = false;
-    },
-    [getSubSubCategory.rejected]: (state) => {
-      state.isLoading = false;
-      toast.error("Serverda xatolik!");
-    },
-    [createCategory.rejected]: () => {
-      toast.error("Serverda xatolik!");
-    },
-    [updateCategory.rejected]: () => {
-      toast.error("Serverda xatolik!");
+    [updateCategory.rejected]: (action) => {
+      toast.error(action.payload);
     },
     // [deleteCategory.rejected]: () => {
-    //   toast.error("Serverda xatolik!");
+    //   toast.error(action.payload);
     // }
     // [createSubCategory.rejected]: () => {
-    //   toast.error("Serverda xatolik!");
+    //   toast.error(action.payload);
     // },
     // [deleteSubCategory.rejected]: () => {
-    //   toast.error("Serverda xatolik!");
+    //   toast.error(action.payload);
     // },
     // [updateSubCategory.rejected]: () => {
-    //   toast.error("Serverda xatolik!");
+    //   toast.error(action.payload);
     // },
   },
 });

@@ -8,12 +8,13 @@ import ModalCom from "components/MDModal"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { useEffect } from "react"
-import { getSubSubCategory } from "redux/reducers/Category";
+import { getCategory } from "redux/reducers/Category";
 import { createCategory } from "redux/reducers/Category"
 import * as Yup from "yup"
 import DataTable from "react-data-table-component"
 import EditModal from "./Edit"
 import { useState } from "react"
+import { useParams } from "react-router-dom"
 
 const CategorySchema = Yup.object({
     image: Yup.mixed(),
@@ -27,8 +28,7 @@ const CategorySchema = Yup.object({
 
 export default (props) => {
     const dispatch = useDispatch()
-    const { subSubCategories } = useSelector((state) => state.category);
-    const { item } = props
+    const { sub_id } = useParams()
     const formik = useFormik({
         enableReinitialize: true,
         initialValues: {
@@ -38,7 +38,7 @@ export default (props) => {
             description_uz: null,
             description_ru: null,
             description_en: null,
-            parent_id: item?.id,
+            parent_id: sub_id,
             level: 3
         },
         validationSchema: CategorySchema,
@@ -49,12 +49,15 @@ export default (props) => {
             })
         }
     })
-    console.log(item)
+
     useEffect(() => {
-        if (item?.id) {
-            dispatch(getSubSubCategory(item?.id));
+        if (sub_id) {
+            dispatch(getCategory({
+                parent_id: sub_id,
+                level: 3
+            }));
         }
-    }, [item?.id]);
+    }, [sub_id]);
 
 
 
@@ -202,7 +205,6 @@ export default (props) => {
                             toggle={() => handleEdit({ open: false, id: null })}
                             item={edit}
                         />
-                        <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={subSubCategories} />
                     </Grid>
                     <Grid item xs={12} display="flex" gap={2} justifyContent="flex-end">
                         <MDButton type="button" onClick={props.toggle} color="error">Bekor qilish</MDButton>

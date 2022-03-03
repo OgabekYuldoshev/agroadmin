@@ -1,46 +1,53 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
+import { Icon, IconButton } from "@mui/material";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
-
+import moment from "moment";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import DataTable from "react-data-table-component";
+import Chip from "@mui/material/Chip";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategory } from "redux/reducers/Category";
-import { Icon, Chip, IconButton, Avatar } from "@mui/material";
-import { Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
-import AddCategory from "./operations/AddCategory";
-import EditModal from "./operations/Edit";
-import { baseUrl } from "utils"
+import AddSubCategory from "./operations/AddSubCategory";
+import AddSubSubCategory from "./operations/AddSub-SubCategory";
 
+import EditModal from "./operations/Edit";
 function Category() {
   const dispatch = useDispatch();
+  const { sub_id } = useParams();
   const [open, setOpen] = useState(false);
   const toggle = () => setOpen((current) => !current);
 
   const [edit, setEdit] = useState({ opened: false, id: null });
-  const handleEdit = (id) =>
+  const handleEdit = (val) =>
     setEdit({
       opened: !edit?.opened,
-      id: id,
+      id: val,
+    });
+
+  const [sub, setSub] = useState({ opened: false, id: null });
+  const handleSub = (val) =>
+    setSub({
+      opened: !sub?.opened,
+      id: val,
     });
 
   useEffect(() => {
-    dispatch(getCategory({ parent_id: null, level: 1 }));
-  }, [dispatch]);
+    dispatch(getCategory({ parent_id: sub_id, level: 3 }));
+  }, [sub_id])
 
   const { categories } = useSelector((state) => state.category);
 
   const columns = [
     {
-      name: "Rasm",
-      width: "100px",
-      cell: (row) => <Avatar alt={row.name} src={baseUrl + row.image} />,
+      name: "ID",
+      cell: (row) => row.id,
     },
     {
       name: "Nomi UZ",
@@ -76,13 +83,6 @@ function Category() {
       width: "250px",
       cell: (row) => (
         <MDBox display="flex">
-          <Link to={`/category/${row.id}`}>
-            <IconButton>
-              <Icon fontSize="small" color="info">
-                visibility
-              </Icon>
-            </IconButton>
-          </Link>
           <IconButton onClick={() => handleEdit(row.id)}>
             <Icon fontSize="small" color="success">
               edit
@@ -93,9 +93,9 @@ function Category() {
     },
   ];
 
+
   // const columns = [
   //   {
-  //     id: 'id',
   //     title: "ID",
   //     width: "100px",
   //     selector: (row) => row.id,
@@ -129,28 +129,12 @@ function Category() {
   //     title: "Action",
   //     right: true,
   //     cell: (row) => (
-  //       <MDBox display="flex">
-  //         <Link to={`/category/${row.id}`}>
-  //           <IconButton>
-  //             <Icon fontSize="small" color="info">
-  //               visibility
-  //             </Icon>
-  //           </IconButton>
-  //         </Link>
-  //         <IconButton onClick={() => handleEdit(row.id)}>
-  //           <Icon fontSize="small" color="success">
-  //             edit
-  //           </Icon>
-  //         </IconButton>
-  //         {/* <IconButton onClick={()=>dispatch()}>
-  //           <Icon fontSize="small" color="error">delete</Icon>
-  //         </IconButton> */}
-  //       </MDBox>
+
   //     ),
   //   },
   // ];
 
-
+  console.log(sub)
 
   return (
     <DashboardLayout>
@@ -173,10 +157,9 @@ function Category() {
                 alignItems="center"
               >
                 <MDTypography variant="h6" color="white">
-                  Kategoryalar
+                  Sub Sub Kategoryalar
                 </MDTypography>
-                <AddCategory width={800} toggle={toggle} open={open} />
-                <MDButton onClick={toggle}>Kategorya qo'shish</MDButton>
+                <MDButton onClick={handleSub}>Sub Sub kategorya qo'shish</MDButton>
               </MDBox>
               <MDBox p={3}>
                 <EditModal
@@ -184,7 +167,11 @@ function Category() {
                   toggle={() => handleEdit({ open: false, id: null })}
                   item={edit}
                 />
-                <DataTable paginationPerPage={100} noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={categories} />
+                <AddSubSubCategory
+                  width={1000}
+                  toggle={() => handleSub({ open: false, id: null })}
+                  item={sub} />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={categories} />
               </MDBox>
             </Card>
           </Grid>

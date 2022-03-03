@@ -14,6 +14,8 @@ import EditPage from "layouts/pages/Edit";
 import NewProduct from "layouts/product/NewProducs";
 import EditProduct from "layouts/product/Edit";
 import SubCategory from "layouts/category/sub_category";
+import SubSubCategory from "layouts/category/sub_sub_category";
+
 
 // @mui icons
 import Icon from "@mui/material/Icon";
@@ -43,6 +45,15 @@ const routes = [
       navLink: "/category",
     },
     component: <SubCategory />,
+  },
+  {
+    name: "SubSubCategory",
+    key: "subsubcategory",
+    route: "/category/:id/:sub_id",
+    meta: {
+      navLink: "/category",
+    },
+    component: <SubSubCategory />,
   },
   {
     type: "collapse",

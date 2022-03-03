@@ -8,6 +8,7 @@ import ModalCom from "components/MDModal"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { createPartner, updatePartner } from "redux/reducers/Partners"
+import { updateImage } from "redux/reducers/App"
 import * as Yup from "yup"
 
 const PartnerSchema = Yup.object({
@@ -58,6 +59,10 @@ export default (props) => {
 
                     <Grid item xs={12}>
                         <MDInput type="file" inputProps={{ accept: '.png, .jpg, .jpeg' }} fullWidth name="image" onChange={(event) => {
+                            const data = new FormData()
+                            data.append('image', event.target.files[0])
+                            dispatch(updateImage({ id: found?.id, model: "partners", data }))
+
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid>

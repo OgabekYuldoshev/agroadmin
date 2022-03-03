@@ -43,6 +43,27 @@ export const getOrdersDetails = createAsyncThunk("app/getOrdersDetails", async (
   return response.data?.data;
 });
 
+// model
+//   --category
+//   --mediaImages
+//   --partners
+//   --productImages
+
+export const updateImage = createAsyncThunk(
+  "app/updateImage",
+  async ({ id, model, data }, { rejectWithValue }) => {
+    try {
+      await http.post(`/admin/image-update/${model}/${id}`, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+    } catch (error) {
+      rejectWithValue(error?.response?.error)
+    }
+  }
+);
+
 export const appSlice = createSlice({
   name: "app",
   initialState: {
@@ -63,6 +84,12 @@ export const appSlice = createSlice({
       state.address = action.payload;
     },
     [getSiteAddress.rejected]: (undefined, action) => {
+      toast.error(action.payload);
+    },
+    [updateImage.fulfilled]: () => {
+      toast.success("Rasmlar Yuklandi");
+    },
+    [updateImage.rejected]: (undefined, action) => {
       toast.error(action.payload);
     },
     [createAddress.fulfilled]: () => {

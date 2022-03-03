@@ -8,6 +8,7 @@ import ModalCom from "components/MDModal"
 import { useFormik } from "formik"
 import { useDispatch, useSelector } from "react-redux"
 import { updateCategory } from "redux/reducers/Category"
+import { updateImage } from "redux/reducers/App"
 import * as Yup from "yup"
 
 const CategorySchema = Yup.object({
@@ -31,12 +32,12 @@ export default (props) => {
             image: null,
             name_uz: found?.name_uz,
             name_ru: found?.name_ru,
-            name_uz: found?.name_uz,
+            name_en: found?.name_en,
             parent_id: found?.parent_id,
             description_uz: found?.description_uz,
             description_ru: found?.description_ru,
             description_en: found?.description_en,
-            is_active: found?.is_active,
+            is_active: parseInt(found?.is_active) === 1 ? true : false,
             level: found?.level
         },
         validationSchema: CategorySchema,
@@ -51,16 +52,19 @@ export default (props) => {
             })
         }
     })
-
+    console.log(found)
     return (
         <ModalCom toggle={props.toggle} open={props.item?.opened} {...props}>
             <MDBox onSubmit={formik.handleSubmit} component="form" role="form" sx={{ flexGrow: 1 }}>
-                <Typography mb={3}>Yangi sub kategorya qo'shish</Typography>
+                <Typography mb={3}>O'zgartirish</Typography>
                 <Grid container spacing={4}>
                     {
-                        found?.level === 1 && (
+                        parseInt(found?.level) === 1 && (
                             <Grid item xs={12}>
                                 <MDInput type="file" accept="image/png,image/jpg,image/jpeg" fullWidth name="image" onChange={(event) => {
+                                    const data = new FormData()
+                                    data.append('image', event.target.files[0])
+                                    dispatch(updateImage({ id: found?.id, model: "Category", data }))
                                     formik.setFieldValue("image", event.target.files[0])
                                 }} label="File" />
                             </Grid>
