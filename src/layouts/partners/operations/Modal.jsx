@@ -56,13 +56,13 @@ export default (props) => {
             <MDBox onSubmit={formik.handleSubmit} component="form" role="form" sx={{ flexGrow: 1 }}>
                 <Typography mb={3}>Yangi hamkor qo'shish</Typography>
                 <Grid container spacing={4}>
-
                     <Grid item xs={12}>
                         <MDInput type="file" inputProps={{ accept: '.png, .jpg, .jpeg' }} fullWidth name="image" onChange={(event) => {
                             const data = new FormData()
                             data.append('image', event.target.files[0])
-                            dispatch(updateImage({ id: found?.id, model: "partners", data }))
-
+                            data.append('model', "Partners")
+                            data.append('path', 'partners')
+                            dispatch(updateImage({ id: found?.id, data }))
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid>

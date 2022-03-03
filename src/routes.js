@@ -9,6 +9,8 @@ import Sliders from "layouts/slider";
 import Message from "layouts/message";
 import Address from "layouts/address";
 import Order from "layouts/order";
+import Photos from "layouts/media/photos";
+import Single from "layouts/media/photos/operations/Edit";
 import NewPage from "layouts/pages/NewPages";
 import EditPage from "layouts/pages/Edit";
 import NewProduct from "layouts/product/NewProducs";
@@ -138,6 +140,23 @@ const routes = [
     icon: <Icon fontSize="small">add_location</Icon>,
     route: "/address",
     component: <Address />,
+  },
+  {
+    type: "collapse",
+    name: "Rasmlar",
+    key: "photos",
+    icon: <Icon fontSize="small">images</Icon>,
+    route: "/photos",
+    component: <Photos />,
+  },
+  {
+    name: "media",
+    key: "media",
+    route: "/photos/:id",
+    meta: {
+      navLink: "/category",
+    },
+    component: <Single />,
   },
   {
     type: "collapse",

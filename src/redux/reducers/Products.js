@@ -57,7 +57,7 @@ export const deleteProductImage = createAsyncThunk(
   "app/deleteProductImage",
   async (id, { rejectWithValue }) => {
     try {
-      const response = await http.put(`/admin/product-image-delete/${id}`);
+      const response = await http.post(`/admin/product-image-delete/${id}`);
       return response.data;
     } catch (error) {
       return rejectWithValue(error);

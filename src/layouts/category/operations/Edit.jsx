@@ -61,10 +61,12 @@ export default (props) => {
                     {
                         parseInt(found?.level) === 1 && (
                             <Grid item xs={12}>
-                                <MDInput type="file" accept="image/png,image/jpg,image/jpeg" fullWidth name="image" onChange={(event) => {
+                                <MDInput type="file" inputProps={{ accept: '.png, .jpg, .jpeg' }} fullWidth name="image" onChange={(event) => {
                                     const data = new FormData()
                                     data.append('image', event.target.files[0])
-                                    dispatch(updateImage({ id: found?.id, model: "Category", data }))
+                                    data.append('model', 'Category')
+                                    data.append('path', 'category')
+                                    dispatch(updateImage({ id: found?.id, data }))
                                     formik.setFieldValue("image", event.target.files[0])
                                 }} label="File" />
                             </Grid>

@@ -6,20 +6,22 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 // import { getProducts } from "redux/reducers/Products";
-import { FormControl, Typography, InputLabel, Select, MenuItem, ImageList, ImageListItem, Autocomplete, TextField } from "@mui/material";
+import { FormControl, Typography, InputLabel, Select, MenuItem, ImageList, ImageListItem, Icon, IconButton, Autocomplete, TextField, ImageListItemBar } from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
-import { updateProduct, getSingleProduct } from "redux/reducers/Products";
+import { updateProduct, getSingleProduct, deleteProductImage } from "redux/reducers/Products";
 import { getCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
+import { updateProductImage } from "redux/reducers/App"
 import CKEditorComponent from "components/CKEditor";
 import MDTypography from "components/MDTypography";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
 import { baseUrl } from "utils";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Validator = yup.object({
   name_uz: yup.string().required(),
@@ -68,7 +70,7 @@ function EditProduct() {
       code: single?.code || "",
       price: single?.price || "",
       currency_id: 2,
-      is_active: single?.is_active || '',
+      is_active: parseInt(single?.is_active) === 1 ? true : false,
       category_id: single?.category_id || "",
       nett_weight: single?.unit_id || "",
       unit_id: single?.unit_id || "",
@@ -91,13 +93,21 @@ function EditProduct() {
         <MDBox onSubmit={formik.handleSubmit} role="form" component="form" fullWidth>
           <Grid container spacing={2} fullWidth>
             <Grid item xs={12}>
-              <ImageList sx={{ width: "100%", height: "100%" }} cols={3}>
+              <ImageList sx={{ width: "100%", height: "100%" }} cols={6}>
                 {single?.photos?.map((item) => (
                   <ImageListItem key={item.image}>
                     <img
                       src={baseUrl + item.image}
                       alt={item.id}
                       loading="lazy"
+                    />
+                    <ImageListItemBar
+                      title={item.name}
+                      actionIcon={
+                        <IconButton onClick={() => dispatch(deleteProductImage(item.id)).then(unwrapResult).then(() => dispatch(getSingleProduct(id)))}>
+                          <Icon color="error">delete</Icon>
+                        </IconButton>
+                      }
                     />
                   </ImageListItem>
                 ))}
@@ -216,6 +226,11 @@ function EditProduct() {
                     e.target.value = ''
                     toast.warning("Siz maksimum 3ta rasm tanlay olasiz!")
                   } else {
+                    const formData = new FormData()
+                    for (let i = 0; i < e.target.files?.length; i++) {
+                      formData.append(`images[${i}]`, e.target.files[i]);
+                    }
+                    dispatch(updateProductImage({ id: single?.id, data: formData }))
                     formik.setFieldValue(`images`, Array.from(e.target.files))
                   }
                 }}

@@ -51,15 +51,30 @@ export const getOrdersDetails = createAsyncThunk("app/getOrdersDetails", async (
 
 export const updateImage = createAsyncThunk(
   "app/updateImage",
-  async ({ id, model, data }, { rejectWithValue }) => {
+  async ({ id, data }, { rejectWithValue }) => {
     try {
-      await http.post(`/admin/image-update/${model}/${id}`, data, {
+      await http.post(`/admin/image-update/${id}`, data, {
         headers: {
           "content-type": "multipart/form-data",
         },
       });
     } catch (error) {
-      rejectWithValue(error?.response?.error)
+      rejectWithValue(error?.response?.error?.join(', '))
+    }
+  }
+);
+
+export const updateProductImage = createAsyncThunk(
+  "app/updateProductImage",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      await http.post(`/admin/product-images-update/${id}`, data, {
+        headers: {
+          "content-type": "multipart/form-data",
+        },
+      });
+    } catch (error) {
+      rejectWithValue(error?.response?.error?.join(', '))
     }
   }
 );
@@ -90,6 +105,12 @@ export const appSlice = createSlice({
       toast.success("Rasmlar Yuklandi");
     },
     [updateImage.rejected]: (undefined, action) => {
+      toast.error(action.payload);
+    },
+    [updateProductImage.fulfilled]: () => {
+      toast.success("Rasmlar Yuklandi");
+    },
+    [updateProductImage.rejected]: (undefined, action) => {
       toast.error(action.payload);
     },
     [createAddress.fulfilled]: () => {
