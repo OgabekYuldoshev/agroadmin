@@ -71,7 +71,7 @@ function Category() {
     {
       name: "Status",
       cell: (row) =>
-        row.is_active ? (
+        parseInt(row.is_active) === 1 ? (
           <Chip label="Active" color="success" />
         ) : (
           <Chip label="Unactive" color="error" />

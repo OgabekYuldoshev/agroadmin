@@ -70,7 +70,7 @@ function Tables() {
                 </MDTypography>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={users} pagination />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={users} pagination />
               </MDBox>
             </Card>
           </Grid>

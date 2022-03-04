@@ -52,12 +52,12 @@ function Tables() {
     },
     {
       name: "Turi",
-      selector: (row) => row.type_id === 1 ? 'Asosiy hamkor' : row.type_id === 2 ? "Hamkor" : "Mijoz",
+      selector: (row) => parseInt(row.type_id) === 1 ? 'Asosiy hamkor' : row.type_id === 2 ? "Hamkor" : "Mijoz",
     },
     {
       name: "Status",
       cell: (row) =>
-        row.is_active ? (
+        parseInt(row.is_active) === 1 ? (
           <Chip label="Active" color="success" />
         ) : (
           <Chip label="Unactive" color="error" />

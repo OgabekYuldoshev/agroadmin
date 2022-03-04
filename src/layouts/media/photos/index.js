@@ -97,7 +97,7 @@ function Tables() {
               </MDBox>
               <MDBox p={3}>
                 <ModalCom open={open} toggle={toggle} />
-                <DataTable columns={columns} data={photos} pagination />
+                <DataTable noDataComponent="Ma'lumot mavjud emas!" columns={columns} data={photos} pagination />
               </MDBox>
             </Card>
           </Grid>

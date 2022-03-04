@@ -113,7 +113,7 @@ function Tables() {
                 </Link>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} data={pages} pagination />
+                <DataTable columns={columns} noDataComponent="Ma'lumot mavjud emas!" data={pages} pagination />
               </MDBox>
             </Card>
           </Grid>
