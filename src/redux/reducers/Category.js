@@ -26,33 +26,6 @@ export const getAllCategory = createAsyncThunk("app/getAllCategory", async (unde
   }
 });
 
-// export const getSubCategory = createAsyncThunk("app/getSubCategory", async (id, { rejectWithValue }) => {
-//   try {
-//     const response = await http.get("/admin/categories", {
-//       params: {
-//         parent_id: id,
-//         level: 2
-//       }
-//     });
-//     return response.data?.data;
-//   } catch (error) {
-//     return rejectWithValue(error.response?.error?.join(", "))
-//   }
-// });
-
-// export const getSubSubCategory = createAsyncThunk("app/getSubSubCategory", async (id, { rejectWithValue }) => {
-//   try {
-//     const response = await http.get("/admin/categories", {
-//       params: {
-//         parent_id: id,
-//         level: 3
-//       }
-//     });
-//     return response.data?.data;
-//   } catch (error) {
-//     return rejectWithValue(error.response?.error?.join(", "))
-//   }
-// });
 
 export const createCategory = createAsyncThunk("app/createCategory", async (data, { dispatch, rejectWithValue }) => {
   try {
@@ -65,14 +38,6 @@ export const createCategory = createAsyncThunk("app/createCategory", async (data
     return rejectWithValue(error.response?.data?.error?.join(', '))
   }
 });
-
-// export const deleteCategory = createAsyncThunk(
-//   "app/deleteCategory",
-//   async ({ id }, { dispatch }) => {
-//     const response = await http.delete(`/admin/categories/${id}`);
-//     if (response.status === 200) dispatch(getCategory());
-//   }
-// );
 
 export const updateCategory = createAsyncThunk(
   "app/updateCategory",
@@ -141,46 +106,13 @@ export const categorySlice = createSlice({
       state.isLoading = false;
       toast.error(action.payload);
     },
-    // [getSubCategory.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [getSubCategory.fulfilled]: (state, action) => {
-    //   state.subCategories = action?.payload;
-    //   state.isLoading = false;
-    // },
-    // [getSubCategory.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   toast.error(action.payload);
-    // },
-    // [getSubSubCategory.pending]: (state) => {
-    //   state.isLoading = true;
-    // },
-    // [getSubSubCategory.fulfilled]: (state, action) => {
-    //   state.subSubCategories = action?.payload;
-    //   state.isLoading = false;
-    // },
-    // [getSubSubCategory.rejected]: (state, action) => {
-    //   state.isLoading = false;
-    //   toast.error(action.payload);
-    // },
-    [createCategory.rejected]: (action) => {
+    [createCategory.rejected]: (undefined, action) => {
+      console.log(action.payload)
       toast.error(action.payload);
     },
-    [updateCategory.rejected]: (action) => {
+    [updateCategory.rejected]: (undefined, action) => {
       toast.error(action.payload);
     },
-    // [deleteCategory.rejected]: () => {
-    //   toast.error(action.payload);
-    // }
-    // [createSubCategory.rejected]: () => {
-    //   toast.error(action.payload);
-    // },
-    // [deleteSubCategory.rejected]: () => {
-    //   toast.error(action.payload);
-    // },
-    // [updateSubCategory.rejected]: () => {
-    //   toast.error(action.payload);
-    // },
   },
 });
 
