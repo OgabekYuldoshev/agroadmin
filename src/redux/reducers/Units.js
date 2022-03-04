@@ -10,7 +10,7 @@ export const getCurrenciesList = createAsyncThunk(
       const response = await http.get("/currencies");
       return response.data?.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.error?.join(', '));
     }
   }
 );
@@ -22,7 +22,7 @@ export const getUnitList = createAsyncThunk(
       const response = await http.get("/units");
       return response.data?.data;
     } catch (error) {
-      return rejectWithValue(error);
+      return rejectWithValue(error.response?.data?.error?.join(', '));
     }
   }
 );

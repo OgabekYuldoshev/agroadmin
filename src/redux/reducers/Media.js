@@ -8,8 +8,7 @@ export const getImages = createAsyncThunk("media/getImages", async (undefined, {
         const response = await http.get("/admin/media-images");
         return response.data?.data;
     } catch (error) {
-        console.log(error.response.error)
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.error?.join(', '))
     }
 })
 
@@ -19,7 +18,7 @@ export const getSingleImages = createAsyncThunk("media/getSingleImages", async (
         return response.data?.data;
     } catch (error) {
         console.log(error.response.error)
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.error?.join(', '))
     }
 })
 
@@ -33,7 +32,7 @@ export const createImages = createAsyncThunk("media/createImages", async (data, 
         dispatch(getImages())
         return response.data?.data;
     } catch (error) {
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.error?.join(', '))
     }
 })
 
@@ -43,7 +42,7 @@ export const updateImages = createAsyncThunk("media/updateImages", async ({ id, 
         dispatch(getImages())
         return response.data?.data;
     } catch (error) {
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.error?.join(', '))
     }
 })
 
@@ -54,7 +53,7 @@ export const deleteImages = createAsyncThunk("media/deleteImages", async (id, { 
         dispatch(getImages())
         return response.data?.data;
     } catch (error) {
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.error?.join(', '))
     }
 })
 
@@ -63,7 +62,7 @@ export const deleteOneImages = createAsyncThunk("media/deleteOneImages", async (
         const response = await http.post(`/admin/image-destroy/${id}`, { model: "MediaImages" });
         return response.data?.data;
     } catch (error) {
-        return rejectWithValue(error)
+        return rejectWithValue(error.response?.data?.error?.join(', '))
     }
 })
 

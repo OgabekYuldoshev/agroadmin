@@ -38,7 +38,7 @@ export default (props) => {
                 formData.append(name, values[name])
             }
             if (found) {
-                dispatch(updatePartner({ id: found?.id, value: formData })).then(unwrapResult).then(() => {
+                dispatch(updatePartner({ id: found?.id, value: values })).then(unwrapResult).then(() => {
                     formik.handleReset()
                     props?.toggle()
                 })
@@ -58,11 +58,13 @@ export default (props) => {
                 <Grid container spacing={4}>
                     <Grid item xs={12}>
                         <MDInput type="file" inputProps={{ accept: '.png, .jpg, .jpeg' }} fullWidth name="image" onChange={(event) => {
-                            const data = new FormData()
-                            data.append('image', event.target.files[0])
-                            data.append('model', "Partners")
-                            data.append('path', 'partners')
-                            dispatch(updateImage({ id: found?.id, data }))
+                            if (found) {
+                                const data = new FormData()
+                                data.append('image', event.target.files[0])
+                                data.append('model', "Partners")
+                                data.append('path', 'partners')
+                                dispatch(updateImage({ id: found?.id, data }))
+                            }
                             formik.setFieldValue("image", event.target.files[0])
                         }} label="File" />
                     </Grid>
@@ -80,7 +82,7 @@ export default (props) => {
                                 labelId="status"
                                 id="status"
                                 style={{ padding: '10px 5px' }}
-                                defaultValue={formik.values.is_active}
+                                defaultValue={parseInt(formik.values.is_active) === 1 ? true : false}
                                 label="Status"
                                 onChange={(e) => {
                                     formik.setFieldValue('is_active', e.target.value)

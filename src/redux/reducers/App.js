@@ -59,7 +59,7 @@ export const updateImage = createAsyncThunk(
         },
       });
     } catch (error) {
-      rejectWithValue(error?.response?.error?.join(', '))
+      rejectWithValue(error.response?.data?.error?.join(', '))
     }
   }
 );
@@ -74,7 +74,7 @@ export const updateProductImage = createAsyncThunk(
         },
       });
     } catch (error) {
-      rejectWithValue(error?.response?.error?.join(', '))
+      rejectWithValue(error.response?.data?.error?.join(', '))
     }
   }
 );

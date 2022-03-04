@@ -31,7 +31,6 @@ function Tables() {
 
   const dispatch = useDispatch();
   const { sliders } = useSelector((state) => state.units);
-  console.log(sliders);
 
   return (
     <DashboardLayout>
@@ -60,9 +59,9 @@ function Tables() {
               </MDBox>
               <MDBox p={3}>
                 <ModalCom open={open} toggle={toggle} />
-                <ImageList cols={3} gap={8}>
+                <ImageList cols={5} gap={8}>
                   {sliders.map((item, index) => (
-                    <ImageListItem key={index} cols={3}>
+                    <ImageListItem key={index}>
                       <img src={`${baseUrl + item.image}`} alt={item.name} loading="lazy" />
                       <ImageListItemBar
                         title={item.name}

@@ -13,7 +13,7 @@ export const getCategory = createAsyncThunk("app/getCategory", async ({ parent_i
     });
     return response.data?.data;
   } catch (error) {
-    return rejectWithValue(error.response?.error?.join(", "))
+    return rejectWithValue(error.response?.data?.error?.join(', '))
   }
 });
 
@@ -22,7 +22,7 @@ export const getAllCategory = createAsyncThunk("app/getAllCategory", async (unde
     const response = await http.get("/admin/categories");
     return response.data?.data;
   } catch (error) {
-    return rejectWithValue(error.response?.error?.join(", "))
+    return rejectWithValue(error.response?.data?.error?.join(', '))
   }
 });
 
@@ -62,7 +62,7 @@ export const createCategory = createAsyncThunk("app/createCategory", async (data
     dispatch(getCategory({ parent_id: data?.parent_id, level: data?.level }));
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.response?.error?.join(", "))
+    return rejectWithValue(error.response?.data?.error?.join(', '))
   }
 });
 
@@ -83,7 +83,7 @@ export const updateCategory = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.error?.join(", "))
+      return rejectWithValue(error.response?.data?.error?.join(', '))
     }
   }
 );

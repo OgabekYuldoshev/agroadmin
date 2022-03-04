@@ -15,7 +15,7 @@ export const loadUser = createAsyncThunk("auth/getProfile", async (undefined, { 
       return rejectWithValue("Malumot topilmadi!")
     }
   } catch (error) {
-    return rejectWithValue(error.message)
+    return rejectWithValue(error.response?.data?.error?.join(', '))
   }
 });
 
@@ -24,7 +24,7 @@ export const login = createAsyncThunk("auth/Login", async (data, { rejectWithVal
     const response = await http.post("/admin/login", data);
     return response.data;
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data?.error?.join(', '));
   }
 });
 
@@ -33,7 +33,7 @@ export const getUsers = createAsyncThunk("auth/getUsers", async (data, { rejectW
     const response = await http.get("/admin/users");
     return response.data?.data;
   } catch (error) {
-    return rejectWithValue(error.message);
+    return rejectWithValue(error.response?.data?.error?.join(', '));
   }
 });
 

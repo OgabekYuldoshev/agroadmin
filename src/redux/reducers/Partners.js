@@ -10,7 +10,7 @@ export const getPartner = createAsyncThunk(
       const response = await http.get("/admin/partners");
       return response.data?.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.error?.join(', '));
     }
   }
 );
@@ -25,7 +25,7 @@ export const createPartner = createAsyncThunk(
       dispatch(getPartner());
       return response.data;
     } catch (error) {
-      return rejectWithValue();
+      return rejectWithValue(error.response?.data?.error?.join(', '));
     }
   }
 );
@@ -45,7 +45,7 @@ export const updatePartner = createAsyncThunk(
       dispatch(getPartner());
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.response?.data?.error?.join(', '));
     }
   }
 );
@@ -69,27 +69,27 @@ export const partnerSlice = createSlice({
       state.isLoading = false;
       state.partners = action?.payload;
     },
-    [getPartner.rejected]: (state) => {
+    [getPartner.rejected]: (state, action) => {
       state.isLoading = false;
-      toast.error("Serverda xatolik!");
+      toast.error(action.payload);
     },
     [createPartner.fulfilled]: () => {
       toast.success("Partner yaratildi!");
     },
-    [createPartner.rejected]: () => {
-      toast.error("Serverda xatolik!");
+    [createPartner.rejected]: (undefined, action) => {
+      toast.error(action.payload);
     },
     [deletePartner.fulfilled]: () => {
       toast.success("Partner o'chirildi!");
     },
-    [deletePartner.rejected]: () => {
-      toast.error("Serverda xatolik!");
+    [deletePartner.rejected]: (undefined, action) => {
+      toast.error(action.payload);
     },
     [updatePartner.fulfilled]: () => {
-      toast.error("Partner o'zgartirildi!");
+      toast.success("Partner o'zgartirildi!");
     },
-    [updatePartner.rejected]: () => {
-      toast.error("Serverda xatolik!");
+    [updatePartner.rejected]: (undefined, action) => {
+      toast.error(action.payload);
     },
   },
   // extraReducers: builder => {
