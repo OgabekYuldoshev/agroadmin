@@ -11,6 +11,7 @@ import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
+import { getAllCategory } from "redux/reducers/Category";
 import { updateProduct, getSingleProduct, deleteProductImage } from "redux/reducers/Products";
 import { getCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
@@ -30,7 +31,6 @@ const Validator = yup.object({
   specification_uz: yup.string().required(),
   specification_ru: yup.string().required(),
   specification_en: yup.string().required(),
-  code: yup.string().required(),
   price: yup.string().required(),
   currency_id: yup.string().required(),
   category_id: yup.string().required(),
@@ -52,6 +52,7 @@ function EditProduct() {
   useEffect(() => {
     dispatch(getSingleProduct(id));
     dispatch(getCurrenciesList());
+    dispatch(getAllCategory());
     dispatch(getUnitList());
     dispatch(getCategory());
     dispatch(getPartner());
@@ -67,7 +68,6 @@ function EditProduct() {
       specification_uz: single?.specification_uz || "",
       specification_en: single?.specification_en || "",
       specification_ru: single?.specification_ru || "",
-      code: single?.code || "",
       price: single?.price || "",
       currency_id: 2,
       is_active: parseInt(single?.is_active) === 1 ? true : false,
@@ -85,6 +85,7 @@ function EditProduct() {
       dispatch(updateProduct({ id, data: values }));
     },
   });
+  console.log(all)
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -141,16 +142,6 @@ function EditProduct() {
                 value={formik.values.name_en}
                 name="name_en"
                 label="Nomi EN"
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <MDInput
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                fullWidth
-                name="code"
-                value={formik.values.code}
-                label="Mahsulot kodi"
               />
             </Grid>
             <Grid item xs={4} display="flex" gap={1}>
@@ -238,7 +229,7 @@ function EditProduct() {
               />
             </Grid>
             <Grid item xs={4}>
-              <Autocomplete
+              {/* <Autocomplete
                 disablePortal
                 id="category_id"
                 name="category_id"
@@ -248,8 +239,8 @@ function EditProduct() {
                 onChange={(e, val) => formik.setFieldValue("category_id", val.id)}
                 name="category_id"
                 renderInput={(params) => <TextField {...params} label="Kategoryasi" />}
-              />
-              {/* <FormControl fullWidth>
+              /> */}
+              <FormControl fullWidth>
                 <InputLabel id="category">Kategoryasi</InputLabel>
                 <Select
                   labelId="category"
@@ -261,13 +252,13 @@ function EditProduct() {
                   style={{ padding: "12px 5px" }}
                   label="Kategoryasi"
                 >
-                  {categories?.map((item, index) => (
+                  {all?.map((item, index) => (
                     <MenuItem key={index} value={item?.id}>
                       {item?.name_uz}
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl> */}
+              </FormControl>
             </Grid>
             <Grid item xs={4}>
               <FormControl fullWidth>

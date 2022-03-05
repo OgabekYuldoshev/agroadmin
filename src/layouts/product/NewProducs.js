@@ -28,7 +28,6 @@ const Validator = yup.object({
   specification_uz: yup.string().required(),
   specification_ru: yup.string().required(),
   specification_en: yup.string().required(),
-  code: yup.string().required(),
   price: yup.string().required(),
   currency_id: yup.string().required(),
   category_id: yup.string().required(),
@@ -62,7 +61,6 @@ function NewProduct() {
       specification_uz: "",
       specification_en: "",
       specification_ru: "",
-      code: "",
       price: "",
       currency_id: 2,
       category_id: "",
@@ -86,6 +84,7 @@ function NewProduct() {
       dispatch(createProduct(formData)).then(unwrapResult).then(() => navigate('/products'))
     },
   });
+  console.log(all)
 
   return (
     <DashboardLayout>
@@ -119,15 +118,6 @@ function NewProduct() {
                 fullWidth
                 name="name_en"
                 label="Nomi EN"
-              />
-            </Grid>
-            <Grid item xs={4}>
-              <MDInput
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                fullWidth
-                name="code"
-                label="Mahsulot kodi"
               />
             </Grid>
             <Grid item xs={4} display="flex" gap={1}>
@@ -207,8 +197,8 @@ function NewProduct() {
             </Grid>
             <Grid item xs={4}>
               <FormControl fullWidth>
-                {/* <InputLabel id="category"></InputLabel> */}
-                <Autocomplete
+                <InputLabel id="category">Kategoryasi</InputLabel>
+                {/* <Autocomplete
                   disablePortal
                   id="category_id"
                   options={all}
@@ -216,8 +206,8 @@ function NewProduct() {
                   onChange={(e, val) => formik.setFieldValue("category_id", val.id)}
                   name="category_id"
                   renderInput={(params) => <TextField {...params} label="Kategoryasi" />}
-                />
-                {/* <Select
+                /> */}
+                <Select
                   labelId="category"
                   id="category"
                   name="category_id"
@@ -226,12 +216,12 @@ function NewProduct() {
                   style={{ padding: "12px 5px" }}
                   label="Kategoryasi"
                 >
-                  {categories?.map((item, index) => (
+                  {all?.map((item, index) => (
                     <MenuItem key={index} value={item?.id}>
                       {item?.name_uz}
                     </MenuItem>
                   ))}
-                </Select> */}
+                </Select>
               </FormControl>
             </Grid>
             {/* <Grid item xs={4}>
