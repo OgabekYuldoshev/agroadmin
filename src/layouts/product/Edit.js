@@ -322,7 +322,7 @@ function EditProduct() {
                         </Grid> */}
             <Grid item xs={12}>
               <Grid container spacing={2}>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <MDTypography variant="label" fontSize={15} component="label" mb={1}>
                     Mahsulot haqida UZ
                   </MDTypography>
@@ -333,7 +333,7 @@ function EditProduct() {
                     }
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <MDTypography variant="label" fontSize={15} component="label" mb={1}>
                     Mahsulot haqida RU
                   </MDTypography>
@@ -344,7 +344,7 @@ function EditProduct() {
                     }
                   />
                 </Grid>
-                <Grid item xs={4}>
+                <Grid item xs={12}>
                   <MDTypography variant="label" fontSize={15} component="label" mb={1}>
                     Mahsulot haqida EN
                   </MDTypography>
