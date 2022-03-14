@@ -69,7 +69,7 @@ function EditProduct() {
       specification_en: single?.specification_en || "",
       specification_ru: single?.specification_ru || "",
       price: single?.price || "",
-      currency_id: 2,
+      currency_id: 1,
       is_active: parseInt(single?.is_active) === 1 ? true : false,
       category_id: single?.category_id || "",
       nett_weight: single?.unit_id || "",

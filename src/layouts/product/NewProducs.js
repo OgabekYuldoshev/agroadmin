@@ -62,7 +62,7 @@ function NewProduct() {
       specification_en: "",
       specification_ru: "",
       price: "",
-      currency_id: 2,
+      currency_id: 1,
       category_id: "",
       sub_category_id: "",
       nett_weight: "",
