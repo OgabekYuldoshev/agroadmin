@@ -13,22 +13,23 @@ import { Chip, IconButton, Icon, Pagination } from "@mui/material";
 import { Link, useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import { baseUrl } from "utils";
-import qs from "qs"
+import qs from "qs";
 import MDInput from "components/MDInput";
 function Products() {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const [search, setSearch] = useState('')
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [search, setSearch] = useState("");
   useEffect(() => {
-    if (!location.search) {
+    if (!!location.search) {
+      console.log("params");
       dispatch(getProducts(location.search));
     } else {
-      dispatch(getProducts());
+      console.log("no params");
+      dispatch(getProducts(""));
     }
   }, [location]);
 
-  const defaultQuery = qs.parse(location.search, { ignoreQueryPrefix: true })
-  console.log(defaultQuery)
+  const defaultQuery = qs.parse(location.search, { ignoreQueryPrefix: true });
 
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.products);
@@ -37,7 +38,18 @@ function Products() {
     {
       name: "Rasm",
       width: "100px",
-      cell: (row) => <Avatar sizes="lg" variant="square" alt={row.name_uz} src={row.photos?.length ? baseUrl + row.photos[0]?.image : 'https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png'} />,
+      cell: (row) => (
+        <Avatar
+          sizes="lg"
+          variant="square"
+          alt={row.name_uz}
+          src={
+            row.photos?.length
+              ? baseUrl + row.photos[0]?.image
+              : "https://nayemdevs.com/wp-content/uploads/2020/03/default-product-image.png"
+          }
+        />
+      ),
     },
     {
       name: "Nomi UZ",
@@ -95,29 +107,36 @@ function Products() {
     },
   ];
 
-
   const handlePaginate = (e, page) => {
-    console.log(location.pathname, page)
+    console.log(location.pathname, page);
     navigate({
       pathname: location.pathname,
       search: `?${createSearchParams({
         ...defaultQuery,
-        page
-      })}`
+        page,
+      })}`,
     });
-  }
+  };
 
   const handleSearch = () => {
     const query = {
       ...defaultQuery,
-      search
-    }
-    dispatch(getProducts(`?${qs.stringify(query)}`))
-  }
+      search,
+    };
+    dispatch(getProducts(`?${qs.stringify(query)}`));
+  };
 
   const PaginationCom = () => {
-    return <Pagination defaultPage={products?.current_page} onChange={handlePaginate} count={products?.last_page} color="success" style={{ margin: 'auto' }} />
-  }
+    return (
+      <Pagination
+        defaultPage={products?.current_page}
+        onChange={handlePaginate}
+        count={products?.last_page}
+        color="success"
+        style={{ margin: "auto" }}
+      />
+    );
+  };
 
   return (
     <DashboardLayout>
@@ -147,8 +166,13 @@ function Products() {
                 </Link>
               </MDBox>
               <MDBox p={3}>
-                <MDBox display="flex" justifyContent="flex-end" gap='5px'>
-                  <MDInput type="text" value={search} label="ID, Code, Nomi" onChange={(e) => setSearch(e.target.value)} />
+                <MDBox display="flex" justifyContent="flex-end" gap="5px">
+                  <MDInput
+                    type="text"
+                    value={search}
+                    label="ID, Code, Nomi"
+                    onChange={(e) => setSearch(e.target.value)}
+                  />
                   <MDButton onClick={handleSearch} color="success">
                     <Icon>search</Icon>
                   </MDButton>

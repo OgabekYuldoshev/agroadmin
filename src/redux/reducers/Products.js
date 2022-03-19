@@ -10,7 +10,7 @@ export const getProducts = createAsyncThunk(
       const response = await http.get(`/admin/products${params}`);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error?.join(', '));
+      return rejectWithValue(error.response?.data?.error?.join(", "));
     }
   }
 );
@@ -22,7 +22,7 @@ export const getSingleProduct = createAsyncThunk(
       const response = await http.get(`/admin/products/${id}`);
       return response.data?.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error?.join(', '));
+      return rejectWithValue(error.response?.data?.error?.join(", "));
     }
   }
 );
@@ -48,7 +48,7 @@ export const updateProduct = createAsyncThunk(
       const response = await http.put(`/admin/products/${id}`, data);
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error?.join(', '));
+      return rejectWithValue(error.response?.data?.error?.join(", "));
     }
   }
 );
@@ -60,7 +60,7 @@ export const deleteProductImage = createAsyncThunk(
       const response = await http.post(`/admin/image-destroy/${id}`, { model: "Product" });
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data?.error?.join(', '));
+      return rejectWithValue(error.response?.data?.error?.join(", "));
     }
   }
 );
@@ -140,6 +140,6 @@ export const productsSlice = createSlice({
   // }
 });
 
-export const { } = productsSlice.actions;
+export const {} = productsSlice.actions;
 
 export default productsSlice.reducer;
