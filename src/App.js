@@ -21,7 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadUser } from "redux/reducers/Auth";
 // Material Dashboard 2 React Dark Mode themes
 import themeDark from "assets/theme-dark";
-
+import "./main.css";
 // RTL plugins
 import rtlPlugin from "stylis-plugin-rtl";
 import createCache from "@emotion/cache";

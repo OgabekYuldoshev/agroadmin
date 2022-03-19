@@ -105,6 +105,7 @@ function EditPage() {
                   <MenuItem value={1}>Haqida</MenuItem>
                   <MenuItem value={2}>Xizmatlar</MenuItem>
                   <MenuItem value={3}>Foydali ilovalar</MenuItem>
+                  <MenuItem value={4}>Media</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -114,7 +115,9 @@ function EditPage() {
               </MDTypography>
               <CKEditorComponent
                 data={formik.values.content_uz}
-                onChange={(undefined, editor) => formik.setFieldValue("content_uz", editor?.getData())}
+                onChange={(undefined, editor) =>
+                  formik.setFieldValue("content_uz", editor?.getData())
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -123,7 +126,9 @@ function EditPage() {
               </MDTypography>
               <CKEditorComponent
                 data={formik.values.content_ru}
-                onChange={(undefined, editor) => formik.setFieldValue("content_ru", editor?.getData())}
+                onChange={(undefined, editor) =>
+                  formik.setFieldValue("content_ru", editor?.getData())
+                }
               />
             </Grid>
             <Grid item xs={12}>
@@ -132,7 +137,9 @@ function EditPage() {
               </MDTypography>
               <CKEditorComponent
                 data={formik.values.content_en}
-                onChange={(undefined, editor) => formik.setFieldValue("content_en", editor?.getData())}
+                onChange={(undefined, editor) =>
+                  formik.setFieldValue("content_en", editor?.getData())
+                }
               />
             </Grid>
             <Grid item xs={12} display="flex" justifyContent="space-between">
