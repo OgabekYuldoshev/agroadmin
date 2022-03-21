@@ -10,7 +10,7 @@ import { FormControl, Typography, InputLabel, Select, MenuItem, Autocomplete, Te
 import { Link } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
-import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
+import { getUnitList } from "redux/reducers/Units";
 import { createProduct } from "redux/reducers/Products";
 import { getAllCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
@@ -41,12 +41,12 @@ const Validator = yup.object({
 function NewProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate()
-  const { currencies, unit } = useSelector((state) => state.units);
+  const { unit } = useSelector((state) => state.units);
   const { all } = useSelector((state) => state.category);
   const { partners } = useSelector((state) => state.partner);
 
   useEffect(() => {
-    dispatch(getCurrenciesList());
+    // dispatch(getCurrenciesList());
     dispatch(getUnitList());
     dispatch(getAllCategory());
     dispatch(getPartner());
@@ -129,7 +129,7 @@ function NewProduct() {
                 name="price"
                 label="Narxi"
               />
-              <FormControl style={{ width: "30%" }}>
+              {/* <FormControl style={{ width: "30%" }}>
                 <InputLabel id="price_type">Narx Turi</InputLabel>
                 <Select
                   labelId="price_type"
@@ -148,7 +148,7 @@ function NewProduct() {
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </Grid>
             <Grid item xs={4} display="flex" gap={1}>
               <MDInput

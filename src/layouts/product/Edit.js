@@ -6,16 +6,29 @@ import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
 import { useDispatch, useSelector } from "react-redux";
 // import { getProducts } from "redux/reducers/Products";
-import { FormControl, Typography, InputLabel, Select, MenuItem, ImageList, ImageListItem, Icon, IconButton, Autocomplete, TextField, ImageListItemBar } from "@mui/material";
+import {
+  FormControl,
+  Typography,
+  InputLabel,
+  Select,
+  MenuItem,
+  ImageList,
+  ImageListItem,
+  Icon,
+  IconButton,
+  Autocomplete,
+  TextField,
+  ImageListItemBar,
+} from "@mui/material";
 import { Link, useParams } from "react-router-dom";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
-import { getCurrenciesList, getUnitList } from "redux/reducers/Units";
+import { getUnitList } from "redux/reducers/Units";
 import { getAllCategory } from "redux/reducers/Category";
 import { updateProduct, getSingleProduct, deleteProductImage } from "redux/reducers/Products";
 import { getCategory } from "redux/reducers/Category";
 import { getPartner } from "redux/reducers/Partners";
-import { updateProductImage } from "redux/reducers/App"
+import { updateProductImage } from "redux/reducers/App";
 import CKEditorComponent from "components/CKEditor";
 import MDTypography from "components/MDTypography";
 import { useFormik } from "formik";
@@ -45,13 +58,13 @@ function EditProduct() {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { single } = useSelector((state) => state.products);
-  const { currencies, unit } = useSelector((state) => state.units);
+  const { unit } = useSelector((state) => state.units);
   const { all } = useSelector((state) => state.category);
   const { partners } = useSelector((state) => state.partner);
 
   useEffect(() => {
     dispatch(getSingleProduct(id));
-    dispatch(getCurrenciesList());
+    // dispatch(getCurrenciesList());
     dispatch(getAllCategory());
     dispatch(getUnitList());
     dispatch(getCategory());
@@ -85,7 +98,7 @@ function EditProduct() {
       dispatch(updateProduct({ id, data: values }));
     },
   });
-  console.log(all)
+  console.log(all);
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -97,15 +110,17 @@ function EditProduct() {
               <ImageList sx={{ width: "100%", height: "100%" }} cols={6}>
                 {single?.photos?.map((item) => (
                   <ImageListItem key={item.image}>
-                    <img
-                      src={baseUrl + item.image}
-                      alt={item.id}
-                      loading="lazy"
-                    />
+                    <img src={baseUrl + item.image} alt={item.id} loading="lazy" />
                     <ImageListItemBar
                       title={item.name}
                       actionIcon={
-                        <IconButton onClick={() => dispatch(deleteProductImage(item.id)).then(unwrapResult).then(() => dispatch(getSingleProduct(id)))}>
+                        <IconButton
+                          onClick={() =>
+                            dispatch(deleteProductImage(item.id))
+                              .then(unwrapResult)
+                              .then(() => dispatch(getSingleProduct(id)))
+                          }
+                        >
                           <Icon color="error">delete</Icon>
                         </IconButton>
                       }
@@ -154,7 +169,7 @@ function EditProduct() {
                 name="price"
                 label="Narxi"
               />
-              <FormControl style={{ width: "30%" }}>
+              {/* <FormControl style={{ width: "30%" }}>
                 <InputLabel id="currency_id">Narx Turi</InputLabel>
                 <Select
                   labelId="currency_id"
@@ -173,7 +188,7 @@ function EditProduct() {
                     </MenuItem>
                   ))}
                 </Select>
-              </FormControl>
+              </FormControl> */}
             </Grid>
             <Grid item xs={4} display="flex" gap={1}>
               <MDInput
@@ -214,16 +229,16 @@ function EditProduct() {
                 label="Rasm"
                 onChange={(e) => {
                   if (e.target?.files?.length > 3) {
-                    e.target.value = ''
-                    toast.warning("Siz maksimum 3ta rasm tanlay olasiz!")
+                    e.target.value = "";
+                    toast.warning("Siz maksimum 3ta rasm tanlay olasiz!");
                   } else {
-                    const formData = new FormData()
+                    const formData = new FormData();
                     for (let i = 0; i < e.target.files?.length; i++) {
                       formData.append(`images[${i}]`, e.target.files[i]);
                     }
-                    formData.append("model", "Product")
-                    dispatch(updateProductImage({ id: single?.id, data: formData }))
-                    formik.setFieldValue(`images`, Array.from(e.target.files))
+                    formData.append("model", "Product");
+                    dispatch(updateProductImage({ id: single?.id, data: formData }));
+                    formik.setFieldValue(`images`, Array.from(e.target.files));
                   }
                 }}
               />
@@ -273,12 +288,8 @@ function EditProduct() {
                   style={{ padding: "12px 5px" }}
                   label="Activity"
                 >
-                  <MenuItem value={true}>
-                    Active
-                  </MenuItem>
-                  <MenuItem value={false}>
-                    Unactive
-                  </MenuItem>
+                  <MenuItem value={true}>Active</MenuItem>
+                  <MenuItem value={false}>Unactive</MenuItem>
                 </Select>
               </FormControl>
             </Grid>
@@ -409,7 +420,7 @@ function EditProduct() {
         </Grid> */}
       </MDBox>
       <Footer />
-    </DashboardLayout >
+    </DashboardLayout>
   );
 }
 
