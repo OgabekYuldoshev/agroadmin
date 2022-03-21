@@ -2,6 +2,7 @@ import { CKEditor } from "@ckeditor/ckeditor5-react";
 import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 const CKEditorComponent = ({ onReady, onChange, onBlur, onFocus, data }) => {
   const EditorConfig = {
+    mediaEmbed: { previewsInData: true },
     toolbar: [
       "heading",
       "|",
