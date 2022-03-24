@@ -85,7 +85,7 @@ function EditProduct() {
       currency_id: 1,
       is_active: parseInt(single?.is_active) === 1 ? true : false,
       category_id: single?.category_id || "",
-      nett_weight: single?.unit_id || "",
+      nett_weight: single?.nett_weight || "",
       unit_id: single?.unit_id || "",
       partner_id: single?.partner_id || "",
       images: "",
