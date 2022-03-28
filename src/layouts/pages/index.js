@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
 import { Avatar, Chip, Icon, IconButton } from "@mui/material";
@@ -21,6 +21,13 @@ function Tables() {
 
   const dispatch = useDispatch();
   const { pages } = useSelector((state) => state.units);
+
+  const TYPE = {
+    1: "Haqida",
+    2: "Xizmatlar",
+    3: "Hoidali Ilovalar",
+    4: "Media",
+  };
 
   const columns = [
     {
@@ -61,7 +68,7 @@ function Tables() {
     {
       name: "Type",
       width: "100px",
-      selector: (row) => (row.page_id === 1 ? "Haqida" : "Xizmatlar"),
+      selector: (row) => TYPE[row.page_id],
     },
     {
       name: "",
@@ -113,7 +120,12 @@ function Tables() {
                 </Link>
               </MDBox>
               <MDBox p={3}>
-                <DataTable columns={columns} noDataComponent="Ma'lumot mavjud emas!" data={pages} pagination />
+                <DataTable
+                  columns={columns}
+                  noDataComponent="Ma'lumot mavjud emas!"
+                  data={pages}
+                  pagination
+                />
               </MDBox>
             </Card>
           </Grid>
