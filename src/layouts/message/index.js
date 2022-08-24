@@ -20,7 +20,7 @@ function Tables() {
 
   const dispatch = useDispatch();
   const { messages } = useSelector((state) => state.units);
-
+console.log(messages)
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -57,7 +57,7 @@ function Tables() {
                         <Typography fontSize={15} fontWeight="bold" pr={1}>
                           {item.name}
                         </Typography>
-                        <Typography fontSize={14}>{`<${item.email}>`}</Typography>
+                        <Typography fontSize={14}>{`<${item?.email} : ${item?.phone_number}>`}</Typography>
                       </AccordionSummary>
                       <AccordionDetails>
                         <Typography fontSize={14}>{item?.text}</Typography>

@@ -2,7 +2,7 @@ import { useState } from "react";
 // @mui material components
 import Card from "@mui/material/Card";
 import { TailSpin } from "react-loader-spinner"
-import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+// import "react-loader-spinner/dist/";
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
